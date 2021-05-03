@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdenServicio" pageWidth="226" pageHeight="850" columnWidth="198" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="2" isIgnorePagination="true" uuid="720fcf1e-2ab9-4237-a98f-c972545b2595">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="ireport.zoom" value="2.3579476910000023"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="imagen" class="java.lang.String"/>
+	<parameter name="empresa" class="java.lang.String"/>
+	<parameter name="propietario" class="java.lang.String"/>
+	<parameter name="rfc" class="java.lang.String"/>
+	<parameter name="direccion" class="java.lang.String"/>
+	<parameter name="telefono" class="java.lang.String"/>
+	<parameter name="folio" class="java.lang.String"/>
+	<parameter name="fechaHora" class="java.lang.String"/>
+	<parameter name="nombreCliente" class="java.lang.String"/>
+	<parameter name="numeroSerie" class="java.lang.String"/>
+	<parameter name="tipoEquipo" class="java.lang.String"/>
+	<parameter name="marca" class="java.lang.String"/>
+	<parameter name="modelo" class="java.lang.String"/>
+	<parameter name="observaciones" class="java.lang.String"/>
+	<parameter name="condiciones" class="java.lang.String"/>
+	<parameter name="vendedor" class="java.lang.String"/>
+	<parameter name="conformidad" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="86" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" onErrorType="Icon">
+				<reportElement key="" x="54" y="0" width="85" height="85" uuid="abb48b1f-ec53-4968-904e-c78bdfc6965d"/>
+				<imageExpression><![CDATA["images/logo-sankarasel.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="93" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="198" height="13" forecolor="#3D3737" uuid="098101aa-2be0-4267-8219-85bd3633eab1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="14" width="198" height="13" forecolor="#3D3737" uuid="25df1400-ac5f-4e9b-b665-539ceb82b9d9">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{propietario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="27" width="198" height="13" forecolor="#3D3737" uuid="ee3debeb-f8f7-461a-a78f-24ddd88458aa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RFC: "+$P{rfc}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="40" width="198" height="36" forecolor="#3D3737" uuid="bf16bf4b-3072-4238-90df-4507b69b8467">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="76" width="198" height="13" forecolor="#3D3737" uuid="98f8575b-1001-4716-9e8c-fcb0c71845e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TELS: "+$P{telefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="145" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="19" width="198" height="13" uuid="2a400ac9-7aa1-4544-8a65-b9183e7858e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Folio: "+$P{folio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="32" width="198" height="13" uuid="fcd3759c-4493-4717-8f33-da2af798dea4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: "+$P{fechaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="45" width="198" height="13" uuid="b2c272b1-9887-42c3-a01b-8af77548e70a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cliente: "+$P{nombreCliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="198" height="15" uuid="765284b8-86b1-4a02-b9a9-19eaf743ec6f">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ORDEN SERVICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="64" width="198" height="15" uuid="f211a0ca-9c3e-4011-b287-4141af61196a">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORMACION EQUIPO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="82" width="198" height="13" uuid="9d598565-a33e-4220-b38c-b4c2723c0877">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No. Serie: "+$P{numeroSerie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="95" width="198" height="13" uuid="845980db-9d12-421c-a204-1e25d82969cb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tipo equipo: "+$P{tipoEquipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="108" width="198" height="13" uuid="c5fcca98-f9a5-4327-9a0c-73189fbcd6f8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Marca: "+$P{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="121" width="198" height="13" uuid="61fbfe5f-e02f-4cf6-a212-36ace1cf95fc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Modelo: "+$P{modelo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="134" width="198" height="8" forecolor="#000000" uuid="9a6b7534-dedd-4bfb-aede-f42c0ddcbda3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="4"/>
+				</textElement>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="113" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<staticText>
+				<reportElement x="0" y="0" width="198" height="15" uuid="4fec3be0-81cc-4b67-9a1c-6adbccb5be42">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FALLA]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="15" width="198" height="89" uuid="3c19aa70-43ad-4d07-b7d2-ebc8aaa6174c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2091bccd-6c2f-4080-a1f3-0bd3ff8a4b8e"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{observaciones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="104" width="198" height="8" forecolor="#000000" uuid="d057f138-e1c2-4f01-8c50-9e46986002e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="4"/>
+				</textElement>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="169">
+			<staticText>
+				<reportElement x="0" y="0" width="198" height="15" uuid="8e7148d3-ba4a-476e-9bcf-cb5c196f0fae">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Dialog" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONDICIONES]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="15" width="198" height="146" forecolor="#3D3737" uuid="71bb880b-8130-4e09-8e56-59f2ecfeb7f1"/>
+				<textElement>
+					<font fontName="Dialog" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condiciones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="161" width="198" height="8" forecolor="#000000" uuid="74b4107b-87cb-46ba-ba9a-d5ed8971a697"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="4"/>
+				</textElement>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="0" width="198" height="11" forecolor="#3D3737" uuid="7e028a24-f1af-44c7-8642-7ee71e12a70c"/>
+				<textElement>
+					<font fontName="Dialog" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vendedor: "+$P{vendedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="11" width="198" height="11" forecolor="#3D3737" uuid="95fd0923-0181-4039-94d2-346365ad1f0d"/>
+				<textElement>
+					<font fontName="Dialog" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Conformidad: "+$P{conformidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
