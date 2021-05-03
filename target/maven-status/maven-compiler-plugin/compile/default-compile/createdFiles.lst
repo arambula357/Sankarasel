@@ -15,6 +15,7 @@ ventanas\Login$2.class
 ventanas\InformacionVenta.class
 ventanas\NuevoArticulo$2.class
 ventanas\Capturista$12.class
+ventanas\Capturista$20.class
 clases\NumeroLetras.class
 clases\TicketRecepcion.class
 ventanas\Capturista$15.class
@@ -83,6 +84,7 @@ ventanas\Capturista$16.class
 ventanas\Administrador$1.class
 ventanas\InformacionCliente$2.class
 ventanas\InformacionUsuario$1.class
+ventanas\Tecnico$5.class
 ventanas\InformacionEquipo.class
 ventanas\InformacionVenta$1.class
 ventanas\Tecnico$4.class
