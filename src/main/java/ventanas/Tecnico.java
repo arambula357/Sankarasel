@@ -96,6 +96,8 @@ public class Tecnico extends javax.swing.JFrame {
         jMenu_Opciones = new javax.swing.JMenu();
         jMenuItem_CerrarSesion = new javax.swing.JMenuItem();
         jMenuItem_AcercaDe = new javax.swing.JMenuItem();
+        jMenu_Ayuda = new javax.swing.JMenu();
+        jMenuItem_InfoVersion = new javax.swing.JMenuItem();
 
         jLabel1.setText("jLabel1");
 
@@ -114,7 +116,6 @@ public class Tecnico extends javax.swing.JFrame {
         jLabel_Titulo4.setText("Equipos registrados");
         jPanel_GestionarEquipos.add(jLabel_Titulo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
-        cmb_Estatus.setForeground(new java.awt.Color(0, 0, 0));
         cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
         cmb_Estatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,6 +175,18 @@ public class Tecnico extends javax.swing.JFrame {
         jMenu_Opciones.add(jMenuItem_AcercaDe);
 
         jMenuBar.add(jMenu_Opciones);
+
+        jMenu_Ayuda.setText("Ayuda");
+
+        jMenuItem_InfoVersion.setText("info versión");
+        jMenuItem_InfoVersion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_InfoVersionActionPerformed(evt);
+            }
+        });
+        jMenu_Ayuda.add(jMenuItem_InfoVersion);
+
+        jMenuBar.add(jMenu_Ayuda);
 
         setJMenuBar(jMenuBar);
 
@@ -237,6 +250,11 @@ public class Tecnico extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cmb_EstatusActionPerformed
 
+    private void jMenuItem_InfoVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_InfoVersionActionPerformed
+        InfoVersion infoVersion = new InfoVersion();
+        infoVersion.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_InfoVersionActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -276,6 +294,8 @@ public class Tecnico extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem_AcercaDe;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
+    private javax.swing.JMenuItem jMenuItem_InfoVersion;
+    private javax.swing.JMenu jMenu_Ayuda;
     private javax.swing.JMenu jMenu_Opciones;
     private javax.swing.JPanel jPanel_GestionarEquipos;
     private javax.swing.JPanel jPanel_VistaTecnico;

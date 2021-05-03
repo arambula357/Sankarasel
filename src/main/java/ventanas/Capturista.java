@@ -283,6 +283,8 @@ public class Capturista extends javax.swing.JFrame {
         jMenu_Opciones = new javax.swing.JMenu();
         jMenuItem_CerrarSesion = new javax.swing.JMenuItem();
         jMenuItem_Acercade = new javax.swing.JMenuItem();
+        jMenu_Ayuda = new javax.swing.JMenu();
+        jMenuItem_InfoVersion = new javax.swing.JMenuItem();
 
         jLabel1.setText("jLabel1");
 
@@ -838,6 +840,18 @@ public class Capturista extends javax.swing.JFrame {
         jMenu_Opciones.add(jMenuItem_Acercade);
 
         jMenuBar.add(jMenu_Opciones);
+
+        jMenu_Ayuda.setText("Ayuda");
+
+        jMenuItem_InfoVersion.setText("info versión");
+        jMenuItem_InfoVersion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_InfoVersionActionPerformed(evt);
+            }
+        });
+        jMenu_Ayuda.add(jMenuItem_InfoVersion);
+
+        jMenuBar.add(jMenu_Ayuda);
 
         setJMenuBar(jMenuBar);
 
@@ -1565,6 +1579,11 @@ public class Capturista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbV_VentaregistradaActionPerformed
 
+    private void jMenuItem_InfoVersionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_InfoVersionActionPerformed
+        InfoVersion infoVersion = new InfoVersion();
+        infoVersion.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_InfoVersionActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1650,6 +1669,8 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem_Acercade;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
+    private javax.swing.JMenuItem jMenuItem_InfoVersion;
+    private javax.swing.JMenu jMenu_Ayuda;
     private javax.swing.JMenu jMenu_Opciones;
     private javax.swing.JPanel jPanel_Cortes;
     private javax.swing.JPanel jPanel_GenerarVenta;
