@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import net.sf.jasperreports.engine.JRException;
@@ -54,7 +56,6 @@ public class Administrador extends javax.swing.JFrame {
     NumeroLetras numeroLetras = new NumeroLetras();
     TicketRecepcion ordenServicio = new TicketRecepcion();
     BaseDatos bd = new BaseDatos();
-    
 
     public Administrador() {
         initComponents();
@@ -317,6 +318,8 @@ public class Administrador extends javax.swing.JFrame {
         cmbV_VentaRegistrada = new javax.swing.JComboBox<>();
         txtV_Marca = new javax.swing.JTextField();
         jLabel_NombreCliente1 = new javax.swing.JLabel();
+        jButton_Salida = new javax.swing.JButton();
+        jButton_Comun = new javax.swing.JButton();
         jLabel_FondoGenerarVenta = new javax.swing.JLabel();
         jPanel_Inventario = new javax.swing.JPanel();
         jScrollPane_Productos = new javax.swing.JScrollPane();
@@ -779,6 +782,16 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Marca.setText("Marca:");
         jPanel_GenerarVenta.add(jLabel_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
+        jTable_Articulos = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column){
+                for(int i = 0; i < jTable_Articulos.getRowCount(); i++){
+                    if(row == i){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
         jTable_Articulos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable_Articulos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jTable_Articulos.setForeground(new java.awt.Color(255, 255, 255));
@@ -863,7 +876,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_GenerarVenta.add(jLabel_Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 360, -1, -1));
 
         cmbV_TipoVenta.setForeground(new java.awt.Color(0, 0, 0));
-        cmbV_TipoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Tarjeta" }));
+        cmbV_TipoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Tarjeta", "Transferencia" }));
         jPanel_GenerarVenta.add(cmbV_TipoVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(614, 390, 110, -1));
 
         cmbV_VentaRegistrada.setForeground(new java.awt.Color(0, 0, 0));
@@ -887,6 +900,18 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_NombreCliente1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_NombreCliente1.setText("¿Venta registrada?");
         jPanel_GenerarVenta.add(jLabel_NombreCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jButton_Salida.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_Salida.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton_Salida.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Salida.setText("Salida");
+        jPanel_GenerarVenta.add(jButton_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 30, 100, 25));
+
+        jButton_Comun.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_Comun.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton_Comun.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Comun.setText("Común");
+        jPanel_GenerarVenta.add(jButton_Comun, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 100, 25));
         jPanel_GenerarVenta.add(jLabel_FondoGenerarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
         jTabbedPane1.addTab("Generar venta", jPanel_GenerarVenta);
@@ -1618,7 +1643,7 @@ public class Administrador extends javax.swing.JFrame {
 
     private void jButton_CerrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CerrarVentaActionPerformed
 
-        String nombreCliente, folioV, modelo, numeroSerie, subTotalS, total, recibo, cambio, articulosT = "", articulosV = "", fecha, dia, mes, annio, tipoVenta;
+        String nombreCliente, folioV, modelo, marca, numeroSerie, subTotalS, total, recibo, cambio, articulosT = "", articulosV = "", fecha, dia, mes, annio, tipoVenta;
         String empresa, propietario, rfc, direccion, telefono, totalLetra, vendedor;
 
         int IDequipo, validacion = 0;
@@ -1635,6 +1660,7 @@ public class Administrador extends javax.swing.JFrame {
 
         nombreCliente = txtV_NombreCliente.getText().trim();
         folioV = txtV_Folio.getText().trim();
+        marca = txtV_Marca.getText().trim();
         modelo = txtV_Modelo.getText().trim();
         numeroSerie = txtV_NumeroSerie.getText().trim();
 
@@ -1657,6 +1683,10 @@ public class Administrador extends javax.swing.JFrame {
             txtV_Folio.setBackground(Color.red);
             validacion++;
         }
+        if (marca.equals("")) {
+            txtV_Marca.setBackground(Color.red);
+            validacion++;
+        }
         if (modelo.equals("")) {
             txtV_Modelo.setBackground(Color.red);
             validacion++;
@@ -1667,77 +1697,77 @@ public class Administrador extends javax.swing.JFrame {
         }
         if ((cmbV_VentaRegistrada.getSelectedItem().toString()).equals("No")) {
             fecha = dia + " / " + mes + " / " + annio;
-                IDequipo = Integer.parseInt(folioV);
-                bd.ConsultarCliente(IDequipo);
-                bd.ConsultarUsuario(user);
-                totalLetra = numeroLetras.Convertir(total, true);
-                vendedor = nombre_usuario;
-                empresa = "SANKARASEL REFACIONES";
-                propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-                rfc = "CAMS9711039P7";
-                direccion = "    AV TECNOLOGICO No 11308-B\n"
-                        + "      COL. REVOLUCION CP 31135\n"
-                        + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-                telefono = "6146191507";
+            IDequipo = Integer.parseInt(folioV);
+            bd.ConsultarCliente(IDequipo);
+            bd.ConsultarUsuario(user);
+            totalLetra = numeroLetras.Convertir(total, true);
+            vendedor = nombre_usuario;
+            empresa = "SANKARASEL REFACIONES";
+            propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
+            rfc = "CAMS9711039P7";
+            direccion = "    AV TECNOLOGICO No 11308-B\n"
+                    + "      COL. REVOLUCION CP 31135\n"
+                    + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
+            telefono = "6146191507";
 
-                for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                    if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
-                        cantidad[i] = (String) jTable_Articulos.getValueAt(i, columnaCantidad);
-                        codigo[i] = (String) jTable_Articulos.getValueAt(i, columnaCodigo);
-                        nombre[i] = (String) jTable_Articulos.getValueAt(i, columnaNombreArticulo);
-                        precio[i] = (jTable_Articulos.getValueAt(i, columnaPrecioT)).toString();
-                        if (articulosT.equals("")) { //Genera la acumulacion de articulos para el ticket.
-                            articulosT = cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
-                        } else {
-                            articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
-                        }
-                        
-                        if (articulosV.equals("")) {//Genera la acumulacion de articulos para la base de datos.
-                            articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                        } else {
-                            articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                        }
-                        
-                        bd.RegistroVenta(articulosV, total, tipoVenta);
-                        bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i]);
-                        bd.ActualizarEstatus(IDequipo);
-                        bd.ActualizarCantidad(codigo[i], cantidad[i]);
+            for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
+                if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
+                    cantidad[i] = (String) jTable_Articulos.getValueAt(i, columnaCantidad);
+                    codigo[i] = (String) jTable_Articulos.getValueAt(i, columnaCodigo);
+                    nombre[i] = (String) jTable_Articulos.getValueAt(i, columnaNombreArticulo);
+                    precio[i] = (jTable_Articulos.getValueAt(i, columnaPrecioT)).toString();
+                    if (articulosT.equals("")) { //Genera la acumulacion de articulos para el ticket.
+                        articulosT = cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
+                    } else {
+                        articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
                     }
+
+                    if (articulosV.equals("")) {//Genera la acumulacion de articulos para la base de datos.
+                        articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
+                    } else {
+                        articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
+                    }
+
+                    bd.RegistroVenta(articulosV, total, tipoVenta);
+                    bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i]);
+                    bd.ActualizarEstatus(IDequipo);
+                    bd.ActualizarCantidad(codigo[i], cantidad[i]);
                 }
-                /*Comenzamos la impresion del ticket*/
-                ticket.setEmpresa(empresa);
-                ticket.setPropietario(propietario);
-                ticket.setRfc(rfc);
-                ticket.setDireccion(direccion);
-                ticket.setTelefono(telefono);
-                ticket.setFolio("S/Folio");
-                ticket.setCliente("S/Registro");
-                ticket.setArticulos(articulosT);
-                ticket.setSubTotal(subTotalS);
-                ticket.setTotal(total);
-                ticket.setRecibo(recibo);
-                ticket.setCambio(cambio);
-                ticket.setTotalLetra(totalLetra);
-                ticket.setVendedor(vendedor);
-                ticket.setFecha(fecha);
-                try {
-                    ticket.print(true);
-                } catch (IOException ex) {
-                    System.err.println("Error al generar venta " + ex.getMessage());
-                }
-                /*Terminamos la impresion del ticket*/
-                txtV_NombreCliente.setText("");
-                txtV_Total.setText("0.0");
-                txtV_PagaCon.setText("0.0");
-                txtV_Cambio.setText("0.0");
-                for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                    tablaArticulos.setValueAt(null, i, columnaCantidad);
-                    tablaArticulos.setValueAt(null, i, columnaCodigo);
-                    tablaArticulos.setValueAt(null, i, columnaNombreArticulo);
-                    tablaArticulos.setValueAt(null, i, columnaPrecioU);
-                    tablaArticulos.setValueAt(null, i, columnaPrecioT);
-                }
-                JOptionPane.showMessageDialog(null, "Venta exitosa");
+            }
+            /*Comenzamos la impresion del ticket*/
+            ticket.setEmpresa(empresa);
+            ticket.setPropietario(propietario);
+            ticket.setRfc(rfc);
+            ticket.setDireccion(direccion);
+            ticket.setTelefono(telefono);
+            ticket.setFolio("S/Folio");
+            ticket.setCliente("S/Registro");
+            ticket.setArticulos(articulosT);
+            ticket.setSubTotal(subTotalS);
+            ticket.setTotal(total);
+            ticket.setRecibo(recibo);
+            ticket.setCambio(cambio);
+            ticket.setTotalLetra(totalLetra);
+            ticket.setVendedor(vendedor);
+            ticket.setFecha(fecha);
+            try {
+                ticket.print(true);
+            } catch (IOException ex) {
+                System.err.println("Error al generar venta " + ex.getMessage());
+            }
+            /*Terminamos la impresion del ticket*/
+            txtV_NombreCliente.setText("");
+            txtV_Total.setText("0.0");
+            txtV_PagaCon.setText("0.0");
+            txtV_Cambio.setText("0.0");
+            for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
+                tablaArticulos.setValueAt(null, i, columnaCantidad);
+                tablaArticulos.setValueAt(null, i, columnaCodigo);
+                tablaArticulos.setValueAt(null, i, columnaNombreArticulo);
+                tablaArticulos.setValueAt(null, i, columnaPrecioU);
+                tablaArticulos.setValueAt(null, i, columnaPrecioT);
+            }
+            JOptionPane.showMessageDialog(null, "Venta exitosa");
 
         } else if ((cmbV_VentaRegistrada.getSelectedItem().toString()).equals("Si")) {
             if (validacion == 0) {
@@ -1766,7 +1796,7 @@ public class Administrador extends javax.swing.JFrame {
                         } else {
                             articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
                         }
-                        
+
                         if (articulosV.equals("")) {//Genera la acumulacion de articulos para la base de datos.
                             articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
                         } else {
@@ -1803,6 +1833,7 @@ public class Administrador extends javax.swing.JFrame {
                 /*Terminamos la impresion del ticket*/
                 txtV_NombreCliente.setText("");
                 txtV_Folio.setText("");
+                txtV_Marca.setText("");
                 txtV_Modelo.setText("");
                 txtV_NumeroSerie.setText("");
                 txtV_Total.setText("0.0");
@@ -2020,12 +2051,14 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JButton jButton_BuscarCliente;
     private javax.swing.JButton jButton_BuscarEquipo;
     private javax.swing.JButton jButton_CerrarVenta;
+    private javax.swing.JButton jButton_Comun;
     private javax.swing.JButton jButton_CorteCustom;
     private javax.swing.JButton jButton_CorteDiario;
     private javax.swing.JButton jButton_Imprimir;
     private javax.swing.JButton jButton_Mostrar;
     private javax.swing.JButton jButton_RegistrarEquipo;
     private javax.swing.JButton jButton_RegistrarUsuario;
+    private javax.swing.JButton jButton_Salida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2486,4 +2519,21 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void EventoDobleClick(JTable jTable) {
+        jTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila_point = jTable.rowAtPoint(e.getPoint());
+                int columna_point = jTable.columnAtPoint(e.getPoint());
+
+                if (e.getClickCount() == 2) {
+                    JOptionPane.showMessageDialog(null, "Has dado doble clic en la fila: " + fila_point + " y la columna: " + columna_point);
+                }
+
+            }
+
+        });
+    }
+    
 }
