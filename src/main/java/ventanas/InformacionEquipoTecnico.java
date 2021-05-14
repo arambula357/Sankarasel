@@ -28,7 +28,7 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                cmb_TipoEquipo.setSelectedItem(rs.getString("tipo_equipo"));
+                txt_TipoEquipo.setText(rs.getString("tipo_equipo"));
                 cmb_Estatus.setSelectedItem(rs.getString("estatus"));
                 txt_Marca.setText(rs.getString("marca"));
                 txt_Modelo.setText(rs.getString("modelo"));
@@ -92,12 +92,12 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
         jLabel_Nombre8 = new javax.swing.JLabel();
         jLabel_RevisionTecnicaDe = new javax.swing.JLabel();
         txt_NombreCliente = new javax.swing.JTextField();
+        txt_TipoEquipo = new javax.swing.JTextField();
         txt_Marca = new javax.swing.JTextField();
         txt_Modelo = new javax.swing.JTextField();
         txt_NumeroSerie = new javax.swing.JTextField();
         txt_ModificacionPor = new javax.swing.JTextField();
         txt_Fecha = new javax.swing.JTextField();
-        cmb_TipoEquipo = new javax.swing.JComboBox<>();
         cmb_Estatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Observaciones = new javax.swing.JTextPane();
@@ -173,6 +173,14 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
         txt_NombreCliente.setEnabled(false);
         getContentPane().add(txt_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 210, -1));
 
+        txt_TipoEquipo.setBackground(new java.awt.Color(3, 37, 251));
+        txt_TipoEquipo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_TipoEquipo.setForeground(new java.awt.Color(255, 255, 255));
+        txt_TipoEquipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_TipoEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txt_TipoEquipo.setEnabled(false);
+        getContentPane().add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 210, -1));
+
         txt_Marca.setBackground(new java.awt.Color(3, 37, 251));
         txt_Marca.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_Marca.setForeground(new java.awt.Color(255, 255, 255));
@@ -212,11 +220,6 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
         txt_Fecha.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_Fecha.setEnabled(false);
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 180, -1));
-
-        cmb_TipoEquipo.setEditable(true);
-        cmb_TipoEquipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Smartphone", "Laptop" }));
-        cmb_TipoEquipo.setEnabled(false);
-        getContentPane().add(cmb_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
         getContentPane().add(cmb_Estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
@@ -311,7 +314,6 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmb_Estatus;
-    private javax.swing.JComboBox<String> cmb_TipoEquipo;
     private javax.swing.JButton jButton_Actualizar;
     private javax.swing.JLabel jLabel_Nombre;
     private javax.swing.JLabel jLabel_Nombre1;
@@ -335,6 +337,7 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
     private javax.swing.JTextField txt_NombreCliente;
     private javax.swing.JTextField txt_NumeroSerie;
     private javax.swing.JTextPane txt_Observaciones;
+    private javax.swing.JTextField txt_TipoEquipo;
     // End of variables declaration//GEN-END:variables
 
     public void ConfirmarCampos() {

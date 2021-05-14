@@ -57,7 +57,6 @@ public class BaseDatos {
                 cantidadB = rs.getInt("cantidad");
 
                 nCantidad = (cantidadB - Integer.parseInt(cantidadT));
-                
 
             }
             cn.close();
@@ -146,7 +145,38 @@ public class BaseDatos {
             System.err.println("Error al registrar venta " + e);
         }
     }
+/*  //habilitar cuando sea necesario - Incluir el codigo correspondiente.
+    public void RegistroSalida(String cantidad, String concepto) {
+        java.util.Date date = new java.util.Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        formato.format(date);
 
+        Calendar calendario = Calendar.getInstance();
+        int hora = calendario.get(Calendar.HOUR_OF_DAY);
+        int minutos = calendario.get(Calendar.MINUTE);
+        int segundos = calendario.get(Calendar.SECOND);
+        
+        String horaActual = hora + ":" + minutos + ":" + segundos;
+        java.sql.Date dateSQL = new java.sql.Date(date.getTime());
+
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement("insert into ventas values (?,?,?,?,?)");
+
+            pst.setInt(1, 0);
+            pst.setString(2, cantidad);
+            pst.setString(3, concepto);
+            pst.setDate(4, dateSQL);
+            pst.setString(5, horaActual);
+            pst.setString(6, nombreUsuario);
+
+            pst.executeUpdate();
+            cn.close();
+        } catch (SQLException e) {
+            System.err.println("Error al registrar salida de efectivo " + e);
+        }
+    }
+*/
     public void GenerarCorteDiario() throws IOException {
         java.util.Date date = new java.util.Date();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -199,8 +229,8 @@ public class BaseDatos {
 
         ticketCorte.print(true);
     }
-    
-    public void GenerarCortePersonalizado(java.sql.Date dateI, java.sql.Date dateF) throws IOException{
+
+    public void GenerarCortePersonalizado(java.sql.Date dateI, java.sql.Date dateF) throws IOException {
         int[] cantidad = new int[99];
         int[] cantidadT = new int[99];
         String[] nombre = new String[99];
@@ -234,7 +264,7 @@ public class BaseDatos {
         } catch (SQLException e) {
             System.err.println("Error al recuperar la información del corte " + e);
         }
-        
+
         totalS = String.valueOf(total);
 
         /*
@@ -244,6 +274,6 @@ public class BaseDatos {
         ticketCorte.setArticulos(acumulacion);
         ticketCorte.setTotal(totalS);
 
-        ticketCorte.print(true);      
+        ticketCorte.print(true);
     }
 }

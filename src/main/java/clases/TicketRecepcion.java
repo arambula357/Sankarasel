@@ -18,6 +18,7 @@ public class TicketRecepcion {
     private String telefono;
     private String folio;
     private String nombreCliente;
+    private String contactoCliente;
     private String observaciones;
     private String condiciones;
     private String numeroSerie;
@@ -62,6 +63,10 @@ public class TicketRecepcion {
 
     public void setNombreCliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
+    }
+    
+    public void setContactoCliente(String contactoCliente){
+        this.contactoCliente = contactoCliente;
     }
 
     public void setNumeroSerie(String numeroSerie) {
@@ -148,6 +153,7 @@ public class TicketRecepcion {
         parametros.put("folio", folio);
         parametros.put("fechaHora", fechaHora);
         parametros.put("nombreCliente", nombreCliente);
+        parametros.put("contactoCliente", contactoCliente);
         
         /*
          * Datos especificos del equipo

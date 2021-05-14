@@ -11,7 +11,7 @@ public class CrearTablas {
     ObtenerDatosTabla obtenerDatosTabla = new ObtenerDatosTabla();
 
     /*
-     * Estos metodos "CrearTabla" generan la tabla inicial con los datos de la BD.
+     * Los métodos "CrearTabla" generan la tabla inicial con los datos de la BD.
      * Antes de invocar el metodo debe haber creado los atributos dentro de la clase principal.
      */
     // Generar tabla inicial en "Gestionar usuarios".
@@ -49,7 +49,6 @@ public class CrearTablas {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla usuarios! Contacte al administrador");
         }
         obtenerDatosTabla.ObtenerDatosTablaUsuarios(tablaUsuarios, jTable_Usuarios);
-
     }
 
     // Generar tabla inicial de "Gestionar clientes".

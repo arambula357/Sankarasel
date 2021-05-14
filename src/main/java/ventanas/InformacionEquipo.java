@@ -2,6 +2,7 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import clases.Crear;
 import clases.ObtenerDatosTabla;
 import clases.TicketRecepcion;
 import java.awt.Color;
@@ -61,7 +62,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                cmb_TipoEquipo.setSelectedItem(rs.getString("tipo_equipo"));
+                txt_TipoEquipo.setText(rs.getString("tipo_equipo"));
                 cmb_Estatus.setSelectedItem(rs.getString("estatus"));
                 txt_Marca.setText(rs.getString("marca"));
                 txt_Modelo.setText(rs.getString("modelo"));
@@ -93,16 +94,8 @@ public class InformacionEquipo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // Insertamos imagen de fondo.
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
-
-        ImageIcon boton = new ImageIcon("images/impresora.png");
-        Icon iconoB = new ImageIcon(boton.getImage().getScaledInstance(jButton_GenrarTicket.getWidth(), jButton_GenrarTicket.getHeight(), Image.SCALE_DEFAULT));
-        jButton_GenrarTicket.setIcon(iconoB);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        Crear botonImprimir = new Crear(jButton_GenrarTicket, "images/impresora.png");
 
         txt_NombreCliente.setText(nom_cliente);
 
@@ -133,12 +126,12 @@ public class InformacionEquipo extends javax.swing.JFrame {
         jLabel_Nombre8 = new javax.swing.JLabel();
         jLabel_RevisionTecnicaDe = new javax.swing.JLabel();
         txt_NombreCliente = new javax.swing.JTextField();
+        txt_TipoEquipo = new javax.swing.JTextField();
         txt_Modelo = new javax.swing.JTextField();
         txt_Marca = new javax.swing.JTextField();
         txt_NumeroSerie = new javax.swing.JTextField();
         txt_ModificacionPor = new javax.swing.JTextField();
         txt_Fecha = new javax.swing.JTextField();
-        cmb_TipoEquipo = new javax.swing.JComboBox<>();
         cmb_Estatus = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane_Observaciones = new javax.swing.JTextPane();
@@ -215,6 +208,14 @@ public class InformacionEquipo extends javax.swing.JFrame {
         txt_NombreCliente.setEnabled(false);
         getContentPane().add(txt_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 210, -1));
 
+        txt_TipoEquipo.setBackground(new java.awt.Color(3, 37, 251));
+        txt_TipoEquipo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_TipoEquipo.setForeground(new java.awt.Color(255, 255, 255));
+        txt_TipoEquipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_TipoEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txt_TipoEquipo.setEnabled(false);
+        getContentPane().add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 210, -1));
+
         txt_Modelo.setBackground(new java.awt.Color(3, 37, 251));
         txt_Modelo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_Modelo.setForeground(new java.awt.Color(255, 255, 255));
@@ -254,11 +255,6 @@ public class InformacionEquipo extends javax.swing.JFrame {
         txt_Fecha.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_Fecha.setEnabled(false);
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 180, -1));
-
-        cmb_TipoEquipo.setEditable(true);
-        cmb_TipoEquipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Smartphone", "Laptop" }));
-        cmb_TipoEquipo.setEnabled(false);
-        getContentPane().add(cmb_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
         getContentPane().add(cmb_Estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
@@ -302,7 +298,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
         int validacion = 0;
         String tipo_equipo, marca, modelo, num_serie, estatus, observaciones;
 
-        tipo_equipo = cmb_TipoEquipo.getSelectedItem().toString();
+        tipo_equipo = txt_TipoEquipo.getText().trim();
         estatus = cmb_Estatus.getSelectedItem().toString();
         marca = txt_Marca.getText().trim();
         modelo = txt_Modelo.getText().trim();
@@ -359,7 +355,20 @@ public class InformacionEquipo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
 
     private void jButton_GenrarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenrarTicketActionPerformed
-        String folio = "", nombreCliente = "", vendedor = "", observaciones = "", numeroSerie = "", tipoEquipo = "", marca = "", modelo = "", fechaHora = "";
+        String folio = "", nombreCliente = "", vendedor = "", observaciones = "", numeroSerie = "", tipoEquipo = "", marca = "", modelo = "", fechaHora = "", contactoCliente = "";
+        
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement("select tel_cliente from clientes where nombre_cliente = '" + nom_cliente + "' and id_cliente = '" + IDclienteUpdate + "'");
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()){
+                contactoCliente = rs.getString("tel_cliente");
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.err.println("Error al consultar telefono del cliente " + e.getMessage());
+        }
         
         try {
             Connection cn = Conexion.conectar();
@@ -387,6 +396,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
         ordenServicio.setFolio(folio);
         ordenServicio.setFechaHora(fechaHora);
         ordenServicio.setNombreCliente(nombreCliente);
+        ordenServicio.setContactoCliente(contactoCliente);
         ordenServicio.setNumeroSerie(numeroSerie);
         ordenServicio.setTipoEquipo(tipoEquipo);
         ordenServicio.setMarca(marca);
@@ -429,7 +439,6 @@ public class InformacionEquipo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmb_Estatus;
-    private javax.swing.JComboBox<String> cmb_TipoEquipo;
     private javax.swing.JButton jButton_Actualizar;
     private javax.swing.JButton jButton_GenrarTicket;
     private javax.swing.JLabel jLabel_Nombre;
@@ -454,6 +463,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
     private javax.swing.JTextField txt_ModificacionPor;
     private javax.swing.JTextField txt_NombreCliente;
     private javax.swing.JTextField txt_NumeroSerie;
+    private javax.swing.JTextField txt_TipoEquipo;
     // End of variables declaration//GEN-END:variables
 
     public void Limpiar() {

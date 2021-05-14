@@ -23,6 +23,7 @@
 	<parameter name="condiciones" class="java.lang.String"/>
 	<parameter name="vendedor" class="java.lang.String"/>
 	<parameter name="conformidad" class="java.lang.String"/>
+	<parameter name="contactoCliente" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -85,7 +86,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="145" splitType="Stretch">
+		<band height="154" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="19" width="198" height="13" uuid="2a400ac9-7aa1-4544-8a65-b9183e7858e2">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -123,7 +124,7 @@
 				<text><![CDATA[ORDEN SERVICIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="64" width="198" height="15" uuid="f211a0ca-9c3e-4011-b287-4141af61196a">
+				<reportElement x="0" y="72" width="198" height="15" uuid="f211a0ca-9c3e-4011-b287-4141af61196a">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -132,7 +133,7 @@
 				<text><![CDATA[INFORMACION EQUIPO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="82" width="198" height="13" uuid="9d598565-a33e-4220-b38c-b4c2723c0877">
+				<reportElement x="0" y="90" width="198" height="13" uuid="9d598565-a33e-4220-b38c-b4c2723c0877">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -141,7 +142,7 @@
 				<textFieldExpression><![CDATA["No. Serie: "+$P{numeroSerie}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="95" width="198" height="13" uuid="845980db-9d12-421c-a204-1e25d82969cb">
+				<reportElement x="0" y="103" width="198" height="13" uuid="845980db-9d12-421c-a204-1e25d82969cb">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -150,7 +151,7 @@
 				<textFieldExpression><![CDATA["Tipo equipo: "+$P{tipoEquipo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="108" width="198" height="13" uuid="c5fcca98-f9a5-4327-9a0c-73189fbcd6f8">
+				<reportElement x="0" y="116" width="198" height="13" uuid="c5fcca98-f9a5-4327-9a0c-73189fbcd6f8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -159,7 +160,7 @@
 				<textFieldExpression><![CDATA["Marca: "+$P{marca}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="121" width="198" height="13" uuid="61fbfe5f-e02f-4cf6-a212-36ace1cf95fc">
+				<reportElement x="0" y="129" width="198" height="13" uuid="61fbfe5f-e02f-4cf6-a212-36ace1cf95fc">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -168,12 +169,21 @@
 				<textFieldExpression><![CDATA["Modelo: "+$P{modelo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="134" width="198" height="8" forecolor="#000000" uuid="9a6b7534-dedd-4bfb-aede-f42c0ddcbda3"/>
+				<reportElement mode="Transparent" x="0" y="142" width="198" height="8" forecolor="#000000" uuid="9a6b7534-dedd-4bfb-aede-f42c0ddcbda3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Dialog" size="4"/>
 				</textElement>
 				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="58" width="198" height="13" uuid="28ad67af-2425-4a23-8e09-bb83a662ee7f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Télefono cliente: "+$P{contactoCliente}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

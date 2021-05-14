@@ -2,6 +2,7 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import clases.Crear;
 import clases.CrearTablas;
 import clases.ObtenerDatosTabla;
 import java.awt.Image;
@@ -32,21 +33,11 @@ public class Tecnico extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
 
         // Insertamos imagen de fondo "JPanel" Inicio-.
-        ImageIcon fondoVistaTecnico = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico7 = new ImageIcon(fondoVistaTecnico.getImage().getScaledInstance(jLabel_FondoVistaTecnico.getWidth(), jLabel_FondoVistaTecnico.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaTecnico.setIcon(ico7);
-        this.repaint();
-
-        ImageIcon fondoGestionarEquipos = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico8 = new ImageIcon(fondoGestionarEquipos.getImage().getScaledInstance(jLabel_FondoGestionarEquipos.getWidth(), jLabel_FondoGestionarEquipos.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGestionarEquipos.setIcon(ico8);
-        this.repaint();
+        Crear fondoVistaTecnico = new Crear(jLabel_FondoVistaTecnico);
+        Crear fondoGestionarEquipos = new Crear(jLabel_FondoGestionarEquipos);
         // Insertamos imagen de fondo "JPanel" -Fin.
 
         try { // Obtener nombre completo del usuario que inicio sesión.

@@ -8,7 +8,7 @@ import clases.codTicket;
 import clases.NumeroLetras;
 import clases.TicketRecepcion;
 import clases.BaseDatos;
-import clases.Updater;
+import clases.Crear;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -20,8 +20,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.JTable;
@@ -68,103 +66,30 @@ public class Administrador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
 
         // Insertamos imagen de fondo "JPanel" Inicio-.
-        ImageIcon fondoUsuarios = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico = new ImageIcon(fondoUsuarios.getImage().getScaledInstance(jLabel_FondoUsuarios.getWidth(), jLabel_FondoUsuarios.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoUsuarios.setIcon(ico);
-        this.repaint();
-
-        ImageIcon fondoRegistrarUsuario = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico2 = new ImageIcon(fondoRegistrarUsuario.getImage().getScaledInstance(jLabel_FondoRegistrarUsuario.getWidth(), jLabel_FondoRegistrarUsuario.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoRegistrarUsuario.setIcon(ico2);
-        this.repaint();
-
-        ImageIcon fondoGestionarUsuarios = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico3 = new ImageIcon(fondoGestionarUsuarios.getImage().getScaledInstance(jLabel_FondoGestionarUsuarios.getWidth(), jLabel_FondoGestionarUsuarios.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGestionarUsuarios.setIcon(ico3);
-        this.repaint();
-
-        ImageIcon fondoVistaCapturista = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico4 = new ImageIcon(fondoVistaCapturista.getImage().getScaledInstance(jLabel_FondoVistaCapturista.getWidth(), jLabel_FondoVistaCapturista.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaCapturista.setIcon(ico4);
-        this.repaint();
-
-        ImageIcon fondoRegistraEquipo = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico5 = new ImageIcon(fondoRegistraEquipo.getImage().getScaledInstance(jLabel_FondoRegistrarEquipo.getWidth(), jLabel_FondoRegistrarEquipo.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoRegistrarEquipo.setIcon(ico5);
-        this.repaint();
-
-        ImageIcon fondoGestionarClientes = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico6 = new ImageIcon(fondoGestionarClientes.getImage().getScaledInstance(jLabel_FondoGestionarClientes.getWidth(), jLabel_FondoGestionarClientes.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGestionarClientes.setIcon(ico6);
-        this.repaint();
-
-        ImageIcon fondoVistaTecnico = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico7 = new ImageIcon(fondoVistaTecnico.getImage().getScaledInstance(jLabel_FondoVistaTecnico.getWidth(), jLabel_FondoVistaTecnico.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaTecnico.setIcon(ico7);
-        this.repaint();
-
-        ImageIcon fondoGestionarEquipos = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico8 = new ImageIcon(fondoGestionarEquipos.getImage().getScaledInstance(jLabel_FondoGestionarEquipos.getWidth(), jLabel_FondoGestionarEquipos.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGestionarEquipos.setIcon(ico8);
-        this.repaint();
-
-        ImageIcon fondoVistaVentas = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico9 = new ImageIcon(fondoVistaVentas.getImage().getScaledInstance(jLabel_FondoVistaVentas.getWidth(), jLabel_FondoVistaVentas.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaVentas.setIcon(ico9);
-        this.repaint();
-
-        ImageIcon fondoGenerarVentas = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico10 = new ImageIcon(fondoGenerarVentas.getImage().getScaledInstance(jLabel_FondoGenerarVenta.getWidth(), jLabel_FondoGenerarVenta.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGenerarVenta.setIcon(ico10);
-        this.repaint();
-
-        ImageIcon fondoInventario = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico11 = new ImageIcon(fondoInventario.getImage().getScaledInstance(jLabel_FondoInventario.getWidth(), jLabel_FondoInventario.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoInventario.setIcon(ico11);
-        this.repaint();
-
-        ImageIcon fondoCortes = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico12 = new ImageIcon(fondoCortes.getImage().getScaledInstance(jLabel_FondoCortes.getWidth(), jLabel_FondoCortes.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoCortes.setIcon(ico12);
-        this.repaint();
+        Crear fondoUsuarios = new Crear(jLabel_FondoUsuarios);
+        Crear fondoRegistrarUsuario = new Crear(jLabel_FondoRegistrarUsuario);
+        Crear fondoGestionarUsuarios = new Crear(jLabel_FondoGestionarUsuarios);
+        Crear fondoVistaCapturista = new Crear(jLabel_FondoVistaCapturista);
+        Crear fondoRegistraEquipo = new Crear(jLabel_FondoRegistrarEquipo);
+        Crear fondoGestionarClientes = new Crear(jLabel_FondoGestionarClientes);
+        Crear fondoVistaTecnico = new Crear(jLabel_FondoVistaTecnico);
+        Crear fondoGestionarEquipos = new Crear(jLabel_FondoGestionarEquipos);
+        Crear fondoVistaVentas = new Crear(jLabel_FondoVistaVentas);
+        Crear fondoGenerarVentas = new Crear(jLabel_FondoGenerarVenta);
+        Crear fondoInventario = new Crear(jLabel_FondoInventario);
+        Crear fondoCortes = new Crear(jLabel_FondoCortes);
         // Insertamos imagen de fondo "JPanel" -Fin.
 
         // Insertamos imagen en botones Inicio-.
-        ImageIcon boton1 = new ImageIcon("images/add.png");
-        Icon iconoB1 = new ImageIcon(boton1.getImage());
-        jButton_RegistrarUsuario.setIcon(iconoB1);
-        this.repaint();
-
-        ImageIcon boton2 = new ImageIcon("images/addSmarphone.png");
-        Icon iconoB2 = new ImageIcon(boton2.getImage());
-        jButton_RegistrarEquipo.setIcon(iconoB2);
-        this.repaint();
-
-        ImageIcon boton3 = new ImageIcon("images/impresora.png");
-        Icon iconoB3 = new ImageIcon(boton3.getImage());
-        jButton_Imprimir.setIcon(iconoB3);
-        this.repaint();
-
-        ImageIcon boton4 = new ImageIcon("images/iconoLupa.png");
-        Icon iconoB4 = new ImageIcon(boton4.getImage().getScaledInstance(jButton_BuscarCliente.getWidth(), jButton_BuscarCliente.getHeight(), Image.SCALE_DEFAULT));
-        jButton_BuscarCliente.setIcon(iconoB4);
-        this.repaint();
-
-        ImageIcon boton5 = new ImageIcon("images/iconoLupa.png");
-        Icon iconoB5 = new ImageIcon(boton5.getImage().getScaledInstance(jButton_BuscarEquipo.getWidth(), jButton_BuscarEquipo.getHeight(), Image.SCALE_DEFAULT));
-        jButton_BuscarEquipo.setIcon(iconoB5);
-        this.repaint();
-
-        ImageIcon boton6 = new ImageIcon("images/iconoSignoMas.png");
-        Icon iconoB6 = new ImageIcon(boton6.getImage());
-        jButton_Altas.setIcon(iconoB6);
-        this.repaint();
+        Crear botonRegistrarUsuario = new Crear(jButton_RegistrarUsuario, "images/add.png");
+        Crear botonRegistrarEquipo = new Crear(jButton_RegistrarEquipo, "images/addSmartphone.png");
+        Crear botonImprimir = new Crear(jButton_Imprimir, "images/impresora.png");
+        Crear botonBuscarCliente = new Crear(jButton_BuscarCliente, "images/iconoLupa.png");
+        Crear botonBuscarEquipo = new Crear(jButton_BuscarEquipo, "images/iconoLupa");
+        Crear botonAltas = new Crear(jButton_Altas, "images/iconoSignoMas.png");
         // Insertamos imagen en botones -Fin.
 
         try { // Obtener nombre completo del usuario que inicio sesión.
@@ -256,7 +181,6 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Nombre = new javax.swing.JLabel();
         txt_NombreCliente = new javax.swing.JTextField();
         jLabel_Nombre1 = new javax.swing.JLabel();
-        cmb_TipoEquipo = new javax.swing.JComboBox<>();
         jLabel_Nombre2 = new javax.swing.JLabel();
         jLabel_Nombre3 = new javax.swing.JLabel();
         txt_Modelo = new javax.swing.JTextField();
@@ -264,8 +188,9 @@ public class Administrador extends javax.swing.JFrame {
         txt_NumeroSerie = new javax.swing.JTextField();
         jLabel_Nombre5 = new javax.swing.JLabel();
         jScrollPane_Observaciones = new javax.swing.JScrollPane();
-        jTextPane_Observaciones = new javax.swing.JTextPane();
+        txt_Observaciones = new javax.swing.JTextPane();
         jButton_RegistrarEquipo = new javax.swing.JButton();
+        txt_TipoEquipo = new javax.swing.JTextField();
         txt_Marca = new javax.swing.JTextField();
         txt_MailCliente = new javax.swing.JTextField();
         txt_TelefonoCliente = new javax.swing.JTextField();
@@ -518,9 +443,6 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Nombre1.setText("Tipo de equipo:");
         jPanel_RegistrarEquipo.add(jLabel_Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
-        cmb_TipoEquipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Smartphone", "Laptop" }));
-        jPanel_RegistrarEquipo.add(cmb_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
-
         jLabel_Nombre2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre2.setText("Marca:");
@@ -555,7 +477,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Nombre5.setText("Daño reportado y observaciones:");
         jPanel_RegistrarEquipo.add(jLabel_Nombre5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, -1));
 
-        jScrollPane_Observaciones.setViewportView(jTextPane_Observaciones);
+        jScrollPane_Observaciones.setViewportView(txt_Observaciones);
 
         jPanel_RegistrarEquipo.add(jScrollPane_Observaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 420, 260));
 
@@ -569,6 +491,13 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         jPanel_RegistrarEquipo.add(jButton_RegistrarEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 330, 120, 100));
+
+        txt_TipoEquipo.setBackground(new java.awt.Color(3, 37, 251));
+        txt_TipoEquipo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_TipoEquipo.setForeground(new java.awt.Color(255, 255, 255));
+        txt_TipoEquipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_TipoEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_RegistrarEquipo.add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, -1));
 
         txt_Marca.setBackground(new java.awt.Color(3, 37, 251));
         txt_Marca.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -905,6 +834,11 @@ public class Administrador extends javax.swing.JFrame {
         jButton_Salida.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton_Salida.setForeground(new java.awt.Color(255, 255, 255));
         jButton_Salida.setText("Salida");
+        jButton_Salida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_SalidaActionPerformed(evt);
+            }
+        });
         jPanel_GenerarVenta.add(jButton_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 30, 100, 25));
 
         jButton_Comun.setBackground(new java.awt.Color(1, 89, 255));
@@ -1231,13 +1165,17 @@ public class Administrador extends javax.swing.JFrame {
         mail = txt_MailCliente.getText().trim();
         direccion = txt_Dirección.getText().trim();
         telefono = txt_TelefonoCliente.getText().trim();
-        tipo_equipo = cmb_TipoEquipo.getSelectedItem().toString();
+        tipo_equipo = txt_TipoEquipo.getText().trim();
         marca = txt_Marca.getText().trim();
         modelo = txt_Modelo.getText().trim();
         numeroSerie = txt_NumeroSerie.getText().trim();
-        observaciones = jTextPane_Observaciones.getText();
+        observaciones = txt_Observaciones.getText();
         estatus = "Nuevo ingreso";
 
+        if (tipo_equipo.equals("")) {
+            txt_TipoEquipo.setBackground(Color.red);
+            validacion++;
+        }
         if (marca.equals("")) {
             txt_Marca.setBackground(Color.red);
             validacion++;
@@ -1254,20 +1192,21 @@ public class Administrador extends javax.swing.JFrame {
             txt_NombreCliente.setBackground(Color.red);
             validacion++;
         }
-        if (mail.equals("")) {
+        /*Habilitar cuando sea necesario*/
+        /*if (mail.equals("")) {
             txt_MailCliente.setBackground(Color.red);
             validacion++;
-        }
-        if (direccion.equals("")) {
+        }*/
+        /*if (direccion.equals("")) {
             txt_Dirección.setBackground(Color.red);
             validacion++;
-        }
+        }*/
         if (telefono.equals("")) {
             txt_TelefonoCliente.setBackground(Color.red);
             validacion++;
         }
         if (observaciones.equals("")) {
-            jTextPane_Observaciones.setText("Sin observaciones.");
+            txt_Observaciones.setText("Sin observaciones.");
             observaciones = "Sin observaciones";
         }
 
@@ -1316,11 +1255,6 @@ public class Administrador extends javax.swing.JFrame {
                     pst2.executeUpdate();
                     cn2.close();
 
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_MailCliente.setBackground(Color.GREEN);
-                    txt_TelefonoCliente.setBackground(Color.GREEN);
-                    txt_Dirección.setBackground(Color.GREEN);
-
                 } catch (SQLException e) {
                     System.err.println("Error al hacer nuevo registro en la tabla clientes " + e);
                 }
@@ -1338,11 +1272,6 @@ public class Administrador extends javax.swing.JFrame {
 
                     pst2.executeUpdate();
                     cn2.close();
-
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_MailCliente.setBackground(Color.GREEN);
-                    txt_TelefonoCliente.setBackground(Color.GREEN);
-                    txt_Dirección.setBackground(Color.GREEN);
 
                 } catch (SQLException e) {
                     System.err.println("Error al actualizar la tabla clientes " + e);
@@ -1388,11 +1317,6 @@ public class Administrador extends javax.swing.JFrame {
                     pst.executeUpdate();
                     cn.close();
 
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_Marca.setBackground(Color.GREEN);
-                    txt_Modelo.setBackground(Color.GREEN);
-                    txt_NumeroSerie.setBackground(Color.GREEN);
-
                     try {
                         Connection cn2 = Conexion.conectar();
                         PreparedStatement pst2 = cn2.prepareStatement("select max(id_equipo) as id from equipos");
@@ -1437,11 +1361,6 @@ public class Administrador extends javax.swing.JFrame {
                     pst.executeUpdate();
                     cn.close();
 
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_Marca.setBackground(Color.GREEN);
-                    txt_Modelo.setBackground(Color.GREEN);
-                    txt_NumeroSerie.setBackground(Color.GREEN);
-
                     try {
                         Connection cn2 = Conexion.conectar();
                         PreparedStatement pst2 = cn2.prepareStatement("select max(id_equipo) as id from equipos");
@@ -1466,6 +1385,7 @@ public class Administrador extends javax.swing.JFrame {
             ordenServicio.setFolio(folio);
             ordenServicio.setFechaHora(fechaHora);
             ordenServicio.setNombreCliente(nombreCliente);
+            ordenServicio.setContactoCliente(telefono);
             ordenServicio.setNumeroSerie(numeroSerie);
             ordenServicio.setTipoEquipo(tipo_equipo);
             ordenServicio.setMarca(marca);
@@ -1478,7 +1398,15 @@ public class Administrador extends javax.swing.JFrame {
             } catch (JRException ex) {
                 System.err.println("Error al llenar la informacion del ticket " + ex);
             }
-
+            txt_NombreCliente.setText("");
+            txt_MailCliente.setText("");
+            txt_TelefonoCliente.setText("");
+            txt_Dirección.setText("");
+            txt_TipoEquipo.setText("");
+            txt_Marca.setText("");
+            txt_Modelo.setText("");
+            txt_NumeroSerie.setText("");
+            txt_Observaciones.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
         }
@@ -2007,6 +1935,11 @@ public class Administrador extends javax.swing.JFrame {
         infoVersion.setVisible(true);
     }//GEN-LAST:event_jMenuItem_InfoVersionActionPerformed
 
+    private void jButton_SalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalidaActionPerformed
+
+
+    }//GEN-LAST:event_jButton_SalidaActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -2046,7 +1979,6 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_DeMes;
     private javax.swing.JComboBox<String> cmb_Estatus;
     private javax.swing.JComboBox<String> cmb_Niveles;
-    private javax.swing.JComboBox<String> cmb_TipoEquipo;
     private javax.swing.JButton jButton_Altas;
     private javax.swing.JButton jButton_BuscarCliente;
     private javax.swing.JButton jButton_BuscarEquipo;
@@ -2146,7 +2078,6 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTable jTable_Servicios;
     private javax.swing.JTable jTable_Usuarios;
     private javax.swing.JTable jTable_Ventas;
-    private javax.swing.JTextPane jTextPane_Observaciones;
     private javax.swing.JTextField txtV_Cambio;
     private javax.swing.JTextField txtV_Folio;
     private javax.swing.JTextField txtV_Marca;
@@ -2166,9 +2097,11 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Nombre;
     private javax.swing.JTextField txt_NombreCliente;
     private javax.swing.JTextField txt_NumeroSerie;
+    private javax.swing.JTextPane txt_Observaciones;
     private javax.swing.JPasswordField txt_Password;
     private javax.swing.JTextField txt_Telefono;
     private javax.swing.JTextField txt_TelefonoCliente;
+    private javax.swing.JTextField txt_TipoEquipo;
     private javax.swing.JTextField txt_Username;
     // End of variables declaration//GEN-END:variables
 
@@ -2519,7 +2452,7 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void EventoDobleClick(JTable jTable) {
         jTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -2535,5 +2468,5 @@ public class Administrador extends javax.swing.JFrame {
 
         });
     }
-    
+
 }

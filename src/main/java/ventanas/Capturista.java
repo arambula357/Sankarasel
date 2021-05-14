@@ -8,6 +8,7 @@ import clases.codTicket;
 import clases.NumeroLetras;
 import clases.TicketRecepcion;
 import clases.BaseDatos;
+import clases.Crear;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -63,73 +64,24 @@ public class Capturista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
 
         // Insertamos imagen de fondo "JPanel" Inicio-.
-        ImageIcon fondoVistaCapturista = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico4 = new ImageIcon(fondoVistaCapturista.getImage().getScaledInstance(jLabel_FondoVistaCapturista.getWidth(), jLabel_FondoVistaCapturista.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaCapturista.setIcon(ico4);
-        this.repaint();
-
-        ImageIcon fondoRegistraEquipo = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico5 = new ImageIcon(fondoRegistraEquipo.getImage().getScaledInstance(jLabel_FondoRegistrarEquipo.getWidth(), jLabel_FondoRegistrarEquipo.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoRegistrarEquipo.setIcon(ico5);
-        this.repaint();
-
-        ImageIcon fondoGestionarClientes = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico6 = new ImageIcon(fondoGestionarClientes.getImage().getScaledInstance(jLabel_FondoGestionarClientes.getWidth(), jLabel_FondoGestionarClientes.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGestionarClientes.setIcon(ico6);
-        this.repaint();
-
-        ImageIcon fondoVistaVentas = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico9 = new ImageIcon(fondoVistaVentas.getImage().getScaledInstance(jLabel_FondoVistaVentas.getWidth(), jLabel_FondoVistaVentas.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoVistaVentas.setIcon(ico9);
-        this.repaint();
-
-        ImageIcon fondoGenerarVentas = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico10 = new ImageIcon(fondoGenerarVentas.getImage().getScaledInstance(jLabel_FondoGenerarVenta.getWidth(), jLabel_FondoGenerarVenta.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoGenerarVenta.setIcon(ico10);
-        this.repaint();
-
-        ImageIcon fondoInventario = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico11 = new ImageIcon(fondoInventario.getImage().getScaledInstance(jLabel_FondoInventario.getWidth(), jLabel_FondoInventario.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoInventario.setIcon(ico11);
-        this.repaint();
-
-        ImageIcon fondoCortes = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico12 = new ImageIcon(fondoCortes.getImage().getScaledInstance(jLabel_FondoCortes.getWidth(), jLabel_FondoCortes.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_FondoCortes.setIcon(ico12);
-        this.repaint();
+        Crear fondoVistaCapturista = new Crear(jLabel_FondoVistaCapturista);
+        Crear fondoRegistraEquipo = new Crear(jLabel_FondoRegistrarEquipo);
+        Crear fondoGestionarClientes = new Crear(jLabel_FondoGestionarClientes);
+        Crear fondoVistaVentas = new Crear(jLabel_FondoVistaVentas);
+        Crear fondoGenerarVentas = new Crear(jLabel_FondoGenerarVenta);
+        Crear fondoInventario = new Crear(jLabel_FondoInventario);
+        Crear fondoCortes = new Crear(jLabel_FondoCortes);
         // Insertamos imagen de fondo "JPanel" -Fin.
 
         // Insertamos imagen en botones Inicio-.
-        ImageIcon boton = new ImageIcon("images/addSmarphone.png");
-        Icon iconoB = new ImageIcon(boton.getImage());
-        jButton_RegistrarEquipo.setIcon(iconoB);
-        this.repaint();
-
-        ImageIcon boton2 = new ImageIcon("images/impresora.png");
-        Icon iconoB2 = new ImageIcon(boton2.getImage());
-        jButton_Imprimir.setIcon(iconoB2);
-        this.repaint();
-
-        ImageIcon boton3 = new ImageIcon("images/iconoLupa.png");
-        Icon iconoB3 = new ImageIcon(boton3.getImage().getScaledInstance(jButton_BuscarCliente.getWidth(), jButton_BuscarCliente.getHeight(), Image.SCALE_DEFAULT));
-        jButton_BuscarCliente.setIcon(iconoB3);
-        this.repaint();
-
-        ImageIcon boton4 = new ImageIcon("images/iconoLupa.png");
-        Icon iconoB4 = new ImageIcon(boton4.getImage().getScaledInstance(jButton_BuscarEquipo.getWidth(), jButton_BuscarEquipo.getHeight(), Image.SCALE_DEFAULT));
-        jButton_BuscarEquipo.setIcon(iconoB4);
-        this.repaint();
-
-        ImageIcon boton5 = new ImageIcon("images/iconoSignoMas.png");
-        Icon iconoB5 = new ImageIcon(boton5.getImage());
-        jButton_Altas.setIcon(iconoB5);
-        this.repaint();
+        Crear botonRegistrarEquipo = new Crear(jButton_RegistrarEquipo, "images/addSmartphone.png");
+        Crear botonImprimir = new Crear(jButton_Imprimir, "images/impresora.png");
+        Crear botonBuscarCliente = new Crear(jButton_BuscarCliente, "images/iconoLupa.png");
+        Crear botonBuscarEquipo = new Crear(jButton_BuscarEquipo, "images/iconoLupa");
+        Crear botonAltas = new Crear(jButton_Altas, "images/iconoSignoMas.png");
         // Insertamos imagen en botones -Fin.
 
         try { // Obtener nombre completo del usuario que inicio sesión.
@@ -195,7 +147,6 @@ public class Capturista extends javax.swing.JFrame {
         jLabel_Nombre = new javax.swing.JLabel();
         txt_NombreCliente = new javax.swing.JTextField();
         jLabel_Nombre1 = new javax.swing.JLabel();
-        cmb_TipoEquipo = new javax.swing.JComboBox<>();
         jLabel_Nombre2 = new javax.swing.JLabel();
         jLabel_Nombre3 = new javax.swing.JLabel();
         txt_Modelo = new javax.swing.JTextField();
@@ -203,7 +154,7 @@ public class Capturista extends javax.swing.JFrame {
         txt_NumeroSerie = new javax.swing.JTextField();
         jLabel_Nombre5 = new javax.swing.JLabel();
         jScrollPane_Observaciones = new javax.swing.JScrollPane();
-        jTextPane_Observaciones = new javax.swing.JTextPane();
+        txt_Observaciones = new javax.swing.JTextPane();
         jButton_RegistrarEquipo = new javax.swing.JButton();
         txt_MailCliente = new javax.swing.JTextField();
         txt_TelefonoCliente = new javax.swing.JTextField();
@@ -212,6 +163,7 @@ public class Capturista extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jButton_BuscarCliente = new javax.swing.JButton();
+        txt_TipoEquipo = new javax.swing.JTextField();
         txt_Marca = new javax.swing.JTextField();
         jLabel_FondoRegistrarEquipo = new javax.swing.JLabel();
         jPanel_GestionarClientes = new javax.swing.JPanel();
@@ -320,9 +272,6 @@ public class Capturista extends javax.swing.JFrame {
         jLabel_Nombre1.setText("Tipo de equipo:");
         jPanel_RegistrarEquipo.add(jLabel_Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
-        cmb_TipoEquipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Smartphone", "Laptop" }));
-        jPanel_RegistrarEquipo.add(cmb_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, -1));
-
         jLabel_Nombre2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre2.setText("Marca:");
@@ -357,7 +306,7 @@ public class Capturista extends javax.swing.JFrame {
         jLabel_Nombre5.setText("Daño reportado y observaciones:");
         jPanel_RegistrarEquipo.add(jLabel_Nombre5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, -1));
 
-        jScrollPane_Observaciones.setViewportView(jTextPane_Observaciones);
+        jScrollPane_Observaciones.setViewportView(txt_Observaciones);
 
         jPanel_RegistrarEquipo.add(jScrollPane_Observaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 420, 260));
 
@@ -419,6 +368,13 @@ public class Capturista extends javax.swing.JFrame {
             }
         });
         jPanel_RegistrarEquipo.add(jButton_BuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 55, 30, 25));
+
+        txt_TipoEquipo.setBackground(new java.awt.Color(3, 37, 251));
+        txt_TipoEquipo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_TipoEquipo.setForeground(new java.awt.Color(255, 255, 255));
+        txt_TipoEquipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_TipoEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_RegistrarEquipo.add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, -1));
 
         txt_Marca.setBackground(new java.awt.Color(3, 37, 251));
         txt_Marca.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -861,33 +817,24 @@ public class Capturista extends javax.swing.JFrame {
     private void jButton_RegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarEquipoActionPerformed
 
         int validacion = 0, IDcliente = 0, IDclienteUpdate = 0, idR;
-        String nombreCliente, mail, direccion, telefono, tipo_equipo, marca, modelo, numeroSerie, dia_ingreso, mes_ingreso, annio_ingreso, estatus, observaciones,
-                hora, minuto, segundo, fechaHora, hora_ingreso;
+        String nombreCliente, mail, direccion, telefono, tipo_equipo, marca, modelo, numeroSerie, dia_ingreso, mes_ingreso, annio_ingreso, estatus, observaciones, hora, minuto, segundo, fechaHora,
+                hora_ingreso;
 
         nombreCliente = txt_NombreCliente.getText().trim();
         mail = txt_MailCliente.getText().trim();
         direccion = txt_Dirección.getText().trim();
         telefono = txt_TelefonoCliente.getText().trim();
-        tipo_equipo = cmb_TipoEquipo.getSelectedItem().toString();
+        tipo_equipo = txt_TipoEquipo.getText().trim();
         marca = txt_Marca.getText().trim();
         modelo = txt_Modelo.getText().trim();
         numeroSerie = txt_NumeroSerie.getText().trim();
-        observaciones = jTextPane_Observaciones.getText();
+        observaciones = txt_Observaciones.getText();
         estatus = "Nuevo ingreso";
 
-        Calendar calendar = Calendar.getInstance();
-        dia_ingreso = Integer.toString(calendar.get(Calendar.DATE));
-        mes_ingreso = Integer.toString(calendar.get(Calendar.MONTH + 1));
-        annio_ingreso = Integer.toString(calendar.get(Calendar.YEAR));
-
-        LocalDateTime horaActual = LocalDateTime.now();
-        hora = Integer.toString(horaActual.getHour());
-        minuto = Integer.toString(horaActual.getMinute());
-        segundo = Integer.toString(horaActual.getSecond());
-
-        fechaHora = dia_ingreso + "/" + mes_ingreso + "/" + annio_ingreso + " " + hora + ":" + minuto + ":" + segundo;
-        hora_ingreso = hora + ":" + minuto + ":" + segundo;
-
+        if (tipo_equipo.equals("")) {
+            txt_TipoEquipo.setBackground(Color.red);
+            validacion++;
+        }
         if (marca.equals("")) {
             txt_Marca.setBackground(Color.red);
             validacion++;
@@ -904,22 +851,37 @@ public class Capturista extends javax.swing.JFrame {
             txt_NombreCliente.setBackground(Color.red);
             validacion++;
         }
-        if (mail.equals("")) {
+        /*Habilitar cuando sea necesario*/
+        /*if (mail.equals("")) {
             txt_MailCliente.setBackground(Color.red);
             validacion++;
-        }
-        if (direccion.equals("")) {
+        }*/
+        /*if (direccion.equals("")) {
             txt_Dirección.setBackground(Color.red);
             validacion++;
-        }
+        }*/
         if (telefono.equals("")) {
             txt_TelefonoCliente.setBackground(Color.red);
             validacion++;
         }
         if (observaciones.equals("")) {
-            jTextPane_Observaciones.setText("Sin observaciones.");
+            txt_Observaciones.setText("Sin observaciones.");
             observaciones = "Sin observaciones";
         }
+
+        Calendar calendar = Calendar.getInstance();
+        dia_ingreso = Integer.toString(calendar.get(Calendar.DATE));
+        mes_ingreso = Integer.toString(calendar.get(Calendar.MONTH + 1));
+        annio_ingreso = Integer.toString(calendar.get(Calendar.YEAR));
+
+        LocalDateTime horaActual = LocalDateTime.now();
+        hora = Integer.toString(horaActual.getHour());
+        minuto = Integer.toString(horaActual.getMinute());
+        segundo = Integer.toString(horaActual.getSecond());
+
+        fechaHora = dia_ingreso + "/" + mes_ingreso + "/" + annio_ingreso + " " + hora + ":" + minuto + ":" + segundo;
+        hora_ingreso = hora + ":" + minuto + ":" + segundo;
+
         try { //Consultamos la existencia del cliente en la base de datos.
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select id_cliente from clientes where nombre_cliente = '" + nombreCliente + "'");
@@ -935,72 +897,61 @@ public class Capturista extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al consultar primer id cliente " + e);
         }
-
-        if (IDcliente == 0) { // En caso de que el nombre del cliente no existe en la BD se ingresa un registro nuevo.
-
-            try {
-                Connection cn2 = Conexion.conectar();
-                PreparedStatement pst2 = cn2.prepareStatement("insert into clientes values (?,?,?,?,?,?)");
-
-                pst2.setInt(1, 0);
-                pst2.setString(2, nombreCliente);
-                pst2.setString(3, mail);
-                pst2.setString(4, telefono);
-                pst2.setString(5, direccion);
-                pst2.setString(6, user);
-
-                pst2.executeUpdate();
-                cn2.close();
-
-                txt_NombreCliente.setBackground(Color.GREEN);
-                txt_MailCliente.setBackground(Color.GREEN);
-                txt_TelefonoCliente.setBackground(Color.GREEN);
-                txt_Dirección.setBackground(Color.GREEN);
-
-            } catch (SQLException e) {
-                System.err.println("Error al hacer nuevo registro en la tabla clientes " + e);
-            }
-        } else { //Si la condicion anterior no se cumple se ejecuta una secundaria, es decir el cliente ya existe en la BD.
-            try { // Actualizamos la información del cliente dentro de la BD.
-                Connection cn2 = Conexion.conectar();
-                PreparedStatement pst2 = cn2.prepareStatement("update clientes set nombre_cliente=?, mail_cliente=?, tel_cliente=?, dir_cliente=?, ultima_modificacion=? "
-                        + "where id_cliente = '" + IDcliente + "'");
-
-                pst2.setString(1, nombreCliente);
-                pst2.setString(2, mail);
-                pst2.setString(3, telefono);
-                pst2.setString(4, direccion);
-                pst2.setString(5, user);
-
-                pst2.executeUpdate();
-                cn2.close();
-
-                txt_NombreCliente.setBackground(Color.GREEN);
-                txt_MailCliente.setBackground(Color.GREEN);
-                txt_TelefonoCliente.setBackground(Color.GREEN);
-                txt_Dirección.setBackground(Color.GREEN);
-
-            } catch (SQLException e) {
-                System.err.println("Error al actualizar la tabla clientes " + e);
-            }
-        }
-
-        try { // Realizamos consulta en la BD para el nuevo id de cliente.
-            Connection cn2 = Conexion.conectar();
-            PreparedStatement pst2 = cn2.prepareStatement("select id_cliente from clientes where nombre_cliente = '" + nombreCliente + "'");
-
-            ResultSet rs2 = pst2.executeQuery();
-
-            if (rs2.next()) {
-                IDclienteUpdate = rs2.getInt("id_cliente");
-            }
-
-            cn2.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error al consultar el segundo id cliente " + e);
-        }
         if (validacion == 0) {
+            if (IDcliente == 0) { // En caso de que el nombre del cliente no existe en la BD se ingresa un registro nuevo.
+
+                try {
+                    Connection cn2 = Conexion.conectar();
+                    PreparedStatement pst2 = cn2.prepareStatement("insert into clientes values (?,?,?,?,?,?)");
+
+                    pst2.setInt(1, 0);
+                    pst2.setString(2, nombreCliente);
+                    pst2.setString(3, mail);
+                    pst2.setString(4, telefono);
+                    pst2.setString(5, direccion);
+                    pst2.setString(6, user);
+
+                    pst2.executeUpdate();
+                    cn2.close();
+
+                } catch (SQLException e) {
+                    System.err.println("Error al hacer nuevo registro en la tabla clientes " + e);
+                }
+            } else { //Si la condicion anterior no se cumple se ejecuta una secundaria, es decir el cliente ya existe en la BD.
+                try { // Actualizamos la información del cliente dentro de la BD.
+                    Connection cn2 = Conexion.conectar();
+                    PreparedStatement pst2 = cn2.prepareStatement("update clientes set nombre_cliente=?, mail_cliente=?, tel_cliente=?, dir_cliente=?, ultima_modificacion=? "
+                            + "where id_cliente = '" + IDcliente + "'");
+
+                    pst2.setString(1, nombreCliente);
+                    pst2.setString(2, mail);
+                    pst2.setString(3, telefono);
+                    pst2.setString(4, direccion);
+                    pst2.setString(5, user);
+
+                    pst2.executeUpdate();
+                    cn2.close();
+
+                } catch (SQLException e) {
+                    System.err.println("Error al actualizar la tabla clientes " + e);
+                }
+            }
+
+            try { // Realizamos consulta en la BD para el nuevo id de cliente.
+                Connection cn2 = Conexion.conectar();
+                PreparedStatement pst2 = cn2.prepareStatement("select id_cliente from clientes where nombre_cliente = '" + nombreCliente + "'");
+
+                ResultSet rs2 = pst2.executeQuery();
+
+                if (rs2.next()) {
+                    IDclienteUpdate = rs2.getInt("id_cliente");
+                }
+
+                cn2.close();
+
+            } catch (SQLException e) {
+                System.err.println("Error al consultar el segundo id cliente " + e);
+            }
             if (IDcliente == 0) { //En caso de que el cliente no haya sido registrado antes se genera un registro nuevo en la BD equipos.
                 try {
                     Connection cn = Conexion.conectar();
@@ -1024,11 +975,6 @@ public class Capturista extends javax.swing.JFrame {
 
                     pst.executeUpdate();
                     cn.close();
-
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_Marca.setBackground(Color.GREEN);
-                    txt_Modelo.setBackground(Color.GREEN);
-                    txt_NumeroSerie.setBackground(Color.GREEN);
 
                     try {
                         Connection cn2 = Conexion.conectar();
@@ -1074,11 +1020,6 @@ public class Capturista extends javax.swing.JFrame {
                     pst.executeUpdate();
                     cn.close();
 
-                    txt_NombreCliente.setBackground(Color.GREEN);
-                    txt_Marca.setBackground(Color.GREEN);
-                    txt_Modelo.setBackground(Color.GREEN);
-                    txt_NumeroSerie.setBackground(Color.GREEN);
-
                     try {
                         Connection cn2 = Conexion.conectar();
                         PreparedStatement pst2 = cn2.prepareStatement("select max(id_equipo) as id from equipos");
@@ -1099,9 +1040,11 @@ public class Capturista extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "¡Error al registrar equipo! Contacte al Administrador");
                 }
             }
+
             ordenServicio.setFolio(folio);
             ordenServicio.setFechaHora(fechaHora);
             ordenServicio.setNombreCliente(nombreCliente);
+            ordenServicio.setContactoCliente(telefono);
             ordenServicio.setNumeroSerie(numeroSerie);
             ordenServicio.setTipoEquipo(tipo_equipo);
             ordenServicio.setMarca(marca);
@@ -1114,11 +1057,18 @@ public class Capturista extends javax.swing.JFrame {
             } catch (JRException ex) {
                 System.err.println("Error al llenar la informacion del ticket " + ex);
             }
-
+            txt_NombreCliente.setText("");
+            txt_MailCliente.setText("");
+            txt_TelefonoCliente.setText("");
+            txt_Dirección.setText("");
+            txt_TipoEquipo.setText("");
+            txt_Marca.setText("");
+            txt_Modelo.setText("");
+            txt_NumeroSerie.setText("");
+            txt_Observaciones.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
         }
-
     }//GEN-LAST:event_jButton_RegistrarEquipoActionPerformed
 
     private void jButton_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ImprimirActionPerformed
@@ -1621,7 +1571,6 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_DeAnnio;
     private javax.swing.JComboBox<String> cmb_DeDia;
     private javax.swing.JComboBox<String> cmb_DeMes;
-    private javax.swing.JComboBox<String> cmb_TipoEquipo;
     private javax.swing.JButton jButton_Altas;
     private javax.swing.JButton jButton_BuscarCliente;
     private javax.swing.JButton jButton_BuscarEquipo;
@@ -1693,7 +1642,6 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JTable jTable_Productos;
     private javax.swing.JTable jTable_Servicios;
     private javax.swing.JTable jTable_Ventas;
-    private javax.swing.JTextPane jTextPane_Observaciones;
     private javax.swing.JTextField txtV_Cambio;
     private javax.swing.JTextField txtV_Folio;
     private javax.swing.JTextField txtV_Marca;
@@ -1711,7 +1659,9 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Modelo;
     private javax.swing.JTextField txt_NombreCliente;
     private javax.swing.JTextField txt_NumeroSerie;
+    private javax.swing.JTextPane txt_Observaciones;
     private javax.swing.JTextField txt_TelefonoCliente;
+    private javax.swing.JTextField txt_TipoEquipo;
     // End of variables declaration//GEN-END:variables
 
     public void ObtenerDatosTablaArticulos() {

@@ -1,3 +1,4 @@
+ventanas\Salidas.class
 ventanas\InformacionCliente$1.class
 ventanas\InfoVersion$4.class
 clases\ObtenerDatosTabla.class
@@ -68,6 +69,7 @@ ventanas\Administrador$12.class
 ventanas\InfoVersion$3.class
 ventanas\Administrador$20.class
 ventanas\InformacionUsuario.class
+clases\Crear.class
 ventanas\Administrador$18.class
 ventanas\InformacionEquipo$1.class
 ventanas\Login$3.class
@@ -104,4 +106,5 @@ ventanas\Capturista$8.class
 ventanas\Capturista$1.class
 clases\BaseDatos.class
 ventanas\InformacionCliente$3.class
+ventanas\Administrador$25.class
 ventanas\NuevoArticulo$1.class
