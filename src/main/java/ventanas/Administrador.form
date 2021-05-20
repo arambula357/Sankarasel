@@ -165,7 +165,7 @@
         <Component class="javax.swing.JLabel" name="jLabelC_FondoComun">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cloud\Documents\NetBeansProjects\Sankarasel\images\wallpaperPrincipal.jpg"/>
+              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
             </Property>
           </Properties>
           <Constraints>
@@ -318,7 +318,7 @@
         <Component class="javax.swing.JLabel" name="jLabel_FondoDescuento">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cloud\Documents\NetBeansProjects\Sankarasel\images\wallpaperPrincipal.jpg"/>
+              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
             </Property>
           </Properties>
           <Constraints>
@@ -449,10 +449,10 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel_Wallpaper1">
+        <Component class="javax.swing.JLabel" name="jLabel_FondoSalida">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cloud\Documents\NetBeansProjects\Sankarasel\images\wallpaperPrincipal.jpg"/>
+              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
             </Property>
           </Properties>
           <Constraints>

@@ -143,7 +143,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Concepto = new javax.swing.JLabel();
         txt_Concepto = new javax.swing.JTextField();
         jButtonS_Generar = new javax.swing.JButton();
-        jLabel_Wallpaper1 = new javax.swing.JLabel();
+        jLabel_FondoSalida = new javax.swing.JLabel();
         jTabbedPane_General = new javax.swing.JTabbedPane();
         jPanel_Usuarios = new javax.swing.JPanel();
         jTabbedPane_Usuarios = new javax.swing.JTabbedPane();
@@ -331,7 +331,7 @@ public class Administrador extends javax.swing.JFrame {
         });
         jDialog_Comun.getContentPane().add(jButtonC_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, 100, 40));
 
-        jLabelC_FondoComun.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jLabelC_FondoComun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
         jDialog_Comun.getContentPane().add(jLabelC_FondoComun, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
 
         jDialog_Descuento.setSize(330, 230);
@@ -383,7 +383,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabelD_Porcentaje1.setText("%");
         jDialog_Descuento.getContentPane().add(jLabelD_Porcentaje1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 100, -1, 30));
 
-        jLabel_FondoDescuento.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jLabel_FondoDescuento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
         jDialog_Descuento.getContentPane().add(jLabel_FondoDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 240));
 
         jDialog_Salida.setSize(410, 240);
@@ -429,8 +429,8 @@ public class Administrador extends javax.swing.JFrame {
         });
         jDialog_Salida.getContentPane().add(jButtonS_Generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 100, 40));
 
-        jLabel_Wallpaper1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
-        jDialog_Salida.getContentPane().add(jLabel_Wallpaper1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
+        jLabel_FondoSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
+        jDialog_Salida.getContentPane().add(jLabel_FondoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -2383,6 +2383,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_FondoInventario;
     private javax.swing.JLabel jLabel_FondoRegistrarEquipo;
     private javax.swing.JLabel jLabel_FondoRegistrarUsuario;
+    private javax.swing.JLabel jLabel_FondoSalida;
     private javax.swing.JLabel jLabel_FondoUsuarios;
     private javax.swing.JLabel jLabel_FondoVistaCapturista;
     private javax.swing.JLabel jLabel_FondoVistaTecnico;
@@ -2403,7 +2404,6 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Total;
     private javax.swing.JLabel jLabel_VentaRegistrada;
     private javax.swing.JLabel jLabel_Wallpaper;
-    private javax.swing.JLabel jLabel_Wallpaper1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem_Acercade;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
