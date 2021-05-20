@@ -2,11 +2,10 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import clases.Crear;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -25,15 +24,8 @@ public class NuevoArticulo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
-
-        ImageIcon boton = new ImageIcon("images/iconoNubeFlecha.png");
-        Icon iconoB = new ImageIcon(boton.getImage());
-        jButton_Alta.setIcon(iconoB);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        Crear botonAltas = new Crear(jButton_Alta, "images/iconoNUbeFlecha.png", "No");
     }
 
     // Colocando icono a ventana
@@ -157,15 +149,12 @@ public class NuevoArticulo extends javax.swing.JFrame {
         cantidadArticulo = txt_Cantidad.getText().trim();
 
         if (nombreArticulo.equals("")) {
-            txt_Nombre.setBackground(Color.red);
             validacion++;
         }
         if (codigoArticulo.equals("")) {
-            txt_Codigo.setBackground(Color.red);
             validacion++;
         }
         if (precioArticulo.equals("")) {
-            txt_Precio.setBackground(Color.red);
             validacion++;
         }
         if (tipoArticulo.equals("Producto")) {
@@ -204,11 +193,6 @@ public class NuevoArticulo extends javax.swing.JFrame {
 
                             LimpiarCampos();
 
-                            txt_Nombre.setBackground(Color.GREEN);
-                            txt_Codigo.setBackground(Color.GREEN);
-                            txt_Precio.setBackground(Color.GREEN);
-                            txt_Cantidad.setBackground(Color.GREEN);
-
                             JOptionPane.showMessageDialog(null, "Registro exitoso");
                         } catch (SQLException e) {
                             System.err.println("Error al ingresar producto " + e);
@@ -229,13 +213,6 @@ public class NuevoArticulo extends javax.swing.JFrame {
 
                             pst.executeUpdate();
                             cn.close();
-
-                            LimpiarCampos();
-
-                            txt_Nombre.setBackground(Color.GREEN);
-                            txt_Codigo.setBackground(Color.GREEN);
-                            txt_Precio.setBackground(Color.GREEN);
-                            txt_Cantidad.setBackground(Color.GREEN);
 
                             JOptionPane.showMessageDialog(null, "Registro exitoso");
                         } catch (SQLException e) {

@@ -2,8 +2,6 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
-import clases.CrearTablas;
-import clases.ObtenerDatosTabla;
 import clases.codTicket;
 import clases.NumeroLetras;
 import clases.TicketRecepcion;
@@ -25,7 +23,6 @@ import javax.swing.WindowConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
-import java.util.Calendar;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -38,22 +35,22 @@ import net.sf.jasperreports.engine.JRException;
 public class Administrador extends javax.swing.JFrame {
 
     public static String subTotal, folio;
+    public String recibirCantidad, recibirNombre, recibirPrecio, recibirPrecioU;
 
     String user, nombre_usuario;
-    public static DefaultTableModel tablaUsuarios = new DefaultTableModel();
-    public static DefaultTableModel tablaClientes = new DefaultTableModel();
-    public static DefaultTableModel tablaEquipos = new DefaultTableModel();
-    public static DefaultTableModel tablaArticulos = new DefaultTableModel();
-    public static DefaultTableModel tablaProductos = new DefaultTableModel();
-    public static DefaultTableModel tablaServicios = new DefaultTableModel();
-    public static DefaultTableModel tablaVentas = new DefaultTableModel();
+    public static DefaultTableModel tablaUsuarios;
+    public static DefaultTableModel tablaClientes;
+    public static DefaultTableModel tablaEquipos;
+    public static DefaultTableModel tablaArticulos;
+    public static DefaultTableModel tablaProductos;
+    public static DefaultTableModel tablaServicios;
+    public static DefaultTableModel tablaVentas;
 
-    CrearTablas crearTablas = new CrearTablas();
-    ObtenerDatosTabla obtenerDatosTabla = new ObtenerDatosTabla();
     codTicket ticket = new codTicket();
     NumeroLetras numeroLetras = new NumeroLetras();
     TicketRecepcion ordenServicio = new TicketRecepcion();
     BaseDatos bd = new BaseDatos();
+    Crear crear = new Crear();
 
     public Administrador() {
         initComponents();
@@ -67,8 +64,6 @@ public class Administrador extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Crear wallpaper = new Crear(jLabel_Wallpaper);
-
-        // Insertamos imagen de fondo "JPanel" Inicio-.
         Crear fondoUsuarios = new Crear(jLabel_FondoUsuarios);
         Crear fondoRegistrarUsuario = new Crear(jLabel_FondoRegistrarUsuario);
         Crear fondoGestionarUsuarios = new Crear(jLabel_FondoGestionarUsuarios);
@@ -81,16 +76,13 @@ public class Administrador extends javax.swing.JFrame {
         Crear fondoGenerarVentas = new Crear(jLabel_FondoGenerarVenta);
         Crear fondoInventario = new Crear(jLabel_FondoInventario);
         Crear fondoCortes = new Crear(jLabel_FondoCortes);
-        // Insertamos imagen de fondo "JPanel" -Fin.
 
-        // Insertamos imagen en botones Inicio-.
-        Crear botonRegistrarUsuario = new Crear(jButton_RegistrarUsuario, "images/add.png");
-        Crear botonRegistrarEquipo = new Crear(jButton_RegistrarEquipo, "images/addSmartphone.png");
-        Crear botonImprimir = new Crear(jButton_Imprimir, "images/impresora.png");
-        Crear botonBuscarCliente = new Crear(jButton_BuscarCliente, "images/iconoLupa.png");
-        Crear botonBuscarEquipo = new Crear(jButton_BuscarEquipo, "images/iconoLupa");
-        Crear botonAltas = new Crear(jButton_Altas, "images/iconoSignoMas.png");
-        // Insertamos imagen en botones -Fin.
+        Crear botonRegistrarUsuario = new Crear(jButton_RegistrarUsuario, "images/add.png", "No");
+        Crear botonRegistrarEquipo = new Crear(jButton_RegistrarEquipo, "images/addSmartphone.png", "No");
+        Crear botonBuscarCliente = new Crear(jButton_BuscarCliente, "images/iconoLupa.png", "Si");
+        Crear botonImprimir = new Crear(jButton_Imprimir, "images/impresora.png", "No");
+        Crear botonBuscarEquipo = new Crear(jButton_BuscarEquipo, "images/iconoLupa.png", "Si");
+        Crear botonAltas = new Crear(jButton_Altas, "images/iconoSignoMas.png", "No");
 
         try { // Obtener nombre completo del usuario que inicio sesión.
             Connection cn = Conexion.conectar();
@@ -105,34 +97,14 @@ public class Administrador extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al consultar nombre del usuario " + e);
         }
-        crearTablas.CrearTablaUsuarios(tablaUsuarios, jTable_Usuarios, jScrollPane_GestionarUsuarios);
-        crearTablas.CrearTablaClientes(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes);
-        crearTablas.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);
-        crearTablas.CrearTablaProductos(tablaProductos, jTable_Productos, jScrollPane_Productos);
-        crearTablas.CrearTablaServicios(tablaServicios, jTable_Servicios, jScrollPane_Servicios);
-        crearTablas.crearTablaVentas(tablaVentas, jTable_Ventas, jScrollPane_Ventas);
 
-        // Creación de tabla ventas ¡No modificar!
-        tablaArticulos.setRowCount(0);
-        tablaArticulos.setColumnCount(0);
+        CrearTablaArticulos();
 
-        jTable_Articulos = new JTable(tablaArticulos);
-        jScrollPane_Articulos.setViewportView(jTable_Articulos);
-
-        tablaArticulos.addColumn("Cantidad");
-        tablaArticulos.addColumn("Codigo");
-        tablaArticulos.addColumn("Nombre");
-        tablaArticulos.addColumn("Precio unitario");
-        tablaArticulos.addColumn("Precio total");
-
-        for (int i = 0; i < 100; i++) {
-            tablaArticulos.addRow(new Object[i]);
-        }
-        ObtenerDatosTablaArticulos();
         Cambio();
         BuscarHistorial();
         BuscarProducto();
         BuscarServicio();
+        addProducto();
     }
 
     // Colocando icono a ventana
@@ -148,7 +120,30 @@ public class Administrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jDialog_Comun = new javax.swing.JDialog();
+        jLabelC_Cantidad = new javax.swing.JLabel();
+        txtC_Cantidad = new javax.swing.JTextField();
+        jLabelC_Nombre = new javax.swing.JLabel();
+        txtC_Nombre = new javax.swing.JTextField();
+        jLabelC_Precio = new javax.swing.JLabel();
+        txtC_Precio = new javax.swing.JTextField();
+        jButtonC_Agregar = new javax.swing.JButton();
+        jLabelC_FondoComun = new javax.swing.JLabel();
+        jDialog_Descuento = new javax.swing.JDialog();
+        jLabelD_Monto = new javax.swing.JLabel();
+        txtD_Monto = new javax.swing.JTextField();
+        jLabelD_Porcentaje = new javax.swing.JLabel();
+        txtD_Porcentaje = new javax.swing.JTextField();
+        jButtonD_Aceptar = new javax.swing.JButton();
+        jLabelD_Porcentaje1 = new javax.swing.JLabel();
+        jLabel_FondoDescuento = new javax.swing.JLabel();
+        jDialog_Salida = new javax.swing.JDialog();
+        jLabel_Cantidad = new javax.swing.JLabel();
+        txt_Cantidad = new javax.swing.JTextField();
+        jLabel_Concepto = new javax.swing.JLabel();
+        txt_Concepto = new javax.swing.JTextField();
+        jButtonS_Generar = new javax.swing.JButton();
+        jLabel_Wallpaper1 = new javax.swing.JLabel();
         jTabbedPane_General = new javax.swing.JTabbedPane();
         jPanel_Usuarios = new javax.swing.JPanel();
         jTabbedPane_Usuarios = new javax.swing.JTabbedPane();
@@ -192,12 +187,8 @@ public class Administrador extends javax.swing.JFrame {
         jButton_RegistrarEquipo = new javax.swing.JButton();
         txt_TipoEquipo = new javax.swing.JTextField();
         txt_Marca = new javax.swing.JTextField();
-        txt_MailCliente = new javax.swing.JTextField();
         txt_TelefonoCliente = new javax.swing.JTextField();
-        txt_Dirección = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jButton_BuscarCliente = new javax.swing.JButton();
         jLabel_FondoRegistrarEquipo = new javax.swing.JLabel();
         jPanel_GestionarClientes = new javax.swing.JPanel();
@@ -220,15 +211,15 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_VistaVentas = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel_GenerarVenta = new javax.swing.JPanel();
-        jLabel_NombreCliente = new javax.swing.JLabel();
+        jLabelV_NombreCliente = new javax.swing.JLabel();
         txtV_NombreCliente = new javax.swing.JTextField();
-        jLabel_Folio = new javax.swing.JLabel();
+        jLabelV_Folio = new javax.swing.JLabel();
         txtV_Folio = new javax.swing.JTextField();
-        jLabel_Modelo = new javax.swing.JLabel();
+        jLabelV_Modelo = new javax.swing.JLabel();
         txtV_Modelo = new javax.swing.JTextField();
-        jLabel_NumeroSerie = new javax.swing.JLabel();
+        jLabelV_NumeroSerie = new javax.swing.JLabel();
         txtV_NumeroSerie = new javax.swing.JTextField();
-        jLabel_Marca = new javax.swing.JLabel();
+        jLabelV_Marca = new javax.swing.JLabel();
         jScrollPane_Articulos = new javax.swing.JScrollPane();
         jTable_Articulos = new javax.swing.JTable();
         jButton_BuscarEquipo = new javax.swing.JButton();
@@ -242,9 +233,11 @@ public class Administrador extends javax.swing.JFrame {
         cmbV_TipoVenta = new javax.swing.JComboBox<>();
         cmbV_VentaRegistrada = new javax.swing.JComboBox<>();
         txtV_Marca = new javax.swing.JTextField();
-        jLabel_NombreCliente1 = new javax.swing.JLabel();
-        jButton_Salida = new javax.swing.JButton();
+        jLabel_VentaRegistrada = new javax.swing.JLabel();
         jButton_Comun = new javax.swing.JButton();
+        jButton_Salida = new javax.swing.JButton();
+        jButton_Eliminar = new javax.swing.JButton();
+        txtV_addProducto = new javax.swing.JTextField();
         jLabel_FondoGenerarVenta = new javax.swing.JLabel();
         jPanel_Inventario = new javax.swing.JPanel();
         jScrollPane_Productos = new javax.swing.JScrollPane();
@@ -271,7 +264,7 @@ public class Administrador extends javax.swing.JFrame {
         jButton_Mostrar = new javax.swing.JButton();
         jButton_CorteDiario = new javax.swing.JButton();
         jButton_CorteCustom = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
+        jLabel_Corte = new javax.swing.JLabel();
         jLabel_FondoCortes = new javax.swing.JLabel();
         jLabel_FondoVistaVentas = new javax.swing.JLabel();
         jLabel_NombreUsurario = new javax.swing.JLabel();
@@ -283,7 +276,161 @@ public class Administrador extends javax.swing.JFrame {
         jMenu_Ayuda = new javax.swing.JMenu();
         jMenuItem_InfoVersion = new javax.swing.JMenuItem();
 
-        jLabel1.setText("jLabel1");
+        jDialog_Comun.setSize(430, 300);
+        jDialog_Comun.setResizable(false);
+        jDialog_Comun.setLocationRelativeTo(null);
+        jDialog_Comun.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog_Comun.setTitle("Producto Comun");
+        jDialog_Comun.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelC_Cantidad.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelC_Cantidad.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelC_Cantidad.setText("Cantidad:");
+        jDialog_Comun.getContentPane().add(jLabelC_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        txtC_Cantidad.setBackground(new java.awt.Color(3, 37, 251));
+        txtC_Cantidad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtC_Cantidad.setForeground(new java.awt.Color(255, 255, 255));
+        txtC_Cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtC_Cantidad.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Comun.getContentPane().add(txtC_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 25));
+
+        jLabelC_Nombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelC_Nombre.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelC_Nombre.setText("Nombre:");
+        jDialog_Comun.getContentPane().add(jLabelC_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        txtC_Nombre.setBackground(new java.awt.Color(3, 37, 251));
+        txtC_Nombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtC_Nombre.setForeground(new java.awt.Color(255, 255, 255));
+        txtC_Nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtC_Nombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Comun.getContentPane().add(txtC_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 180, 25));
+
+        jLabelC_Precio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelC_Precio.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelC_Precio.setText("Precio:");
+        jDialog_Comun.getContentPane().add(jLabelC_Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        txtC_Precio.setBackground(new java.awt.Color(3, 37, 251));
+        txtC_Precio.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtC_Precio.setForeground(new java.awt.Color(255, 255, 255));
+        txtC_Precio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtC_Precio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Comun.getContentPane().add(txtC_Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 180, 25));
+
+        jButtonC_Agregar.setBackground(new java.awt.Color(1, 89, 255));
+        jButtonC_Agregar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonC_Agregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
+        jButtonC_Agregar.setText("Agregar");
+        jButtonC_Agregar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonC_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonC_AgregarActionPerformed(evt);
+            }
+        });
+        jDialog_Comun.getContentPane().add(jButtonC_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, 100, 40));
+
+        jLabelC_FondoComun.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jDialog_Comun.getContentPane().add(jLabelC_FondoComun, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
+
+        jDialog_Descuento.setSize(330, 230);
+        jDialog_Descuento.setResizable(false);
+        jDialog_Descuento.setLocationRelativeTo(null);
+        jDialog_Descuento.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog_Descuento.setTitle("Descuento");
+        jDialog_Descuento.setIconImage(getIconImage());
+        jDialog_Descuento.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelD_Monto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelD_Monto.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelD_Monto.setText("Nuevo precio:");
+        jDialog_Descuento.getContentPane().add(jLabelD_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        txtD_Monto.setBackground(new java.awt.Color(3, 37, 251));
+        txtD_Monto.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtD_Monto.setForeground(new java.awt.Color(255, 255, 255));
+        txtD_Monto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtD_Monto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Descuento.getContentPane().add(txtD_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 25));
+
+        jLabelD_Porcentaje.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelD_Porcentaje.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelD_Porcentaje.setText("Porcentaje:");
+        jDialog_Descuento.getContentPane().add(jLabelD_Porcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        txtD_Porcentaje.setBackground(new java.awt.Color(3, 37, 251));
+        txtD_Porcentaje.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtD_Porcentaje.setForeground(new java.awt.Color(255, 255, 255));
+        txtD_Porcentaje.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtD_Porcentaje.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Descuento.getContentPane().add(txtD_Porcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 130, 25));
+
+        jButtonD_Aceptar.setBackground(new java.awt.Color(1, 89, 255));
+        jButtonD_Aceptar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonD_Aceptar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
+        jButtonD_Aceptar.setText("Aceptar");
+        jButtonD_Aceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonD_Aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonD_AceptarActionPerformed(evt);
+            }
+        });
+        jDialog_Descuento.getContentPane().add(jButtonD_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 100, 40));
+
+        jLabelD_Porcentaje1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelD_Porcentaje1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelD_Porcentaje1.setText("%");
+        jDialog_Descuento.getContentPane().add(jLabelD_Porcentaje1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 100, -1, 30));
+
+        jLabel_FondoDescuento.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jDialog_Descuento.getContentPane().add(jLabel_FondoDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 240));
+
+        jDialog_Salida.setSize(410, 240);
+        jDialog_Salida.setResizable(false);
+        jDialog_Salida.setLocationRelativeTo(null);
+        jDialog_Salida.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog_Salida.setTitle("Salida de efectivo");
+        jDialog_Salida.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel_Cantidad.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel_Cantidad.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Cantidad.setText("Cantidad:");
+        jDialog_Salida.getContentPane().add(jLabel_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        txt_Cantidad.setBackground(new java.awt.Color(3, 37, 251));
+        txt_Cantidad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txt_Cantidad.setForeground(new java.awt.Color(255, 255, 255));
+        txt_Cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_Cantidad.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Salida.getContentPane().add(txt_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 25));
+
+        jLabel_Concepto.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel_Concepto.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Concepto.setText("Concepto:");
+        jDialog_Salida.getContentPane().add(jLabel_Concepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
+
+        txt_Concepto.setBackground(new java.awt.Color(3, 37, 251));
+        txt_Concepto.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txt_Concepto.setForeground(new java.awt.Color(255, 255, 255));
+        txt_Concepto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_Concepto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jDialog_Salida.getContentPane().add(txt_Concepto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 290, 25));
+
+        jButtonS_Generar.setBackground(new java.awt.Color(1, 89, 255));
+        jButtonS_Generar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonS_Generar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
+        jButtonS_Generar.setText("Generar");
+        jButtonS_Generar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonS_Generar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonS_GenerarActionPerformed(evt);
+            }
+        });
+        jDialog_Salida.getContentPane().add(jButtonS_Generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 100, 40));
+
+        jLabel_Wallpaper1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jDialog_Salida.getContentPane().add(jLabel_Wallpaper1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -399,6 +546,17 @@ public class Administrador extends javax.swing.JFrame {
             }
         ));
         jScrollPane_GestionarUsuarios.setViewportView(jTable_Usuarios);
+        tablaUsuarios = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaUsuarios.setRowCount(0);
+        tablaUsuarios.setColumnCount(0);
+        jTable_Usuarios = new JTable(tablaUsuarios);
+        jScrollPane_GestionarUsuarios.setViewportView(jTable_Usuarios);
+        crear.CrearTablaUsuarios(tablaUsuarios, jTable_Usuarios, jScrollPane_GestionarUsuarios);
 
         jPanel_GestionarUsuarios.add(jScrollPane_GestionarUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 300));
 
@@ -441,36 +599,36 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Nombre1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre1.setText("Tipo de equipo:");
-        jPanel_RegistrarEquipo.add(jLabel_Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
+        jPanel_RegistrarEquipo.add(jLabel_Nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
         jLabel_Nombre2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre2.setText("Marca:");
-        jPanel_RegistrarEquipo.add(jLabel_Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+        jPanel_RegistrarEquipo.add(jLabel_Nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
         jLabel_Nombre3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre3.setText("Modelo:");
-        jPanel_RegistrarEquipo.add(jLabel_Nombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
+        jPanel_RegistrarEquipo.add(jLabel_Nombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         txt_Modelo.setBackground(new java.awt.Color(3, 37, 251));
         txt_Modelo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_Modelo.setForeground(new java.awt.Color(255, 255, 255));
         txt_Modelo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_Modelo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 210, -1));
+        jPanel_RegistrarEquipo.add(txt_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, -1));
 
         jLabel_Nombre4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Nombre4.setText("Número de serie:");
-        jPanel_RegistrarEquipo.add(jLabel_Nombre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, -1, -1));
+        jPanel_RegistrarEquipo.add(jLabel_Nombre4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
 
         txt_NumeroSerie.setBackground(new java.awt.Color(3, 37, 251));
         txt_NumeroSerie.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_NumeroSerie.setForeground(new java.awt.Color(255, 255, 255));
         txt_NumeroSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_NumeroSerie.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 210, -1));
+        jPanel_RegistrarEquipo.add(txt_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 210, -1));
 
         jLabel_Nombre5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre5.setForeground(new java.awt.Color(255, 255, 255));
@@ -497,22 +655,14 @@ public class Administrador extends javax.swing.JFrame {
         txt_TipoEquipo.setForeground(new java.awt.Color(255, 255, 255));
         txt_TipoEquipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_TipoEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, -1));
+        jPanel_RegistrarEquipo.add(txt_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 210, -1));
 
         txt_Marca.setBackground(new java.awt.Color(3, 37, 251));
         txt_Marca.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_Marca.setForeground(new java.awt.Color(255, 255, 255));
         txt_Marca.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_Marca.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 210, -1));
-
-        txt_MailCliente.setBackground(new java.awt.Color(3, 37, 251));
-        txt_MailCliente.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        txt_MailCliente.setForeground(new java.awt.Color(255, 255, 255));
-        txt_MailCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_MailCliente.setToolTipText("");
-        txt_MailCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_MailCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 210, -1));
+        jPanel_RegistrarEquipo.add(txt_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 210, -1));
 
         txt_TelefonoCliente.setBackground(new java.awt.Color(3, 37, 251));
         txt_TelefonoCliente.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -520,30 +670,12 @@ public class Administrador extends javax.swing.JFrame {
         txt_TelefonoCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_TelefonoCliente.setToolTipText("");
         txt_TelefonoCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_TelefonoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 210, -1));
-
-        txt_Dirección.setBackground(new java.awt.Color(3, 37, 251));
-        txt_Dirección.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        txt_Dirección.setForeground(new java.awt.Color(255, 255, 255));
-        txt_Dirección.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_Dirección.setToolTipText("");
-        txt_Dirección.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RegistrarEquipo.add(txt_Dirección, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 210, -1));
-
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("email:");
-        jPanel_RegistrarEquipo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        jPanel_RegistrarEquipo.add(txt_TelefonoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 210, -1));
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Teléfono:");
-        jPanel_RegistrarEquipo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Dirección:");
-        jPanel_RegistrarEquipo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel_RegistrarEquipo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         jButton_BuscarCliente.setBackground(new java.awt.Color(1, 89, 255));
         jButton_BuscarCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -572,6 +704,17 @@ public class Administrador extends javax.swing.JFrame {
             }
         ));
         jScrollPane_GestionarClientes.setViewportView(jTable_Clientes);
+        tablaClientes = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaClientes.setRowCount(0);
+        tablaClientes.setColumnCount(0);
+        jTable_Clientes = new JTable(tablaClientes);
+        jScrollPane_GestionarClientes.setViewportView(jTable_Clientes);
+        crear.CrearTablaClientes(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes);
 
         jPanel_GestionarClientes.add(jScrollPane_GestionarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 280));
 
@@ -637,6 +780,17 @@ public class Administrador extends javax.swing.JFrame {
         ));
         jTable_Equipos.setToolTipText("");
         jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        tablaEquipos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaEquipos.setRowCount(0);
+        tablaEquipos.setColumnCount(0);
+        jTable_Equipos = new JTable(tablaEquipos);
+        jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);
 
         jPanel_GestionarEquipos.add(jScrollPane_Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 370));
         jPanel_GestionarEquipos.add(jLabel_FondoGestionarEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 740, 457));
@@ -656,34 +810,34 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_GenerarVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel_GenerarVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel_NombreCliente.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_NombreCliente.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_NombreCliente.setText("Nombre cliente:");
-        jPanel_GenerarVenta.add(jLabel_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        jLabelV_NombreCliente.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelV_NombreCliente.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelV_NombreCliente.setText("Nombre cliente:");
+        jPanel_GenerarVenta.add(jLabelV_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         txtV_NombreCliente.setBackground(new java.awt.Color(3, 37, 251));
         txtV_NombreCliente.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         txtV_NombreCliente.setForeground(new java.awt.Color(255, 255, 255));
         txtV_NombreCliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_NombreCliente.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_GenerarVenta.add(txtV_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 210, 25));
+        jPanel_GenerarVenta.add(txtV_NombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 210, 25));
 
-        jLabel_Folio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_Folio.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Folio.setText("Folio:");
-        jPanel_GenerarVenta.add(jLabel_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        jLabelV_Folio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelV_Folio.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelV_Folio.setText("Folio:");
+        jPanel_GenerarVenta.add(jLabelV_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         txtV_Folio.setBackground(new java.awt.Color(3, 37, 251));
         txtV_Folio.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         txtV_Folio.setForeground(new java.awt.Color(255, 255, 255));
         txtV_Folio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_Folio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_GenerarVenta.add(txtV_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 210, 25));
+        jPanel_GenerarVenta.add(txtV_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 210, 25));
 
-        jLabel_Modelo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_Modelo.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Modelo.setText("Modelo:");
-        jPanel_GenerarVenta.add(jLabel_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, -1, -1));
+        jLabelV_Modelo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelV_Modelo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelV_Modelo.setText("Modelo:");
+        jPanel_GenerarVenta.add(jLabelV_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
 
         txtV_Modelo.setBackground(new java.awt.Color(3, 37, 251));
         txtV_Modelo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -691,12 +845,12 @@ public class Administrador extends javax.swing.JFrame {
         txtV_Modelo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_Modelo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtV_Modelo.setEnabled(false);
-        jPanel_GenerarVenta.add(txtV_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 210, 25));
+        jPanel_GenerarVenta.add(txtV_Modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 210, 25));
 
-        jLabel_NumeroSerie.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_NumeroSerie.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_NumeroSerie.setText("Número de serie:");
-        jPanel_GenerarVenta.add(jLabel_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+        jLabelV_NumeroSerie.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelV_NumeroSerie.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelV_NumeroSerie.setText("Número de serie:");
+        jPanel_GenerarVenta.add(jLabelV_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
         txtV_NumeroSerie.setBackground(new java.awt.Color(3, 37, 251));
         txtV_NumeroSerie.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -704,26 +858,14 @@ public class Administrador extends javax.swing.JFrame {
         txtV_NumeroSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_NumeroSerie.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtV_NumeroSerie.setEnabled(false);
-        jPanel_GenerarVenta.add(txtV_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 210, 25));
+        jPanel_GenerarVenta.add(txtV_NumeroSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 210, 25));
 
-        jLabel_Marca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_Marca.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Marca.setText("Marca:");
-        jPanel_GenerarVenta.add(jLabel_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+        jLabelV_Marca.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelV_Marca.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelV_Marca.setText("Marca:");
+        jPanel_GenerarVenta.add(jLabelV_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
-        jTable_Articulos = new javax.swing.JTable(){
-            public boolean isCellEditable(int row, int column){
-                for(int i = 0; i < jTable_Articulos.getRowCount(); i++){
-                    if(row == i){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
         jTable_Articulos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable_Articulos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jTable_Articulos.setForeground(new java.awt.Color(255, 255, 255));
         jTable_Articulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -740,12 +882,23 @@ public class Administrador extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_Articulos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane_Articulos.setViewportView(jTable_Articulos);
         if (jTable_Articulos.getColumnModel().getColumnCount() > 0) {
             jTable_Articulos.getColumnModel().getColumn(0).setPreferredWidth(5);
         }
+        tablaArticulos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaArticulos.setRowCount(0);
+        tablaArticulos.setColumnCount(0);
+        jTable_Articulos = new JTable(tablaArticulos);
+        jScrollPane_Articulos.setViewportView(jTable_Articulos);
 
-        jPanel_GenerarVenta.add(jScrollPane_Articulos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 500, 230));
+        jPanel_GenerarVenta.add(jScrollPane_Articulos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 500, 230));
 
         jButton_BuscarEquipo.setBackground(new java.awt.Color(1, 89, 255));
         jButton_BuscarEquipo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -754,7 +907,7 @@ public class Administrador extends javax.swing.JFrame {
                 jButton_BuscarEquipoActionPerformed(evt);
             }
         });
-        jPanel_GenerarVenta.add(jButton_BuscarEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 30, 25));
+        jPanel_GenerarVenta.add(jButton_BuscarEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 30, 25));
 
         jButton_CerrarVenta.setBackground(new java.awt.Color(1, 89, 255));
         jButton_CerrarVenta.setForeground(new java.awt.Color(255, 255, 255));
@@ -768,45 +921,48 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_GenerarVenta.add(jButton_CerrarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 80, 60));
 
         txtV_Total.setBackground(new java.awt.Color(3, 37, 251));
+        txtV_Total.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtV_Total.setForeground(new java.awt.Color(255, 255, 255));
         txtV_Total.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_Total.setText("0.0");
         txtV_Total.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtV_Total.setEnabled(false);
-        jPanel_GenerarVenta.add(txtV_Total, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 295, 120, -1));
+        jPanel_GenerarVenta.add(txtV_Total, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 100, 30));
 
         jLabel_Total.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel_Total.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Total.setText("Total:");
-        jPanel_GenerarVenta.add(jLabel_Total, new org.netbeans.lib.awtextra.AbsoluteConstraints(565, 300, -1, -1));
+        jPanel_GenerarVenta.add(jLabel_Total, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
 
         jLabel_PagaCon.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel_PagaCon.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_PagaCon.setText("Paga con:");
-        jPanel_GenerarVenta.add(jLabel_PagaCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 330, -1, -1));
+        jPanel_GenerarVenta.add(jLabel_PagaCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, -1, -1));
 
         txtV_PagaCon.setBackground(new java.awt.Color(3, 37, 251));
+        txtV_PagaCon.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtV_PagaCon.setForeground(new java.awt.Color(255, 255, 255));
         txtV_PagaCon.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_PagaCon.setText("0.0");
         txtV_PagaCon.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_GenerarVenta.add(txtV_PagaCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 325, 120, -1));
+        jPanel_GenerarVenta.add(txtV_PagaCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 100, 30));
 
         txtV_Cambio.setBackground(new java.awt.Color(3, 37, 251));
+        txtV_Cambio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtV_Cambio.setForeground(new java.awt.Color(255, 255, 255));
         txtV_Cambio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_Cambio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtV_Cambio.setEnabled(false);
-        jPanel_GenerarVenta.add(txtV_Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 355, 120, -1));
+        jPanel_GenerarVenta.add(txtV_Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 100, 30));
 
         jLabel_Cambio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel_Cambio.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Cambio.setText("Cambio:");
-        jPanel_GenerarVenta.add(jLabel_Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 360, -1, -1));
+        jPanel_GenerarVenta.add(jLabel_Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 360, -1, -1));
 
         cmbV_TipoVenta.setForeground(new java.awt.Color(0, 0, 0));
         cmbV_TipoVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Tarjeta", "Transferencia" }));
-        jPanel_GenerarVenta.add(cmbV_TipoVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(614, 390, 110, -1));
+        jPanel_GenerarVenta.add(cmbV_TipoVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 420, 110, -1));
 
         cmbV_VentaRegistrada.setForeground(new java.awt.Color(0, 0, 0));
         cmbV_VentaRegistrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Si", "No" }));
@@ -823,12 +979,23 @@ public class Administrador extends javax.swing.JFrame {
         txtV_Marca.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtV_Marca.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtV_Marca.setEnabled(false);
-        jPanel_GenerarVenta.add(txtV_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 210, 25));
+        jPanel_GenerarVenta.add(txtV_Marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 210, 25));
 
-        jLabel_NombreCliente1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel_NombreCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_NombreCliente1.setText("¿Venta registrada?");
-        jPanel_GenerarVenta.add(jLabel_NombreCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel_VentaRegistrada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel_VentaRegistrada.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_VentaRegistrada.setText("¿Venta registrada?");
+        jPanel_GenerarVenta.add(jLabel_VentaRegistrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jButton_Comun.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_Comun.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton_Comun.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Comun.setText("Común");
+        jButton_Comun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ComunActionPerformed(evt);
+            }
+        });
+        jPanel_GenerarVenta.add(jButton_Comun, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, 85, 25));
 
         jButton_Salida.setBackground(new java.awt.Color(1, 89, 255));
         jButton_Salida.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -839,13 +1006,25 @@ public class Administrador extends javax.swing.JFrame {
                 jButton_SalidaActionPerformed(evt);
             }
         });
-        jPanel_GenerarVenta.add(jButton_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 30, 100, 25));
+        jPanel_GenerarVenta.add(jButton_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 60, 75, 25));
 
-        jButton_Comun.setBackground(new java.awt.Color(1, 89, 255));
-        jButton_Comun.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton_Comun.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_Comun.setText("Común");
-        jPanel_GenerarVenta.add(jButton_Comun, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 100, 25));
+        jButton_Eliminar.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_Eliminar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton_Eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Eliminar.setText("Eliminar");
+        jButton_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_EliminarActionPerformed(evt);
+            }
+        });
+        jPanel_GenerarVenta.add(jButton_Eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 60, 90, 25));
+
+        txtV_addProducto.setBackground(new java.awt.Color(3, 37, 251));
+        txtV_addProducto.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtV_addProducto.setForeground(new java.awt.Color(255, 255, 255));
+        txtV_addProducto.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtV_addProducto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_GenerarVenta.add(txtV_addProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 220, 25));
         jPanel_GenerarVenta.add(jLabel_FondoGenerarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
         jTabbedPane1.addTab("Generar venta", jPanel_GenerarVenta);
@@ -865,6 +1044,17 @@ public class Administrador extends javax.swing.JFrame {
             }
         ));
         jScrollPane_Productos.setViewportView(jTable_Productos);
+        tablaProductos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaProductos.setRowCount(0);
+        tablaProductos.setColumnCount(0);
+        jTable_Productos = new JTable(tablaProductos);
+        jScrollPane_Productos.setViewportView(jTable_Productos);
+        crear.CrearTablaProductos(tablaProductos, jTable_Productos, jScrollPane_Productos);
 
         jPanel_Inventario.add(jScrollPane_Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 720, 170));
 
@@ -880,6 +1070,17 @@ public class Administrador extends javax.swing.JFrame {
             }
         ));
         jScrollPane_Servicios.setViewportView(jTable_Servicios);
+        tablaServicios = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaServicios.setRowCount(0);
+        tablaServicios.setColumnCount(0);
+        jTable_Servicios = new JTable(tablaServicios);
+        jScrollPane_Servicios.setViewportView(jTable_Servicios);
+        crear.CrearTablaServicios(tablaServicios, jTable_Servicios, jScrollPane_Servicios);
 
         jPanel_Inventario.add(jScrollPane_Servicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 720, 170));
 
@@ -904,7 +1105,7 @@ public class Administrador extends javax.swing.JFrame {
                 jButton_AltasActionPerformed(evt);
             }
         });
-        jPanel_Inventario.add(jButton_Altas, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 444, 100, 70));
+        jPanel_Inventario.add(jButton_Altas, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 100, 70));
         jPanel_Inventario.add(jLabel_FondoInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
         jTabbedPane1.addTab("Inventario", jPanel_Inventario);
@@ -923,6 +1124,17 @@ public class Administrador extends javax.swing.JFrame {
             }
         ));
         jScrollPane_Ventas.setViewportView(jTable_Ventas);
+        tablaVentas = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaVentas.setRowCount(0);
+        tablaVentas.setColumnCount(0);
+        jTable_Ventas = new JTable(tablaVentas);
+        jScrollPane_Ventas.setViewportView(jTable_Ventas);
+        crear.CrearTablaVentas(tablaVentas, jTable_Ventas, jScrollPane_Ventas);
 
         jPanel_Cortes.add(jScrollPane_Ventas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 720, 330));
 
@@ -997,11 +1209,11 @@ public class Administrador extends javax.swing.JFrame {
         });
         jPanel_Cortes.add(jButton_CorteCustom, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 130, 40));
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Corte:");
-        jPanel_Cortes.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 430, 100, 30));
+        jLabel_Corte.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel_Corte.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Corte.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Corte.setText("Corte:");
+        jPanel_Cortes.add(jLabel_Corte, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 430, 100, 30));
         jPanel_Cortes.add(jLabel_FondoCortes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
         jTabbedPane1.addTab("Cortes", jPanel_Cortes);
@@ -1070,33 +1282,31 @@ public class Administrador extends javax.swing.JFrame {
         permisos_cmb = cmb_Niveles.getSelectedIndex() + 1;
 
         if (nombre.equals("")) {
-            txt_Nombre.setBackground(Color.red);
             validacion++;
         }
         if (mail.equals("")) {
-            txt_Mail.setBackground(Color.red);
             validacion++;
         }
         if (telefono.equals("")) {
-            txt_Telefono.setBackground(Color.red);
             validacion++;
         }
         if (username.equals("")) {
-            txt_Username.setBackground(Color.red);
             validacion++;
         }
         if (pass.equals("")) {
-            txt_Password.setBackground(Color.red);
             validacion++;
         }
-        if (permisos_cmb == 1) {
-            permisos_string = "Administrador";
-        } else if (permisos_cmb == 2) {
-            permisos_string = "Capturista";
-        } else if (permisos_cmb == 3) {
-            permisos_string = "Tecnico";
+        switch (permisos_cmb) {
+            case 1:
+                permisos_string = "Administrador";
+                break;
+            case 2:
+                permisos_string = "Capturista";
+                break;
+            case 3:
+                permisos_string = "Tecnico";
+                break;
         }
-
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select username from usuarios where username = '" + username + "'");
@@ -1132,12 +1342,6 @@ public class Administrador extends javax.swing.JFrame {
 
                         LimpiarRegistrarUsuario(); //Declarado en la linea 320.
 
-                        txt_Nombre.setBackground(Color.GREEN);
-                        txt_Mail.setBackground(Color.GREEN);
-                        txt_Telefono.setBackground(Color.GREEN);
-                        txt_Username.setBackground(Color.GREEN);
-                        txt_Password.setBackground(Color.GREEN);
-
                         JOptionPane.showMessageDialog(null, "Registro exitoso");
 
                     } catch (SQLException e) {
@@ -1158,12 +1362,10 @@ public class Administrador extends javax.swing.JFrame {
     private void jButton_RegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarEquipoActionPerformed
 
         int validacion = 0, IDcliente = 0, IDclienteUpdate = 0, idR;
-        String nombreCliente, mail, direccion, telefono, tipo_equipo, marca, modelo, numeroSerie, dia_ingreso, mes_ingreso, annio_ingreso, estatus, observaciones, hora, minuto, segundo, fechaHora,
+        String nombreCliente, telefono, tipo_equipo, marca, modelo, numeroSerie, dia_ingreso, mes_ingreso, annio_ingreso, estatus, observaciones, hora, minuto, segundo, fechaHora,
                 hora_ingreso;
 
         nombreCliente = txt_NombreCliente.getText().trim();
-        mail = txt_MailCliente.getText().trim();
-        direccion = txt_Dirección.getText().trim();
         telefono = txt_TelefonoCliente.getText().trim();
         tipo_equipo = txt_TipoEquipo.getText().trim();
         marca = txt_Marca.getText().trim();
@@ -1173,36 +1375,21 @@ public class Administrador extends javax.swing.JFrame {
         estatus = "Nuevo ingreso";
 
         if (tipo_equipo.equals("")) {
-            txt_TipoEquipo.setBackground(Color.red);
             validacion++;
         }
         if (marca.equals("")) {
-            txt_Marca.setBackground(Color.red);
             validacion++;
         }
         if (modelo.equals("")) {
-            txt_Modelo.setBackground(Color.red);
             validacion++;
         }
         if (numeroSerie.equals("")) {
-            txt_NumeroSerie.setBackground(Color.red);
             validacion++;
         }
         if (nombreCliente.equals("")) {
-            txt_NombreCliente.setBackground(Color.red);
             validacion++;
         }
-        /*Habilitar cuando sea necesario*/
-        /*if (mail.equals("")) {
-            txt_MailCliente.setBackground(Color.red);
-            validacion++;
-        }*/
-        /*if (direccion.equals("")) {
-            txt_Dirección.setBackground(Color.red);
-            validacion++;
-        }*/
         if (telefono.equals("")) {
-            txt_TelefonoCliente.setBackground(Color.red);
             validacion++;
         }
         if (observaciones.equals("")) {
@@ -1210,15 +1397,13 @@ public class Administrador extends javax.swing.JFrame {
             observaciones = "Sin observaciones";
         }
 
-        Calendar calendar = Calendar.getInstance();
-        dia_ingreso = Integer.toString(calendar.get(Calendar.DATE));
-        mes_ingreso = Integer.toString(calendar.get(Calendar.MONTH + 1));
-        annio_ingreso = Integer.toString(calendar.get(Calendar.YEAR));
-
-        LocalDateTime horaActual = LocalDateTime.now();
-        hora = Integer.toString(horaActual.getHour());
-        minuto = Integer.toString(horaActual.getMinute());
-        segundo = Integer.toString(horaActual.getSecond());
+        LocalDateTime tiempoActual = LocalDateTime.now();
+        dia_ingreso = String.valueOf(tiempoActual.getDayOfMonth());
+        mes_ingreso = String.valueOf(tiempoActual.getMonthValue());
+        annio_ingreso = String.valueOf(tiempoActual.getYear());
+        hora = Integer.toString(tiempoActual.getHour());
+        minuto = Integer.toString(tiempoActual.getMinute());
+        segundo = Integer.toString(tiempoActual.getSecond());
 
         fechaHora = dia_ingreso + "/" + mes_ingreso + "/" + annio_ingreso + " " + hora + ":" + minuto + ":" + segundo;
         hora_ingreso = hora + ":" + minuto + ":" + segundo;
@@ -1243,14 +1428,12 @@ public class Administrador extends javax.swing.JFrame {
 
                 try {
                     Connection cn2 = Conexion.conectar();
-                    PreparedStatement pst2 = cn2.prepareStatement("insert into clientes values (?,?,?,?,?,?)");
+                    PreparedStatement pst2 = cn2.prepareStatement("insert into clientes values (?,?,?,?)");
 
                     pst2.setInt(1, 0);
                     pst2.setString(2, nombreCliente);
-                    pst2.setString(3, mail);
-                    pst2.setString(4, telefono);
-                    pst2.setString(5, direccion);
-                    pst2.setString(6, user);
+                    pst2.setString(3, telefono);
+                    pst2.setString(4, user);
 
                     pst2.executeUpdate();
                     cn2.close();
@@ -1261,14 +1444,12 @@ public class Administrador extends javax.swing.JFrame {
             } else { //Si la condicion anterior no se cumple se ejecuta una secundaria, es decir el cliente ya existe en la BD.
                 try { // Actualizamos la información del cliente dentro de la BD.
                     Connection cn2 = Conexion.conectar();
-                    PreparedStatement pst2 = cn2.prepareStatement("update clientes set nombre_cliente=?, mail_cliente=?, tel_cliente=?, dir_cliente=?, ultima_modificacion=? "
+                    PreparedStatement pst2 = cn2.prepareStatement("update clientes set nombre_cliente=?, tel_cliente=?, ultima_modificacion=? "
                             + "where id_cliente = '" + IDcliente + "'");
 
                     pst2.setString(1, nombreCliente);
-                    pst2.setString(2, mail);
-                    pst2.setString(3, telefono);
-                    pst2.setString(4, direccion);
-                    pst2.setString(5, user);
+                    pst2.setString(2, telefono);
+                    pst2.setString(3, user);
 
                     pst2.executeUpdate();
                     cn2.close();
@@ -1399,9 +1580,7 @@ public class Administrador extends javax.swing.JFrame {
                 System.err.println("Error al llenar la informacion del ticket " + ex);
             }
             txt_NombreCliente.setText("");
-            txt_MailCliente.setText("");
             txt_TelefonoCliente.setText("");
-            txt_Dirección.setText("");
             txt_TipoEquipo.setText("");
             txt_Marca.setText("");
             txt_Modelo.setText("");
@@ -1418,7 +1597,7 @@ public class Administrador extends javax.swing.JFrame {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Cartera Cliente.pdf"));
 
-            com.itextpdf.text.Image header = com.itextpdf.text.Image.getInstance("src/main/java/images/BannerPDF.jpg");
+            com.itextpdf.text.Image header = com.itextpdf.text.Image.getInstance("images/BannerPDF.jpg");
             header.scaleToFit(550, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
 
@@ -1431,12 +1610,10 @@ public class Administrador extends javax.swing.JFrame {
             documento.add(header);
             documento.add(parrafo);
 
-            PdfPTable tablaCliente = new PdfPTable(5);
+            PdfPTable tablaCliente = new PdfPTable(3);
             tablaCliente.addCell("ID");
             tablaCliente.addCell("Nombre");
-            tablaCliente.addCell("Email");
             tablaCliente.addCell("Telefono");
-            tablaCliente.addCell("Direccion");
 
             try {
                 Connection cn = Conexion.conectar();
@@ -1448,9 +1625,7 @@ public class Administrador extends javax.swing.JFrame {
                     do {
                         tablaCliente.addCell(rs.getString("id_cliente"));
                         tablaCliente.addCell(rs.getString("nombre_cliente"));
-                        tablaCliente.addCell(rs.getString("mail_cliente"));
                         tablaCliente.addCell(rs.getString("tel_cliente"));
-                        tablaCliente.addCell(rs.getString("dir_cliente"));
                     } while (rs.next());
 
                     documento.add(tablaCliente);
@@ -1481,7 +1656,7 @@ public class Administrador extends javax.swing.JFrame {
 
     private void jButton_BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_BuscarClienteActionPerformed
 
-        String nombreCliente, mailCliente = "", telefonoCliente = "", direccionCliente = "";
+        String nombreCliente, telefonoCliente = "";
 
         nombreCliente = txt_NombreCliente.getText().trim();
 
@@ -1494,9 +1669,7 @@ public class Administrador extends javax.swing.JFrame {
 
                 if (rs.next()) {
 
-                    mailCliente = rs.getString("mail_cliente");
                     telefonoCliente = rs.getString("tel_cliente");
-                    direccionCliente = rs.getString("dir_cliente");
 
                 } else {
 
@@ -1507,11 +1680,7 @@ public class Administrador extends javax.swing.JFrame {
             } catch (SQLException e) {
                 System.err.println("Error al cargar cliente " + e);
             }
-            // Llenamos campos con los datos en la BD.
-            txt_MailCliente.setText(mailCliente);
             txt_TelefonoCliente.setText(telefonoCliente);
-            txt_Dirección.setText(direccionCliente);
-
         } else {
             JOptionPane.showMessageDialog(null, "El campo Nombre del cliente esta vacio");
         }
@@ -1572,13 +1741,12 @@ public class Administrador extends javax.swing.JFrame {
     private void jButton_CerrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CerrarVentaActionPerformed
 
         String nombreCliente, folioV, modelo, marca, numeroSerie, subTotalS, total, recibo, cambio, articulosT = "", articulosV = "", fecha, dia, mes, annio, tipoVenta;
-        String empresa, propietario, rfc, direccion, telefono, totalLetra, vendedor;
+        String empresa, propietario, rfc, direccion, telefono, totalLetra, vendedor, seleccion;
 
         int IDequipo, validacion = 0;
         int columnaCantidad = tablaArticulos.findColumn("Cantidad");
         int columnaCodigo = tablaArticulos.findColumn("Codigo");
         int columnaNombreArticulo = tablaArticulos.findColumn("Nombre");
-        int columnaPrecioU = tablaArticulos.findColumn("Precio unitario");
         int columnaPrecioT = tablaArticulos.findColumn("Precio total");
 
         String[] cantidad = new String[99];
@@ -1586,6 +1754,7 @@ public class Administrador extends javax.swing.JFrame {
         String[] nombre = new String[99];
         String[] precio = new String[99];
 
+        seleccion = cmbV_VentaRegistrada.getSelectedItem().toString();
         nombreCliente = txtV_NombreCliente.getText().trim();
         folioV = txtV_Folio.getText().trim();
         marca = txtV_Marca.getText().trim();
@@ -1598,110 +1767,30 @@ public class Administrador extends javax.swing.JFrame {
         cambio = txtV_Cambio.getText().trim();
         tipoVenta = cmbV_TipoVenta.getSelectedItem().toString();
 
-        Calendar calendar = Calendar.getInstance();
-        dia = Integer.toString(calendar.get(Calendar.DATE));
-        mes = Integer.toString(calendar.get(Calendar.MONTH + 1));
-        annio = Integer.toString(calendar.get(Calendar.YEAR));
+        LocalDateTime fechaActual = LocalDateTime.now();
+        dia = String.valueOf(fechaActual.getDayOfMonth());
+        mes = String.valueOf(fechaActual.getMonthValue());
+        annio = String.valueOf(fechaActual.getYear());
 
         if (nombreCliente.equals("")) {
-            txtV_NombreCliente.setBackground(Color.red);
             validacion++;
         }
         if (folioV.equals("")) {
-            txtV_Folio.setBackground(Color.red);
             validacion++;
         }
         if (marca.equals("")) {
-            txtV_Marca.setBackground(Color.red);
             validacion++;
         }
         if (modelo.equals("")) {
-            txtV_Modelo.setBackground(Color.red);
             validacion++;
         }
         if (numeroSerie.equals("")) {
-            txtV_NumeroSerie.setBackground(Color.red);
             validacion++;
         }
-        if ((cmbV_VentaRegistrada.getSelectedItem().toString()).equals("No")) {
-            fecha = dia + " / " + mes + " / " + annio;
-            IDequipo = Integer.parseInt(folioV);
-            bd.ConsultarCliente(IDequipo);
-            bd.ConsultarUsuario(user);
-            totalLetra = numeroLetras.Convertir(total, true);
-            vendedor = nombre_usuario;
-            empresa = "SANKARASEL REFACIONES";
-            propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-            rfc = "CAMS9711039P7";
-            direccion = "    AV TECNOLOGICO No 11308-B\n"
-                    + "      COL. REVOLUCION CP 31135\n"
-                    + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-            telefono = "6146191507";
 
-            for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
-                    cantidad[i] = (String) jTable_Articulos.getValueAt(i, columnaCantidad);
-                    codigo[i] = (String) jTable_Articulos.getValueAt(i, columnaCodigo);
-                    nombre[i] = (String) jTable_Articulos.getValueAt(i, columnaNombreArticulo);
-                    precio[i] = (jTable_Articulos.getValueAt(i, columnaPrecioT)).toString();
-                    if (articulosT.equals("")) { //Genera la acumulacion de articulos para el ticket.
-                        articulosT = cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
-                    } else {
-                        articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
-                    }
-
-                    if (articulosV.equals("")) {//Genera la acumulacion de articulos para la base de datos.
-                        articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                    } else {
-                        articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                    }
-
-                    bd.RegistroVenta(articulosV, total, tipoVenta);
-                    bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i]);
-                    bd.ActualizarEstatus(IDequipo);
-                    bd.ActualizarCantidad(codigo[i], cantidad[i]);
-                }
-            }
-            /*Comenzamos la impresion del ticket*/
-            ticket.setEmpresa(empresa);
-            ticket.setPropietario(propietario);
-            ticket.setRfc(rfc);
-            ticket.setDireccion(direccion);
-            ticket.setTelefono(telefono);
-            ticket.setFolio("S/Folio");
-            ticket.setCliente("S/Registro");
-            ticket.setArticulos(articulosT);
-            ticket.setSubTotal(subTotalS);
-            ticket.setTotal(total);
-            ticket.setRecibo(recibo);
-            ticket.setCambio(cambio);
-            ticket.setTotalLetra(totalLetra);
-            ticket.setVendedor(vendedor);
-            ticket.setFecha(fecha);
-            try {
-                ticket.print(true);
-            } catch (IOException ex) {
-                System.err.println("Error al generar venta " + ex.getMessage());
-            }
-            /*Terminamos la impresion del ticket*/
-            txtV_NombreCliente.setText("");
-            txtV_Total.setText("0.0");
-            txtV_PagaCon.setText("0.0");
-            txtV_Cambio.setText("0.0");
-            for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                tablaArticulos.setValueAt(null, i, columnaCantidad);
-                tablaArticulos.setValueAt(null, i, columnaCodigo);
-                tablaArticulos.setValueAt(null, i, columnaNombreArticulo);
-                tablaArticulos.setValueAt(null, i, columnaPrecioU);
-                tablaArticulos.setValueAt(null, i, columnaPrecioT);
-            }
-            JOptionPane.showMessageDialog(null, "Venta exitosa");
-
-        } else if ((cmbV_VentaRegistrada.getSelectedItem().toString()).equals("Si")) {
-            if (validacion == 0) {
+        if (seleccion.equals("No")) {
+            if (Double.parseDouble(recibo) >= Double.parseDouble(total)) {
                 fecha = dia + " / " + mes + " / " + annio;
-                IDequipo = Integer.parseInt(folioV);
-                bd.ConsultarCliente(IDequipo);
                 bd.ConsultarUsuario(user);
                 totalLetra = numeroLetras.Convertir(total, true);
                 vendedor = nombre_usuario;
@@ -1730,10 +1819,11 @@ public class Administrador extends javax.swing.JFrame {
                         } else {
                             articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
                         }
+                        
+                        
 
                         bd.RegistroVenta(articulosV, total, tipoVenta);
-                        bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i]);
-                        bd.ActualizarEstatus(IDequipo);
+                        bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i], tipoVenta);
                         bd.ActualizarCantidad(codigo[i], cantidad[i]);
                     }
                 }
@@ -1743,8 +1833,8 @@ public class Administrador extends javax.swing.JFrame {
                 ticket.setRfc(rfc);
                 ticket.setDireccion(direccion);
                 ticket.setTelefono(telefono);
-                ticket.setFolio(folioV);
-                ticket.setCliente(nombreCliente);
+                ticket.setFolio("S/Folio");
+                ticket.setCliente("S/Registro");
                 ticket.setArticulos(articulosT);
                 ticket.setSubTotal(subTotalS);
                 ticket.setTotal(total);
@@ -1759,28 +1849,98 @@ public class Administrador extends javax.swing.JFrame {
                     System.err.println("Error al generar venta " + ex.getMessage());
                 }
                 /*Terminamos la impresion del ticket*/
-                txtV_NombreCliente.setText("");
-                txtV_Folio.setText("");
-                txtV_Marca.setText("");
-                txtV_Modelo.setText("");
-                txtV_NumeroSerie.setText("");
                 txtV_Total.setText("0.0");
                 txtV_PagaCon.setText("0.0");
-                txtV_Cambio.setText("0.0");
+                txtV_Cambio.setText("");
                 for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                    tablaArticulos.setValueAt(null, i, columnaCantidad);
-                    tablaArticulos.setValueAt(null, i, columnaCodigo);
-                    tablaArticulos.setValueAt(null, i, columnaNombreArticulo);
-                    tablaArticulos.setValueAt(null, i, columnaPrecioU);
-                    tablaArticulos.setValueAt(null, i, columnaPrecioT);
+                    tablaArticulos.removeRow(i);
                 }
                 JOptionPane.showMessageDialog(null, "Venta exitosa");
             } else {
-                JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
+                JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
+            }
+        } else if (seleccion.equals("Si")) {
+            if (validacion == 0) {
+                if (Double.parseDouble(recibo) >= Double.parseDouble(total)) {
+                    fecha = dia + " / " + mes + " / " + annio;
+                    IDequipo = Integer.parseInt(folioV);
+                    bd.ConsultarCliente(IDequipo);
+                    bd.ConsultarUsuario(user);
+                    totalLetra = numeroLetras.Convertir(total, true);
+                    vendedor = nombre_usuario;
+                    empresa = "SANKARASEL REFACIONES";
+                    propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
+                    rfc = "CAMS9711039P7";
+                    direccion = "    AV TECNOLOGICO No 11308-B\n"
+                            + "      COL. REVOLUCION CP 31135\n"
+                            + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
+                    telefono = "6146191507";
+
+                    for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
+                        if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
+                            cantidad[i] = (String) jTable_Articulos.getValueAt(i, columnaCantidad);
+                            codigo[i] = (String) jTable_Articulos.getValueAt(i, columnaCodigo);
+                            nombre[i] = (String) jTable_Articulos.getValueAt(i, columnaNombreArticulo);
+                            precio[i] = (jTable_Articulos.getValueAt(i, columnaPrecioT)).toString();
+                            if (articulosT.equals("")) { //Genera la acumulacion de articulos para el ticket.
+                                articulosT = cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
+                            } else {
+                                articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
+                            }
+
+                            if (articulosV.equals("")) {//Genera la acumulacion de articulos para la base de datos.
+                                articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
+                            } else {
+                                articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
+                            }
+
+                            bd.RegistroVenta(articulosV, total, tipoVenta);
+                            bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i], tipoVenta);
+                            bd.ActualizarEstatus(IDequipo);
+                            bd.ActualizarCantidad(codigo[i], cantidad[i]);
+                        }
+                    }
+                    /*Comenzamos la impresion del ticket*/
+                    ticket.setEmpresa(empresa);
+                    ticket.setPropietario(propietario);
+                    ticket.setRfc(rfc);
+                    ticket.setDireccion(direccion);
+                    ticket.setTelefono(telefono);
+                    ticket.setFolio(folioV);
+                    ticket.setCliente(nombreCliente);
+                    ticket.setArticulos(articulosT);
+                    ticket.setSubTotal(subTotalS);
+                    ticket.setTotal(total);
+                    ticket.setRecibo(recibo);
+                    ticket.setCambio(cambio);
+                    ticket.setTotalLetra(totalLetra);
+                    ticket.setVendedor(vendedor);
+                    ticket.setFecha(fecha);
+                    try {
+                        ticket.print(true);
+                    } catch (IOException ex) {
+                        System.err.println("Error al generar venta " + ex.getMessage());
+                    }
+                    /*Terminamos la impresion del ticket*/
+                    txtV_NombreCliente.setText("");
+                    txtV_Folio.setText("");
+                    txtV_Marca.setText("");
+                    txtV_Modelo.setText("");
+                    txtV_NumeroSerie.setText("");
+                    txtV_Total.setText("0.0");
+                    txtV_PagaCon.setText("0.0");
+                    txtV_Cambio.setText("");
+                    for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
+                        tablaArticulos.removeRow(i);
+                    }
+                    JOptionPane.showMessageDialog(null, "Venta exitosa");
+                } else {
+                    JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debes llenar todos los campos con la información del equipo");
             }
         }
-
-
     }//GEN-LAST:event_jButton_CerrarVentaActionPerformed
 
     private void cmb_EstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_EstatusActionPerformed
@@ -1822,7 +1982,7 @@ public class Administrador extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al recuperar los registros de equipos " + e);
         }
-        obtenerDatosTabla.ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
+        crear.ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
 
     }//GEN-LAST:event_cmb_EstatusActionPerformed
 
@@ -1833,12 +1993,7 @@ public class Administrador extends javax.swing.JFrame {
 
     private void jButton_CorteDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CorteDiarioActionPerformed
 
-        try {
-            bd.GenerarCorteDiario();
-        } catch (IOException ex) {
-            System.err.println("Error al generar ticket para el corte " + ex);
-            JOptionPane.showMessageDialog(null, "¡Error al generar ticket! Contacte al Administrador\n Error: " + ex);
-        }
+        bd.GenerarCorteDiario();
 
     }//GEN-LAST:event_jButton_CorteDiarioActionPerformed
 
@@ -1889,7 +2044,7 @@ public class Administrador extends javax.swing.JFrame {
             System.err.println("Error al llenar la tabla ventas " + e);
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla ventas! Contacte al administrador");
         }
-        obtenerDatosTabla.ObtenerDatosTablaVentas(tablaVentas, jTable_Ventas);
+        crear.ObtenerDatosTablaVentas(tablaVentas, jTable_Ventas);
     }//GEN-LAST:event_jButton_MostrarActionPerformed
 
     private void jButton_CorteCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CorteCustomActionPerformed
@@ -1908,25 +2063,41 @@ public class Administrador extends javax.swing.JFrame {
         java.sql.Date dateSQLI = java.sql.Date.valueOf(fechaI);
         java.sql.Date dateSQLF = java.sql.Date.valueOf(fechaF);
 
-        try {
-            bd.GenerarCortePersonalizado(dateSQLI, dateSQLF);
-        } catch (IOException ex) {
-            System.err.println("Error al generar ticket para el corte " + ex);
-            JOptionPane.showMessageDialog(null, "¡Error al generar ticket! Contacte al Administrador\n Error: " + ex);
-        }
+        bd.GenerarCorteCustom(dateSQLI, dateSQLF);
     }//GEN-LAST:event_jButton_CorteCustomActionPerformed
 
     private void cmbV_VentaRegistradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbV_VentaRegistradaActionPerformed
         String seleccion = cmbV_VentaRegistrada.getSelectedItem().toString();
-
         if (seleccion.equals("Si")) {
             txtV_NombreCliente.setEnabled(true);
             txtV_Folio.setEnabled(true);
             jButton_BuscarEquipo.setEnabled(true);
+            jLabelV_NombreCliente.setVisible(true);
+            jLabelV_Folio.setVisible(true);
+            jLabelV_Marca.setVisible(true);
+            jLabelV_Modelo.setVisible(true);
+            jLabelV_NumeroSerie.setVisible(true);
+            txtV_NombreCliente.setVisible(true);
+            txtV_Folio.setVisible(true);
+            txtV_Marca.setVisible(true);
+            txtV_Modelo.setVisible(true);
+            txtV_NumeroSerie.setVisible(true);
+            jButton_BuscarEquipo.setVisible(true);
         } else if (seleccion.equals("No")) {
             txtV_NombreCliente.setEnabled(false);
             txtV_Folio.setEnabled(false);
             jButton_BuscarEquipo.setEnabled(false);
+            jLabelV_NombreCliente.setVisible(false);
+            jLabelV_Folio.setVisible(false);
+            jLabelV_Marca.setVisible(false);
+            jLabelV_Modelo.setVisible(false);
+            jLabelV_NumeroSerie.setVisible(false);
+            txtV_NombreCliente.setVisible(false);
+            txtV_Folio.setVisible(false);
+            txtV_Marca.setVisible(false);
+            txtV_Modelo.setVisible(false);
+            txtV_NumeroSerie.setVisible(false);
+            jButton_BuscarEquipo.setVisible(false);
         }
     }//GEN-LAST:event_cmbV_VentaRegistradaActionPerformed
 
@@ -1936,9 +2107,187 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_InfoVersionActionPerformed
 
     private void jButton_SalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SalidaActionPerformed
-
-
+        jDialog_Salida.setVisible(true);
     }//GEN-LAST:event_jButton_SalidaActionPerformed
+
+    private void jButtonC_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonC_AgregarActionPerformed
+        String cantidad, nombre, precio, precioT, total;
+        int validacion = 0;
+        DefaultTableModel m;
+
+        cantidad = txtC_Cantidad.getText().trim();
+        nombre = txtC_Nombre.getText().trim();
+        precio = txtC_Precio.getText().trim();
+
+        if (cantidad.equals("")) {
+            txtC_Cantidad.setBackground(Color.red);
+            validacion++;
+        }
+        if (nombre.equals("")) {
+            txtC_Nombre.setBackground(Color.red);
+            validacion++;
+        }
+        if (precio.equals("")) {
+            txtC_Precio.setBackground(Color.red);
+            validacion++;
+        }
+
+        if (validacion == 0) {
+            precioT = String.valueOf(Integer.parseInt(cantidad) * Double.parseDouble(precio));
+            total = String.valueOf(Double.parseDouble(txtV_Total.getText().trim()) + Double.parseDouble(precioT));
+
+            m = (DefaultTableModel) jTable_Articulos.getModel();
+
+            String filaNueva[] = {cantidad, "P. Comun", nombre, precio, precioT};
+
+            m.addRow(filaNueva);
+
+            txtC_Cantidad.setText("");
+            txtC_Nombre.setText("");
+            txtC_Precio.setText("");
+
+            txtV_Total.setText(total);
+
+            jDialog_Comun.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes llenar los campos 'Cantidad', 'Nombre' y 'Precio' para continuar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonC_AgregarActionPerformed
+
+    private void jButton_ComunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ComunActionPerformed
+        jDialog_Comun.setVisible(true);
+    }//GEN-LAST:event_jButton_ComunActionPerformed
+
+    private void jButtonD_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonD_AceptarActionPerformed
+        int filaEditar, columnaCantidad, columnaCodigo, columnaPrecioU, columnaPrecioT;
+        int cantidadI;
+        double precioD = 0.0, montoD = 0.0, porcentajeD, precioTotalD = 0.0, totalActualD = 0.0, nuevoTotalD = 0.0, operacionPrecio = 0.0, operacionPorcien = 0.0;
+        String monto = "", porcentaje = "", cantidad, codigo, precio = "", precioTotal, totalActual, nuevoTotal;
+
+        filaEditar = jTable_Articulos.getSelectedRow();
+        columnaCantidad = tablaArticulos.findColumn("Cantidad");
+        columnaCodigo = tablaArticulos.findColumn("Codigo");
+        columnaPrecioU = tablaArticulos.findColumn("Precio unitario");
+        columnaPrecioT = tablaArticulos.findColumn("Precio total");
+
+        cantidad = (String) jTable_Articulos.getValueAt(filaEditar, columnaCantidad);
+        codigo = (String) jTable_Articulos.getValueAt(filaEditar, columnaCodigo);
+
+        totalActual = txtV_Total.getText().trim();
+        monto = txtD_Monto.getText().trim();
+        porcentaje = txtD_Porcentaje.getText().trim();
+
+        if (!monto.equals("") && !porcentaje.equals("")) {
+            JOptionPane.showMessageDialog(null, "Solo es posible realizar un calculo a la vez");
+        } else if (!monto.equals("") || !porcentaje.equals("")) {
+            if (!monto.equals("")) {
+
+                try {
+                    Connection cn = Conexion.conectar();
+                    PreparedStatement pst = cn.prepareStatement("select precio from articulos where codigo = '" + codigo + "'");
+                    ResultSet rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        precio = rs.getString("precio");
+
+                    }
+                    cn.close();
+                } catch (SQLException e) {
+                    System.err.println("Error al consultar precio");
+                    JOptionPane.showMessageDialog(null, "El producto no cuenta con un registro previo");
+                }
+
+                /*Conversion de datos de String a numéricos*/
+                cantidadI = Integer.parseInt(cantidad);
+                precioD = Double.parseDouble(precio);
+                montoD = Double.parseDouble(monto);
+                totalActualD = Double.parseDouble(totalActual);
+
+                operacionPrecio = cantidadI * precioD;
+                precioTotalD = cantidadI * montoD;
+
+                nuevoTotalD = (totalActualD - operacionPrecio) + precioTotalD;
+
+                /*Conversión de datos de numéricos a String*/
+                precioTotal = String.valueOf(precioTotalD);
+                nuevoTotal = String.valueOf(nuevoTotalD);
+
+                jTable_Articulos.setValueAt(monto, filaEditar, columnaPrecioU);
+                jTable_Articulos.setValueAt(precioTotal, filaEditar, columnaPrecioT);
+
+                txtV_Total.setText(nuevoTotal);
+
+                txtD_Monto.setText("");
+                txtD_Porcentaje.setText("");
+                jDialog_Descuento.dispose();
+            } else if (!porcentaje.equals("")) {
+
+                try {
+                    Connection cn = Conexion.conectar();
+                    PreparedStatement pst = cn.prepareStatement("select precio from articulos where codigo = '" + codigo + "'");
+                    ResultSet rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        precio = rs.getString("precio");
+
+                    }
+                    cn.close();
+                } catch (SQLException e) {
+                    System.err.println("Error al consultar precio");
+                    JOptionPane.showMessageDialog(null, "El producto no cuenta con un registro previo");
+                }
+
+                /*Conversion de datos de String a numéricos*/
+                cantidadI = Integer.parseInt(cantidad);
+                precioD = Double.parseDouble(precio);
+                porcentajeD = Integer.parseInt(porcentaje);
+                totalActualD = Double.parseDouble(totalActual);
+
+                operacionPorcien = (porcentajeD * precioD) / 100;
+                operacionPrecio = cantidadI * precioD;
+                montoD = precioD - operacionPorcien;
+                precioTotalD = cantidadI * montoD;
+
+                nuevoTotalD = (totalActualD - operacionPrecio) + precioTotalD;
+
+                /*Conversión de datos de numéricos a String*/
+                precioTotal = String.valueOf(precioTotalD);
+                nuevoTotal = String.valueOf(nuevoTotalD);
+                monto = String.valueOf(montoD);
+
+                jTable_Articulos.setValueAt(monto, filaEditar, columnaPrecioU);
+                jTable_Articulos.setValueAt(precioTotal, filaEditar, columnaPrecioT);
+
+                txtV_Total.setText(nuevoTotal);
+
+                txtD_Monto.setText("");
+                txtD_Porcentaje.setText("");
+                jDialog_Descuento.dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes llenar al menos uno de los campos");
+        }
+    }//GEN-LAST:event_jButtonD_AceptarActionPerformed
+
+    private void jButtonS_GenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonS_GenerarActionPerformed
+        String cantidad, concepto;
+
+        cantidad = txt_Cantidad.getText().trim();
+        concepto = txt_Concepto.getText().trim();
+
+        if (!cantidad.equals("") && !concepto.equals("")) {
+            bd.RegistroSalida(cantidad, concepto);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes llenar ambos campos");
+        }
+        jDialog_Salida.dispose();
+    }//GEN-LAST:event_jButtonS_GenerarActionPerformed
+
+    private void jButton_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EliminarActionPerformed
+        int filaSeleccionada = jTable_Articulos.getSelectedRow();
+
+        tablaArticulos.removeRow(filaSeleccionada);
+    }//GEN-LAST:event_jButton_EliminarActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -1979,6 +2328,9 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmb_DeMes;
     private javax.swing.JComboBox<String> cmb_Estatus;
     private javax.swing.JComboBox<String> cmb_Niveles;
+    private javax.swing.JButton jButtonC_Agregar;
+    private javax.swing.JButton jButtonD_Aceptar;
+    private javax.swing.JButton jButtonS_Generar;
     private javax.swing.JButton jButton_Altas;
     private javax.swing.JButton jButton_BuscarCliente;
     private javax.swing.JButton jButton_BuscarEquipo;
@@ -1986,29 +2338,44 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Comun;
     private javax.swing.JButton jButton_CorteCustom;
     private javax.swing.JButton jButton_CorteDiario;
+    private javax.swing.JButton jButton_Eliminar;
     private javax.swing.JButton jButton_Imprimir;
     private javax.swing.JButton jButton_Mostrar;
     private javax.swing.JButton jButton_RegistrarEquipo;
     private javax.swing.JButton jButton_RegistrarUsuario;
     private javax.swing.JButton jButton_Salida;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JDialog jDialog_Comun;
+    private javax.swing.JDialog jDialog_Descuento;
+    private javax.swing.JDialog jDialog_Salida;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelC_Cantidad;
+    private javax.swing.JLabel jLabelC_FondoComun;
+    private javax.swing.JLabel jLabelC_Nombre;
+    private javax.swing.JLabel jLabelC_Precio;
+    private javax.swing.JLabel jLabelD_Monto;
+    private javax.swing.JLabel jLabelD_Porcentaje;
+    private javax.swing.JLabel jLabelD_Porcentaje1;
+    private javax.swing.JLabel jLabelV_Folio;
+    private javax.swing.JLabel jLabelV_Marca;
+    private javax.swing.JLabel jLabelV_Modelo;
+    private javax.swing.JLabel jLabelV_NombreCliente;
+    private javax.swing.JLabel jLabelV_NumeroSerie;
     private javax.swing.JLabel jLabel_A;
     private javax.swing.JLabel jLabel_Cambio;
+    private javax.swing.JLabel jLabel_Cantidad;
+    private javax.swing.JLabel jLabel_Concepto;
+    private javax.swing.JLabel jLabel_Corte;
     private javax.swing.JLabel jLabel_De;
-    private javax.swing.JLabel jLabel_Folio;
     private javax.swing.JLabel jLabel_FondoCortes;
+    private javax.swing.JLabel jLabel_FondoDescuento;
     private javax.swing.JLabel jLabel_FondoGenerarVenta;
     private javax.swing.JLabel jLabel_FondoGestionarClientes;
     private javax.swing.JLabel jLabel_FondoGestionarEquipos;
@@ -2020,18 +2387,13 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_FondoVistaCapturista;
     private javax.swing.JLabel jLabel_FondoVistaTecnico;
     private javax.swing.JLabel jLabel_FondoVistaVentas;
-    private javax.swing.JLabel jLabel_Marca;
-    private javax.swing.JLabel jLabel_Modelo;
     private javax.swing.JLabel jLabel_Nombre;
     private javax.swing.JLabel jLabel_Nombre1;
     private javax.swing.JLabel jLabel_Nombre2;
     private javax.swing.JLabel jLabel_Nombre3;
     private javax.swing.JLabel jLabel_Nombre4;
     private javax.swing.JLabel jLabel_Nombre5;
-    private javax.swing.JLabel jLabel_NombreCliente;
-    private javax.swing.JLabel jLabel_NombreCliente1;
     private javax.swing.JLabel jLabel_NombreUsurario;
-    private javax.swing.JLabel jLabel_NumeroSerie;
     private javax.swing.JLabel jLabel_PagaCon;
     private javax.swing.JLabel jLabel_Titulo;
     private javax.swing.JLabel jLabel_Titulo1;
@@ -2039,7 +2401,9 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Titulo3;
     private javax.swing.JLabel jLabel_Titulo4;
     private javax.swing.JLabel jLabel_Total;
+    private javax.swing.JLabel jLabel_VentaRegistrada;
     private javax.swing.JLabel jLabel_Wallpaper;
+    private javax.swing.JLabel jLabel_Wallpaper1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem_Acercade;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
@@ -2076,8 +2440,13 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTable jTable_Equipos;
     private javax.swing.JTable jTable_Productos;
     private javax.swing.JTable jTable_Servicios;
-    private javax.swing.JTable jTable_Usuarios;
+    public javax.swing.JTable jTable_Usuarios;
     private javax.swing.JTable jTable_Ventas;
+    private javax.swing.JTextField txtC_Cantidad;
+    private javax.swing.JTextField txtC_Nombre;
+    private javax.swing.JTextField txtC_Precio;
+    private javax.swing.JTextField txtD_Monto;
+    private javax.swing.JTextField txtD_Porcentaje;
     private javax.swing.JTextField txtV_Cambio;
     private javax.swing.JTextField txtV_Folio;
     private javax.swing.JTextField txtV_Marca;
@@ -2086,12 +2455,13 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField txtV_NumeroSerie;
     private javax.swing.JTextField txtV_PagaCon;
     private javax.swing.JTextField txtV_Total;
+    private javax.swing.JTextField txtV_addProducto;
     private javax.swing.JTextField txt_BuscarHistorial;
     private javax.swing.JTextField txt_BuscarProducto;
     private javax.swing.JTextField txt_BuscarServicio;
-    private javax.swing.JTextField txt_Dirección;
+    private javax.swing.JTextField txt_Cantidad;
+    private javax.swing.JTextField txt_Concepto;
     private javax.swing.JTextField txt_Mail;
-    private javax.swing.JTextField txt_MailCliente;
     private javax.swing.JTextField txt_Marca;
     private javax.swing.JTextField txt_Modelo;
     private javax.swing.JTextField txt_Nombre;
@@ -2113,69 +2483,6 @@ public class Administrador extends javax.swing.JFrame {
         txt_Username.setText("");
         txt_Password.setText("");
         cmb_Niveles.setSelectedIndex(0);
-    }
-
-    public void ObtenerDatosTablaArticulos() {
-        jTable_Articulos.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent evt) {
-                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                    String precioString = "", nombre = "";
-                    double totalDouble = 0.0, subTotalDouble, precioDouble;
-
-                    int columnaCantidad = tablaArticulos.findColumn("Cantidad");
-                    int columnaCodigo = tablaArticulos.findColumn("Codigo");
-                    int columnaNombreServicio = tablaArticulos.findColumn("Nombre");
-                    int columnaPrecioUnitario = tablaArticulos.findColumn("Precio unitario");
-                    int columnaPrecioTotal = tablaArticulos.findColumn("Precio total");
-
-                    for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
-                        if (jTable_Articulos.getValueAt(i, columnaCantidad) != null && jTable_Articulos.getValueAt(i, columnaCodigo) != null) {
-                            int cantidad = Integer.parseInt(jTable_Articulos.getValueAt(i, columnaCantidad).toString());
-                            String codigo = (String) jTable_Articulos.getValueAt(i, columnaCodigo);
-
-                            try {
-                                Connection cn = Conexion.conectar();
-                                PreparedStatement pst = cn.prepareStatement("select nombre, precio from articulos where codigo = '" + codigo + "'");
-
-                                ResultSet rs = pst.executeQuery();
-                                if (rs.next()) {
-                                    nombre = rs.getString("nombre");
-                                    precioString = rs.getString("precio");
-                                } else {
-                                    int seleccion = JOptionPane.showOptionDialog(null, "¿Desea agregarlo como articulo nuevo?",
-                                            "El articulo no existe",
-                                            JOptionPane.YES_NO_OPTION,
-                                            JOptionPane.QUESTION_MESSAGE,
-                                            null,
-                                            new Object[]{"SI", "NO"},
-                                            "SI");
-                                    if (seleccion == 0) {
-                                        NuevoArticulo nuevoArticulo = new NuevoArticulo();
-                                        nuevoArticulo.setVisible(true);
-                                    }
-                                }
-                                jTable_Articulos.setValueAt(nombre, i, columnaNombreServicio);
-
-                                precioDouble = Double.parseDouble(precioString);
-                                jTable_Articulos.setValueAt(precioDouble, i, columnaPrecioUnitario);
-
-                                subTotalDouble = precioDouble * cantidad;
-                                jTable_Articulos.setValueAt(subTotalDouble, i, columnaPrecioTotal);
-
-                                totalDouble = totalDouble + subTotalDouble;
-                                txtV_Total.setText(String.valueOf(totalDouble));
-
-                                cn.close();
-
-                            } catch (SQLException e) {
-                                System.err.println("Error al mostrar precio del articulo " + e);
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void Cambio() {
@@ -2225,7 +2532,7 @@ public class Administrador extends javax.swing.JFrame {
                             if (rs.next()) {
                                 try {
                                     Connection cn2 = Conexion.conectar();
-                                    PreparedStatement pst2 = cn2.prepareStatement("select id_cliente, nombre_cliente, mail_cliente, tel_cliente, ultima_modificacion from clientes where "
+                                    PreparedStatement pst2 = cn2.prepareStatement("select id_cliente, nombre_cliente, tel_cliente, ultima_modificacion from clientes where "
                                             + "nombre_cliente = '" + nombreCliente + "'");
 
                                     ResultSet rs2 = pst2.executeQuery();
@@ -2235,14 +2542,13 @@ public class Administrador extends javax.swing.JFrame {
 
                                     tablaClientes.addColumn(" ");
                                     tablaClientes.addColumn("Nombre");
-                                    tablaClientes.addColumn("email");
                                     tablaClientes.addColumn("Teléfono");
                                     tablaClientes.addColumn("Modificado por");
 
                                     while (rs2.next()) {
-                                        Object[] fila = new Object[5];
+                                        Object[] fila = new Object[4];
 
-                                        for (int i = 0; i < 5; i++) {
+                                        for (int i = 0; i < 4; i++) {
                                             fila[i] = rs2.getObject(i + 1);
                                         }
                                         tablaClientes.addRow(fila);
@@ -2253,7 +2559,7 @@ public class Administrador extends javax.swing.JFrame {
                                 } catch (SQLException e) {
                                     System.err.println("Error al recuperar informacion del cliente " + e);
                                 }
-                                obtenerDatosTabla.ObtenerDatosTablaClientes(tablaClientes, jTable_Clientes);
+                                crear.ObtenerDatosTablaClientes(tablaClientes, jTable_Clientes);
 
                             } else {
                                 JOptionPane.showMessageDialog(null, "El cliente no existe");
@@ -2267,7 +2573,7 @@ public class Administrador extends javax.swing.JFrame {
                     } else {
                         try { // Si el campo se encuentra vacio mostrara todos los registros.
                             Connection cn3 = Conexion.conectar();
-                            PreparedStatement pst3 = cn3.prepareStatement("select id_cliente, nombre_cliente, mail_cliente, tel_cliente, ultima_modificacion from clientes");
+                            PreparedStatement pst3 = cn3.prepareStatement("select id_cliente, nombre_cliente, tel_cliente, ultima_modificacion from clientes");
 
                             ResultSet rs3 = pst3.executeQuery();
 
@@ -2276,14 +2582,13 @@ public class Administrador extends javax.swing.JFrame {
 
                             tablaClientes.addColumn(" ");
                             tablaClientes.addColumn("Nombre");
-                            tablaClientes.addColumn("email");
                             tablaClientes.addColumn("Teléfono");
                             tablaClientes.addColumn("Modificado por");
 
                             while (rs3.next()) {
-                                Object[] fila = new Object[5];
+                                Object[] fila = new Object[4];
 
-                                for (int i = 0; i < 5; i++) {
+                                for (int i = 0; i < 4; i++) {
                                     fila[i] = rs3.getObject(i + 1);
                                 }
                                 tablaClientes.addRow(fila);
@@ -2295,7 +2600,7 @@ public class Administrador extends javax.swing.JFrame {
                             System.err.println("Error al llenar la tabla " + e);
                             JOptionPane.showMessageDialog(null, "Error al mostrar la información, contacte al administrador");
                         }
-                        obtenerDatosTabla.ObtenerDatosTablaClientes(tablaClientes, jTable_Clientes);
+                        crear.ObtenerDatosTablaClientes(tablaClientes, jTable_Clientes);
                     }
 
                 }
@@ -2315,9 +2620,9 @@ public class Administrador extends javax.swing.JFrame {
 
                     if (!(txt_BuscarProducto.getText().trim()).equals("")) {
                         try {
-                            Connection cn5 = Conexion.conectar();
-                            PreparedStatement pst5 = cn5.prepareStatement("select id_articulo, codigo, nombre, cantidad, precio from articulos where tipo_articulo = 'producto' and nombre = '" + nombre + "'");
-                            ResultSet rs5 = pst5.executeQuery();
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select id_articulo, codigo, nombre, cantidad, precio from articulos where tipo_articulo = 'producto' and nombre = '" + nombre + "'");
+                            ResultSet rs = pst.executeQuery();
 
                             jTable_Productos = new JTable(tablaProductos);
                             jScrollPane_Productos.setViewportView(jTable_Productos);
@@ -2328,26 +2633,26 @@ public class Administrador extends javax.swing.JFrame {
                             tablaProductos.addColumn("Cantidad");
                             tablaProductos.addColumn("Precio");
 
-                            while (rs5.next()) {
+                            while (rs.next()) {
                                 Object[] fila = new Object[5];
 
                                 for (int i = 0; i < 5; i++) {
-                                    fila[i] = rs5.getObject(i + 1);
+                                    fila[i] = rs.getObject(i + 1);
                                 }
                                 tablaProductos.addRow(fila);
                             }
-                            cn5.close();
+                            cn.close();
 
                         } catch (SQLException e) {
                             System.err.println("Error al llenar la tabla Productos " + e);
                         }
-                        obtenerDatosTabla.ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
+                        crear.ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
 
                     } else {
                         try {
-                            Connection cn5 = Conexion.conectar();
-                            PreparedStatement pst5 = cn5.prepareStatement("select id_articulo, codigo, nombre, cantidad, precio from articulos where tipo_articulo = 'producto'");
-                            ResultSet rs5 = pst5.executeQuery();
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select id_articulo, codigo, nombre, cantidad, precio from articulos where tipo_articulo = 'producto'");
+                            ResultSet rs = pst.executeQuery();
 
                             jTable_Productos = new JTable(tablaProductos);
                             jScrollPane_Productos.setViewportView(jTable_Productos);
@@ -2358,21 +2663,21 @@ public class Administrador extends javax.swing.JFrame {
                             tablaProductos.addColumn("Cantidad");
                             tablaProductos.addColumn("Precio");
 
-                            while (rs5.next()) {
+                            while (rs.next()) {
                                 Object[] fila = new Object[5];
 
                                 for (int i = 0; i < 5; i++) {
-                                    fila[i] = rs5.getObject(i + 1);
+                                    fila[i] = rs.getObject(i + 1);
                                 }
                                 tablaProductos.addRow(fila);
                             }
-                            cn5.close();
+                            cn.close();
 
                         } catch (SQLException e) {
                             System.err.println("Error al llenar la tabla Productos " + e);
                             JOptionPane.showMessageDialog(null, "Error al mostrar los productos, contacte al administrador");
                         }
-                        obtenerDatosTabla.ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
+                        crear.ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
                     }
 
                 }
@@ -2393,9 +2698,9 @@ public class Administrador extends javax.swing.JFrame {
 
                     if (!(txt_BuscarServicio.getText().trim()).equals("")) {
                         try {
-                            Connection cn5 = Conexion.conectar();
-                            PreparedStatement pst5 = cn5.prepareStatement("select id_articulo, codigo, nombre, precio from articulos where tipo_articulo = 'servicio' and nombre = '" + nombre + "'");
-                            ResultSet rs5 = pst5.executeQuery();
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select id_articulo, codigo, nombre, precio from articulos where tipo_articulo = 'servicio' and nombre = '" + nombre + "'");
+                            ResultSet rs = pst.executeQuery();
 
                             jTable_Servicios = new JTable(tablaServicios);
                             jScrollPane_Servicios.setViewportView(jTable_Servicios);
@@ -2405,25 +2710,25 @@ public class Administrador extends javax.swing.JFrame {
                             tablaServicios.addColumn("Nombre");
                             tablaServicios.addColumn("Precio");
 
-                            while (rs5.next()) {
+                            while (rs.next()) {
                                 Object[] fila = new Object[4];
 
                                 for (int i = 0; i < 4; i++) {
-                                    fila[i] = rs5.getObject(i + 1);
+                                    fila[i] = rs.getObject(i + 1);
                                 }
                                 tablaServicios.addRow(fila);
                             }
-                            cn5.close();
+                            cn.close();
 
                         } catch (SQLException e) {
                             System.err.println("Error al llenar la tabla Servicios " + e);
                         }
-                        obtenerDatosTabla.ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
+                        crear.ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
                     } else {
                         try {
-                            Connection cn5 = Conexion.conectar();
-                            PreparedStatement pst5 = cn5.prepareStatement("select id_articulo, codigo, nombre, precio from articulos where tipo_articulo = 'servicio'");
-                            ResultSet rs5 = pst5.executeQuery();
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select id_articulo, codigo, nombre, precio from articulos where tipo_articulo = 'servicio'");
+                            ResultSet rs = pst.executeQuery();
 
                             jTable_Servicios = new JTable(tablaServicios);
                             jScrollPane_Servicios.setViewportView(jTable_Servicios);
@@ -2433,40 +2738,153 @@ public class Administrador extends javax.swing.JFrame {
                             tablaServicios.addColumn("Nombre");
                             tablaServicios.addColumn("Precio");
 
-                            while (rs5.next()) {
+                            while (rs.next()) {
                                 Object[] fila = new Object[4];
 
                                 for (int i = 0; i < 4; i++) {
-                                    fila[i] = rs5.getObject(i + 1);
+                                    fila[i] = rs.getObject(i + 1);
                                 }
                                 tablaServicios.addRow(fila);
                             }
-                            cn5.close();
+                            cn.close();
 
                         } catch (SQLException e) {
                             System.err.println("Error al llenar la tabla Servicios " + e);
                         }
-                        obtenerDatosTabla.ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
+                        crear.ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
                     }
                 }
             }
         });
     }
 
-    public void EventoDobleClick(JTable jTable) {
-        jTable.addMouseListener(new MouseAdapter() {
+    public void CrearTablaArticulos() {
+        tablaArticulos.setRowCount(0);
+        tablaArticulos.setColumnCount(0);
+
+        jTable_Articulos = new JTable(tablaArticulos);
+        jScrollPane_Articulos.setViewportView(jTable_Articulos);
+
+        tablaArticulos.addColumn("Cantidad");
+        tablaArticulos.addColumn("Codigo");
+        tablaArticulos.addColumn("Nombre");
+        tablaArticulos.addColumn("Precio unitario");
+        tablaArticulos.addColumn("Precio total");
+
+        DobleClick();
+    }
+
+    public void DobleClick() {
+        jTable_Articulos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int fila_point = jTable.rowAtPoint(e.getPoint());
-                int columna_point = jTable.columnAtPoint(e.getPoint());
+                int fila_point = jTable_Articulos.rowAtPoint(e.getPoint());
+                int columna_point = 2;
+                String codigo = "";
 
                 if (e.getClickCount() == 2) {
-                    JOptionPane.showMessageDialog(null, "Has dado doble clic en la fila: " + fila_point + " y la columna: " + columna_point);
+                    codigo = (String) tablaArticulos.getValueAt(fila_point, columna_point);
+                    if (codigo.equals("P. Comun")) {
+                        JOptionPane.showMessageDialog(null, "No puedes realizar un descuento a articulos sin registro", "Articulo sin registro", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        jDialog_Descuento.setVisible(true);
+                    }
                 }
-
             }
-
         });
     }
 
+    public void addProducto() {
+        txtV_addProducto.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent evt) {
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String cantidad = "", codigo = "", nombre = "", precio = "", precioT = "", parte1 = "", parte2 = "";
+                    String cadena = txtV_addProducto.getText().trim();
+
+                    char[] cadenaDiv = cadena.toCharArray();
+                    for (int i = 0; i < cadenaDiv.length; i++) {
+                        char simbolo = cadena.charAt(i);
+                        if (simbolo == '*') {
+                            String[] division = cadena.split("\\*");
+                            parte1 = division[0];
+                            parte2 = division[1];
+                        }
+                    }
+                    if (!parte1.equals("") && !parte2.equals("")) {
+                        try {
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select nombre, precio from articulos where codigo = '" + parte2 + "'");
+
+                            ResultSet rs = pst.executeQuery();
+                            if (rs.next()) {
+                                cantidad = parte1;
+                                codigo = parte2;
+                                nombre = rs.getString("nombre");
+                                precio = rs.getString("precio");
+
+                                precioT = String.valueOf(Integer.parseInt(cantidad) * Double.parseDouble(precio));
+
+                            } else {
+                                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea agregarlo como articulo nuevo?",
+                                        "El articulo no existe",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        new Object[]{"SI", "NO"},
+                                        "SI");
+                                if (seleccion == 0) {
+                                    NuevoArticulo nuevoArticulo = new NuevoArticulo();
+                                    nuevoArticulo.setVisible(true);
+                                }
+                            }
+                            String[] valores = {cantidad, codigo, nombre, precio, precioT};
+
+                            tablaArticulos.addRow(valores);
+                            txtV_addProducto.setText("");
+                            String total = String.valueOf(Double.parseDouble(txtV_Total.getText().trim()) + Double.parseDouble(precioT));
+                            txtV_Total.setText(total);
+                        } catch (SQLException e) {
+                            System.err.println("Error al caprurar datos en tabla articulos: " + e.getMessage());
+                        }
+                    } else {
+                        try {
+                            Connection cn = Conexion.conectar();
+                            PreparedStatement pst = cn.prepareStatement("select nombre, precio from articulos where codigo = '" + cadena + "'");
+
+                            ResultSet rs = pst.executeQuery();
+                            if (rs.next()) {
+                                cantidad = "1";
+                                codigo = cadena;
+                                nombre = rs.getString("nombre");
+                                precio = rs.getString("precio");
+
+                                precioT = String.valueOf(Integer.parseInt(cantidad) * Double.parseDouble(precio));
+
+                            } else {
+                                int seleccion = JOptionPane.showOptionDialog(null, "¿Desea agregarlo como articulo nuevo?",
+                                        "El articulo no existe",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        new Object[]{"SI", "NO"},
+                                        "SI");
+                                if (seleccion == 0) {
+                                    NuevoArticulo nuevoArticulo = new NuevoArticulo();
+                                    nuevoArticulo.setVisible(true);
+                                }
+                            }
+                            String[] valores = {cantidad, codigo, nombre, precio, precioT};
+
+                            tablaArticulos.addRow(valores);
+                            txtV_addProducto.setText("");
+                            String total = String.valueOf(Double.parseDouble(txtV_Total.getText().trim()) + Double.parseDouble(precioT));
+                            txtV_Total.setText(total);
+                        } catch (SQLException e) {
+                            System.err.println("Error al capturar datos en tabla articulos: " + e.getMessage());
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

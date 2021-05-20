@@ -75,7 +75,7 @@ public class InfoVersion extends javax.swing.JFrame {
 
         jLabel_NumeroVersionActual.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel_NumeroVersionActual.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_NumeroVersionActual.setText("1.2.1");
+        jLabel_NumeroVersionActual.setText("2.0.0");
         getContentPane().add(jLabel_NumeroVersionActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 50, 30));
 
         jLabel_Actualizacion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N

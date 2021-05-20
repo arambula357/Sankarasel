@@ -2,13 +2,10 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import clases.BaseDatos;
 import clases.Crear;
-import clases.CrearTablas;
-import clases.ObtenerDatosTabla;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.JTable;
@@ -16,11 +13,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class Tecnico extends javax.swing.JFrame {
 
-    String user, nombre_usuario;
-    public static DefaultTableModel tablaEquipos = new DefaultTableModel();
+    public static String subTotal, folio;
+    public String recibirCantidad, recibirNombre, recibirPrecio, recibirPrecioU;
 
-    CrearTablas crearTablas = new CrearTablas();
-    ObtenerDatosTabla obtenerDatosTabla = new ObtenerDatosTabla();
+    String user, nombre_usuario;
+    public static DefaultTableModel tablaEquipos;
+
+    BaseDatos bd = new BaseDatos();
+    Crear crear = new Crear();
 
     public Tecnico() {
         initComponents();
@@ -34,11 +34,8 @@ public class Tecnico extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Crear wallpaper = new Crear(jLabel_Wallpaper);
-
-        // Insertamos imagen de fondo "JPanel" Inicio-.
         Crear fondoVistaTecnico = new Crear(jLabel_FondoVistaTecnico);
         Crear fondoGestionarEquipos = new Crear(jLabel_FondoGestionarEquipos);
-        // Insertamos imagen de fondo "JPanel" -Fin.
 
         try { // Obtener nombre completo del usuario que inicio sesión.
             Connection cn = Conexion.conectar();
@@ -53,8 +50,6 @@ public class Tecnico extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al consultar nombre del usuario " + e);
         }
-        crearTablas.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);
-
     }
 
     // Colocando icono a ventana
@@ -70,7 +65,6 @@ public class Tecnico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jTabbedPane_General = new javax.swing.JTabbedPane();
         jPanel_VistaTecnico = new javax.swing.JPanel();
         jTabbedPane_VistaTecnico = new javax.swing.JTabbedPane();
@@ -86,11 +80,9 @@ public class Tecnico extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMenu_Opciones = new javax.swing.JMenu();
         jMenuItem_CerrarSesion = new javax.swing.JMenuItem();
-        jMenuItem_AcercaDe = new javax.swing.JMenuItem();
+        jMenuItem_Acercade = new javax.swing.JMenuItem();
         jMenu_Ayuda = new javax.swing.JMenu();
         jMenuItem_InfoVersion = new javax.swing.JMenuItem();
-
-        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -128,6 +120,17 @@ public class Tecnico extends javax.swing.JFrame {
         ));
         jTable_Equipos.setToolTipText("");
         jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        tablaEquipos = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaEquipos.setRowCount(0);
+        tablaEquipos.setColumnCount(0);
+        jTable_Equipos = new JTable(tablaEquipos);
+        jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);
 
         jPanel_GestionarEquipos.add(jScrollPane_Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 370));
         jPanel_GestionarEquipos.add(jLabel_FondoGestionarEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 740, 457));
@@ -157,13 +160,13 @@ public class Tecnico extends javax.swing.JFrame {
         });
         jMenu_Opciones.add(jMenuItem_CerrarSesion);
 
-        jMenuItem_AcercaDe.setText("Acerca de");
-        jMenuItem_AcercaDe.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem_Acercade.setText("Acerca de");
+        jMenuItem_Acercade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem_AcercaDeActionPerformed(evt);
+                jMenuItem_AcercadeActionPerformed(evt);
             }
         });
-        jMenu_Opciones.add(jMenuItem_AcercaDe);
+        jMenu_Opciones.add(jMenuItem_Acercade);
 
         jMenuBar.add(jMenu_Opciones);
 
@@ -185,18 +188,16 @@ public class Tecnico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem_CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_CerrarSesionActionPerformed
-
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
-
     }//GEN-LAST:event_jMenuItem_CerrarSesionActionPerformed
 
-    private void jMenuItem_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_AcercaDeActionPerformed
+    private void jMenuItem_AcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_AcercadeActionPerformed
 
         JOptionPane.showMessageDialog(null, "Creado por Diego arambula", "Acerca de", HEIGHT);
 
-    }//GEN-LAST:event_jMenuItem_AcercaDeActionPerformed
+    }//GEN-LAST:event_jMenuItem_AcercadeActionPerformed
 
     private void cmb_EstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_EstatusActionPerformed
         String seleccion = cmb_Estatus.getSelectedItem().toString();
@@ -237,7 +238,7 @@ public class Tecnico extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al recuperar los registros de equipos " + e);
         }
-        obtenerDatosTabla.ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
+        crear.ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
 
     }//GEN-LAST:event_cmb_EstatusActionPerformed
 
@@ -276,14 +277,13 @@ public class Tecnico extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmb_Estatus;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_FondoGestionarEquipos;
     private javax.swing.JLabel jLabel_FondoVistaTecnico;
     private javax.swing.JLabel jLabel_NombreUsurario;
     private javax.swing.JLabel jLabel_Titulo4;
     private javax.swing.JLabel jLabel_Wallpaper;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItem_AcercaDe;
+    private javax.swing.JMenuItem jMenuItem_Acercade;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
     private javax.swing.JMenuItem jMenuItem_InfoVersion;
     private javax.swing.JMenu jMenu_Ayuda;
@@ -295,4 +295,5 @@ public class Tecnico extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane_VistaTecnico;
     private javax.swing.JTable jTable_Equipos;
     // End of variables declaration//GEN-END:variables
+
 }

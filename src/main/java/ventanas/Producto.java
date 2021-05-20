@@ -2,12 +2,9 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
-import clases.ObtenerDatosTabla;
-import java.awt.Color;
+import clases.Crear;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -19,7 +16,7 @@ public class Producto extends javax.swing.JFrame {
     public Producto() {
         initComponents();
         user = Login.user;
-        IDproducto = ObtenerDatosTabla.IDproducto;
+        IDproducto = Crear.IDproducto;
 
         setSize(435, 455);
         setTitle("Información producto");
@@ -28,15 +25,8 @@ public class Producto extends javax.swing.JFrame {
         
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
-        
-        ImageIcon boton = new ImageIcon("images/iconoActualizar.png");
-        Icon iconoB = new ImageIcon(boton.getImage());
-        jButton_ActualizarProducto.setIcon(iconoB);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        Crear actualizar = new Crear(jButton_ActualizarProducto, "images/iconoActualizar.png", "No");
         
         
         try { // Obtener nombre completo del usuario que inicio sesión.
@@ -205,23 +195,18 @@ public class Producto extends javax.swing.JFrame {
         precio = txt_Precio.getText().trim();
         
         if (nombre.equals("")) {
-            txt_Nombre.setBackground(Color.red);
             validacion++;
         }
         if (codigo.equals("")) {
-            txt_Codigo.setBackground(Color.red);
             validacion++;
         }
         if (precio.equals("")) {
-            txt_Precio.setBackground(Color.red);
             validacion++;
         }
         if (cantidadActualS.equals("")) {
-            txt_CantidadActual.setBackground(Color.red);
             validacion++;
         }
         if (masCantidadS.equals("")) {
-            txt_MasCantidad.setText("0");
             masCantidadS = "0";
         }
 
@@ -245,12 +230,6 @@ public class Producto extends javax.swing.JFrame {
 
                 pst.executeUpdate();
                 cn.close();
-
-                txt_Nombre.setBackground(Color.GREEN);
-                txt_Codigo.setBackground(Color.GREEN);
-                txt_Precio.setBackground(Color.GREEN);
-                txt_CantidadActual.setBackground(Color.GREEN);
-                txt_MasCantidad.setBackground(Color.GREEN);
 
                 JOptionPane.showMessageDialog(null, "Actualización exitosa");
                 this.dispose();

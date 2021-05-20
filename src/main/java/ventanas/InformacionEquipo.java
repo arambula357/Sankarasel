@@ -3,13 +3,10 @@ package ventanas;
 import java.sql.*;
 import clases.Conexion;
 import clases.Crear;
-import clases.ObtenerDatosTabla;
 import clases.TicketRecepcion;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import net.sf.jasperreports.engine.JRException;
@@ -20,11 +17,12 @@ public class InformacionEquipo extends javax.swing.JFrame {
 
     int IDclienteUpdate = 0, IDequipo = 0;
     String user = "", nom_cliente = "", nombre_usuario;
+    private String stat = "";
 
     public InformacionEquipo() {
         initComponents();
         user = Login.user;
-        IDclienteUpdate = ObtenerDatosTabla.IDclienteUpdate;
+        IDclienteUpdate = Crear.IDclienteUpdate;
         IDequipo = InformacionCliente.IDequipo;
 
         try { // Obtener nombre completo del usuario que inicio sesión.
@@ -81,12 +79,11 @@ public class InformacionEquipo extends javax.swing.JFrame {
                 jTextPane_ComentariosTecnico.setText(rs.getString("comentarios_tecnicos"));
                 jLabel_RevisionTecnicaDe.setText("Comentarios y actualizaciones técnicas de " + rs.getString("revision_tecnica_de"));
 
+                stat = rs.getString("estatus");
             }
-
         } catch (SQLException e) {
             System.err.println("Error al consultar equipo " + e);
         }
-
         setTitle("Información de equipo - Sesión de " + user);
         setSize(670, 540);
         setResizable(false);
@@ -95,10 +92,19 @@ public class InformacionEquipo extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear botonImprimir = new Crear(jButton_GenrarTicket, "images/impresora.png");
+        Crear botonImprimir = new Crear(jButton_GenrarTicket, "images/impresora.png", "No");
 
         txt_NombreCliente.setText(nom_cliente);
 
+        if (!stat.equals("Entregado")) {
+            cmb_Estatus.setEnabled(true);
+            jTextPane_Observaciones.setEditable(true);
+            jButton_Actualizar.setEnabled(true);
+        } else {
+            cmb_Estatus.setEnabled(false);
+            jTextPane_Observaciones.setEditable(false);
+            jButton_Actualizar.setEnabled(false);
+        }
     }
 
     // Colocando icono a ventana
@@ -294,53 +300,23 @@ public class InformacionEquipo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
+        String estatus, observaciones;
 
-        int validacion = 0;
-        String tipo_equipo, marca, modelo, num_serie, estatus, observaciones;
-
-        tipo_equipo = txt_TipoEquipo.getText().trim();
         estatus = cmb_Estatus.getSelectedItem().toString();
-        marca = txt_Marca.getText().trim();
-        modelo = txt_Modelo.getText().trim();
-        num_serie = txt_NumeroSerie.getText().trim();
         observaciones = jTextPane_Observaciones.getText();
 
-        if (modelo.equals("")) {
-            txt_Modelo.setBackground(Color.red);
-            validacion++;
-        }
-        if (num_serie.equals("")) {
-            txt_NumeroSerie.setBackground(Color.red);
-            validacion++;
-        }
-        if (observaciones.equals("")) {
-            jTextPane_Observaciones.setText("Sin observaciones");
-        }
-
-        if (validacion == 0) {
             try {
                 Connection cn = Conexion.conectar();
-                PreparedStatement pst = cn.prepareStatement("update equipos set tipo_equipo=?, marca=?, modelo=?, num_serie=?, observaciones=?, estatus=?, ultima_modificacion=? "
-                        + "where id_equipo = '" + IDequipo + "'");
+                PreparedStatement pst = cn.prepareStatement("update equipos set observaciones=?, estatus=?, ultima_modificacion=? where id_equipo = '" + IDequipo + "'");
 
-                pst.setString(1, tipo_equipo);
-                pst.setString(2, marca);
-                pst.setString(3, modelo);
-                pst.setString(4, num_serie);
-                pst.setString(5, observaciones);
-                pst.setString(6, estatus);
-                pst.setString(7, user);
+                pst.setString(1, observaciones);
+                pst.setString(2, estatus);
+                pst.setString(3, user);
 
                 pst.executeUpdate();
                 cn.close();
 
                 Limpiar();
-
-                txt_NombreCliente.setBackground(Color.GREEN);
-                txt_Modelo.setBackground(Color.GREEN);
-                txt_Fecha.setBackground(Color.GREEN);
-                txt_NumeroSerie.setBackground(Color.GREEN);
-                txt_ModificacionPor.setText(user);
 
                 JOptionPane.showMessageDialog(null, "Actualización exitosa");
                 this.dispose();
@@ -349,33 +325,31 @@ public class InformacionEquipo extends javax.swing.JFrame {
                 System.err.println("Error en actualizar equipo " + e);
                 JOptionPane.showMessageDialog(null, "!Error al actualizar equipo¡ Contacte al Administrador");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
-        }
+
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
 
     private void jButton_GenrarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenrarTicketActionPerformed
         String folio = "", nombreCliente = "", vendedor = "", observaciones = "", numeroSerie = "", tipoEquipo = "", marca = "", modelo = "", fechaHora = "", contactoCliente = "";
-        
+
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select tel_cliente from clientes where nombre_cliente = '" + nom_cliente + "' and id_cliente = '" + IDclienteUpdate + "'");
             ResultSet rs = pst.executeQuery();
-            
-            if (rs.next()){
+
+            if (rs.next()) {
                 contactoCliente = rs.getString("tel_cliente");
             }
             cn.close();
         } catch (SQLException e) {
             System.err.println("Error al consultar telefono del cliente " + e.getMessage());
         }
-        
+
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select num_serie, marca, modelo, observaciones, dia_ingreso, mes_ingreso, annio_ingreso, tipo_equipo, hora_ingreso from equipos "
                     + "where id_equipo = '" + IDequipo + "' and id_cliente = '" + IDclienteUpdate + "'");
             ResultSet rs = pst.executeQuery();
-            
+
             if (rs.next()) {
                 folio = String.valueOf(IDequipo);
                 observaciones = rs.getString("observaciones");
@@ -384,7 +358,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
                 marca = rs.getString("marca");
                 modelo = rs.getString("modelo");
                 fechaHora = rs.getString("dia_ingreso") + "/" + rs.getString("mes_ingreso") + "/" + rs.getString("annio_ingreso") + " " + rs.getString("hora_ingreso");
-                
+
                 nombreCliente = nom_cliente;
                 vendedor = nombre_usuario;
             }
@@ -392,7 +366,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println("Error al consultar equipo del cliente " + e.getMessage());
         }
-        
+
         ordenServicio.setFolio(folio);
         ordenServicio.setFechaHora(fechaHora);
         ordenServicio.setNombreCliente(nombreCliente);
@@ -403,16 +377,15 @@ public class InformacionEquipo extends javax.swing.JFrame {
         ordenServicio.setModelo(modelo);
         ordenServicio.setObservaciones(observaciones);
         ordenServicio.setVendedor(vendedor);
-        
+
         try {
             ordenServicio.LlenarOrden();
         } catch (JRException ex) {
-             System.err.println("Error al llenar la informacion del ticket " + ex);
+            System.err.println("Error al llenar la informacion del ticket " + ex);
         }
     }//GEN-LAST:event_jButton_GenrarTicketActionPerformed
 
     public static void main(String args[]) {
-
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -429,7 +402,6 @@ public class InformacionEquipo extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InformacionEquipo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new InformacionEquipo().setVisible(true);

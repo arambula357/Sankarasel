@@ -2,12 +2,9 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
-import clases.ObtenerDatosTabla;
-import java.awt.Color;
+import clases.Crear;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -15,11 +12,12 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
 
     int IDequipo = 0, sesion_usuario;
     String user = "";
+    private String stat = "";
 
     public InformacionEquipoTecnico() {
         initComponents();
         user = Login.user;
-        IDequipo = ObtenerDatosTabla.IDequipoUpdate;
+        IDequipo = Crear.IDequipoUpdate;
 
         try {
             Connection cn = Conexion.conectar();
@@ -46,6 +44,7 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
                 txt_ComentariosTecnico.setText(rs.getString("comentarios_tecnicos"));
                 jLabel_RevisionTecnicaDe.setText("Comentarios y actualizaciones técnicas de " + rs.getString("revision_tecnica_de"));
 
+                stat = rs.getString("estatus");
             }
 
         } catch (SQLException e) {
@@ -59,11 +58,17 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // Insertamos imagen de fondo.
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
+
+        if (!stat.equals("Entregado")) {
+            cmb_Estatus.setEnabled(true);
+            txt_ComentariosTecnico.setEditable(true);
+            jButton_Actualizar.setEnabled(true);
+        } else {
+            cmb_Estatus.setEnabled(false);
+            txt_ComentariosTecnico.setEditable(false);
+            jButton_Actualizar.setEnabled(false);
+        }
 
     }
 
@@ -221,7 +226,7 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
         txt_Fecha.setEnabled(false);
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 180, -1));
 
-        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
+        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado", " " }));
         getContentPane().add(cmb_Estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
 
         txt_Observaciones.setEditable(false);
@@ -252,12 +257,11 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
     // Programación de botón.
     private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
 
-        String estatus, comentariosTecnicos, tecnico;
+        String estatus, comentariosTecnicos;
 
         estatus = cmb_Estatus.getSelectedItem().toString();
         comentariosTecnicos = txt_ComentariosTecnico.getText();
-        tecnico = user;
-    
+
         if (comentariosTecnicos.equals("")) {
             txt_ComentariosTecnico.setText("Sin comentarios");
             comentariosTecnicos = "Sin comentarios";
@@ -268,13 +272,12 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
 
             pst.setString(1, estatus);
             pst.setString(2, comentariosTecnicos);
-            pst.setString(3, tecnico);
-            pst.setString(4, tecnico);
+            pst.setString(3, user);
+            pst.setString(4, user);
 
             pst.executeUpdate();
             cn.close();
 
-            ConfirmarCampos();
             JOptionPane.showMessageDialog(null, "Actualización exitosa");
             this.dispose();
 
@@ -340,12 +343,4 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
     private javax.swing.JTextField txt_TipoEquipo;
     // End of variables declaration//GEN-END:variables
 
-    public void ConfirmarCampos() {
-        txt_NombreCliente.setBackground(Color.GREEN);
-        txt_Fecha.setBackground(Color.GREEN);
-        txt_Modelo.setBackground(Color.GREEN);
-        txt_ModificacionPor.setBackground(Color.GREEN);
-        txt_NumeroSerie.setBackground(Color.GREEN);
-
-    }
 }

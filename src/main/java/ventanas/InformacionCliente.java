@@ -2,11 +2,9 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
-import clases.ObtenerDatosTabla;
+import clases.Crear;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.swing.JTable;
@@ -35,12 +33,12 @@ public class InformacionCliente extends javax.swing.JFrame {
     public static int IDequipo;
     String user, nombre_cliente;
 
-    DefaultTableModel model = new DefaultTableModel();
+    DefaultTableModel tablaInfoCliente;
 
     public InformacionCliente() {
         initComponents();
         user = Login.user;
-        IDcliente_Update = ObtenerDatosTabla.IDclienteUpdate;
+        IDcliente_Update = Crear.IDclienteUpdate;
 
         setSize(650, 450);
         setResizable(false);
@@ -49,16 +47,10 @@ public class InformacionCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         // Insertamos imagen de fondo.
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
 
         // Insertamos icono al botón.
-        ImageIcon boton = new ImageIcon("images/impresora.png");
-        Icon iconoB = new ImageIcon(boton.getImage());
-        jButton_ImprimirReporte.setIcon(iconoB);
-        this.repaint();
+        Crear botonImprimir = new Crear(jButton_ImprimirReporte, "images/impresora.png", "No");
 
         try {
             Connection cn = Conexion.conectar();
@@ -71,68 +63,16 @@ public class InformacionCliente extends javax.swing.JFrame {
                 jLabel_Titulo.setText("Información del cliente " + rs.getString("nombre_cliente"));
 
                 txt_Nombre.setText(rs.getString("nombre_cliente"));
-                txt_Mail.setText(rs.getString("mail_cliente"));
                 txt_Telefono.setText(rs.getString("tel_cliente"));
-                txt_Direccion.setText(rs.getString("dir_cliente"));
                 txt_ModificadoPor.setText(rs.getString("ultima_modificacion"));
                 nombre_cliente = rs.getString("nombre_cliente");
-
             }
             cn.close();
-
         } catch (SQLException e) {
             System.err.println("Error en cargar usuario " + e);
             JOptionPane.showMessageDialog(null, "¡Error al cargar! Contacte al Administrador.");
-
         }
-
-        try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("select id_equipo, tipo_equipo, marca, estatus from equipos where id_cliente = '" + IDcliente_Update + "'");
-
-            ResultSet rs = pst.executeQuery();
-
-            jTable_Equipos = new JTable(model);
-            jScrollPane_Equipos.setViewportView(jTable_Equipos);
-
-            model.addColumn("ID equipos");
-            model.addColumn("Tipo de equipo");
-            model.addColumn("Marca");
-            model.addColumn("Estatus");
-
-            while (rs.next()) {
-                Object[] fila = new Object[4];
-                for (int i = 0; i < 4; i++) {
-
-                    fila[i] = rs.getObject(i + 1);
-
-                }
-                model.addRow(fila);
-
-            }
-            cn.close();
-
-        } catch (SQLException e) {
-            System.err.println("Error en el llenado equipos " + e);
-        }
-
-        jTable_Equipos.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int fila_point = jTable_Equipos.rowAtPoint(e.getPoint());
-                int columna_point = 0;
-
-                if (fila_point > -1) {
-                    IDequipo = (int) model.getValueAt(fila_point, columna_point);
-                    InformacionEquipo informacionEquipo = new InformacionEquipo();
-                    informacionEquipo.setVisible(true);
-
-                }
-
-            }
-
-        });
-
+        CrearTablaInfoCliente();
     }
 
     // Colocando icono a ventana
@@ -152,14 +92,10 @@ public class InformacionCliente extends javax.swing.JFrame {
         jTable_Equipos = new javax.swing.JTable();
         jLabel_Titulo = new javax.swing.JLabel();
         jLabel_Nombre = new javax.swing.JLabel();
-        jLabel_Mail = new javax.swing.JLabel();
         jLabel_Telefono = new javax.swing.JLabel();
-        jLabel_Direccion = new javax.swing.JLabel();
         jLabel_ModificadoPor = new javax.swing.JLabel();
         txt_Nombre = new javax.swing.JTextField();
-        txt_Mail = new javax.swing.JTextField();
         txt_Telefono = new javax.swing.JTextField();
-        txt_Direccion = new javax.swing.JTextField();
         txt_ModificadoPor = new javax.swing.JTextField();
         jButton_Actualizar = new javax.swing.JButton();
         jButton_ImprimirReporte = new javax.swing.JButton();
@@ -181,6 +117,12 @@ public class InformacionCliente extends javax.swing.JFrame {
             }
         ));
         jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        tablaInfoCliente = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         getContentPane().add(jScrollPane_Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 380, 180));
 
@@ -194,25 +136,15 @@ public class InformacionCliente extends javax.swing.JFrame {
         jLabel_Nombre.setText("Nombre:");
         getContentPane().add(jLabel_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
-        jLabel_Mail.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel_Mail.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Mail.setText("email:");
-        getContentPane().add(jLabel_Mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
-
         jLabel_Telefono.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Telefono.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_Telefono.setText("Teléfono:");
-        getContentPane().add(jLabel_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
-
-        jLabel_Direccion.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jLabel_Direccion.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Direccion.setText("Dirección:");
-        getContentPane().add(jLabel_Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+        getContentPane().add(jLabel_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         jLabel_ModificadoPor.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_ModificadoPor.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_ModificadoPor.setText("Modificado por:");
-        getContentPane().add(jLabel_ModificadoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+        getContentPane().add(jLabel_ModificadoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         txt_Nombre.setBackground(new java.awt.Color(3, 37, 251));
         txt_Nombre.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -221,26 +153,12 @@ public class InformacionCliente extends javax.swing.JFrame {
         txt_Nombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, -1));
 
-        txt_Mail.setBackground(new java.awt.Color(3, 37, 251));
-        txt_Mail.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        txt_Mail.setForeground(new java.awt.Color(255, 255, 255));
-        txt_Mail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_Mail.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        getContentPane().add(txt_Mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 210, -1));
-
         txt_Telefono.setBackground(new java.awt.Color(3, 37, 251));
         txt_Telefono.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         txt_Telefono.setForeground(new java.awt.Color(255, 255, 255));
         txt_Telefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_Telefono.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        getContentPane().add(txt_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 210, -1));
-
-        txt_Direccion.setBackground(new java.awt.Color(3, 37, 251));
-        txt_Direccion.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        txt_Direccion.setForeground(new java.awt.Color(255, 255, 255));
-        txt_Direccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_Direccion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        getContentPane().add(txt_Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 210, -1));
+        getContentPane().add(txt_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 210, -1));
 
         txt_ModificadoPor.setBackground(new java.awt.Color(3, 37, 251));
         txt_ModificadoPor.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
@@ -248,7 +166,7 @@ public class InformacionCliente extends javax.swing.JFrame {
         txt_ModificadoPor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ModificadoPor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_ModificadoPor.setEnabled(false);
-        getContentPane().add(txt_ModificadoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 210, -1));
+        getContentPane().add(txt_ModificadoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 210, -1));
 
         jButton_Actualizar.setBackground(new java.awt.Color(3, 37, 251));
         jButton_Actualizar.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
@@ -279,52 +197,33 @@ public class InformacionCliente extends javax.swing.JFrame {
     private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
 
         int validacion = 0;
-        String nombre, mail, telefono, direccion;
+        String nombre, telefono;
 
         nombre = txt_Nombre.getText().trim();
-        mail = txt_Mail.getText().trim();
+
         telefono = txt_Telefono.getText().trim();
-        direccion = txt_Direccion.getText().trim();
 
         if (nombre.equals("")) {
             txt_Nombre.setBackground(Color.red);
-            validacion++;
-        }
-        if (mail.equals("")) {
-            txt_Mail.setBackground(Color.red);
             validacion++;
         }
         if (telefono.equals("")) {
             txt_Telefono.setBackground(Color.red);
             validacion++;
         }
-        if (direccion.equals("")) {
-            txt_Direccion.setBackground(Color.red);
-            validacion++;
-        }
         if (validacion == 0) {
 
             try {
                 Connection cn = Conexion.conectar();
-                PreparedStatement pst = cn.prepareStatement("update clientes set nombre_cliente=?, mail_cliente=?, tel_cliente=?, dir_cliente=?, ultima_modificacion=? "
+                PreparedStatement pst = cn.prepareStatement("update clientes set nombre_cliente=?, tel_cliente=?, ultima_modificacion=? "
                         + "where id_cliente = '" + IDcliente_Update + "'");
 
                 pst.setString(1, nombre);
-                pst.setString(2, mail);
-                pst.setString(3, telefono);
-                pst.setString(4, direccion);
-                pst.setString(5, user);
+                pst.setString(2, telefono);
+                pst.setString(3, user);
 
                 pst.executeUpdate();
                 cn.close();
-
-                Limpiar();
-
-                txt_Nombre.setBackground(Color.GREEN);
-                txt_Mail.setBackground(Color.GREEN);
-                txt_Telefono.setBackground(Color.GREEN);
-                txt_Direccion.setBackground(Color.GREEN);
-                txt_ModificadoPor.setText(user);
 
                 JOptionPane.showMessageDialog(null, "Actualización exitosa");
                 this.dispose();
@@ -349,7 +248,7 @@ public class InformacionCliente extends javax.swing.JFrame {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/" + nombre_cliente + ".pdf"));
 
-            com.itextpdf.text.Image header = com.itextpdf.text.Image.getInstance("src/main/java/images/BannerPDF.jpg");
+            com.itextpdf.text.Image header = com.itextpdf.text.Image.getInstance("images/BannerPDF.jpg");
             header.scaleToFit(550, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
 
@@ -362,12 +261,10 @@ public class InformacionCliente extends javax.swing.JFrame {
             documento.add(header);
             documento.add(parrafo);
 
-            PdfPTable tablaCliente = new PdfPTable(5);
+            PdfPTable tablaCliente = new PdfPTable(3);
             tablaCliente.addCell("ID");
             tablaCliente.addCell("Nombre");
-            tablaCliente.addCell("Email");
             tablaCliente.addCell("Telefono");
-            tablaCliente.addCell("Direccion");
 
             try {
                 Connection cn = Conexion.conectar();
@@ -379,9 +276,7 @@ public class InformacionCliente extends javax.swing.JFrame {
                     do {
                         tablaCliente.addCell(rs.getString("id_cliente"));
                         tablaCliente.addCell(rs.getString("nombre_cliente"));
-                        tablaCliente.addCell(rs.getString("mail_cliente"));
                         tablaCliente.addCell(rs.getString("tel_cliente"));
-                        tablaCliente.addCell(rs.getString("dir_cliente"));
                     } while (rs.next());
 
                     documento.add(tablaCliente);
@@ -464,8 +359,6 @@ public class InformacionCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Actualizar;
     private javax.swing.JButton jButton_ImprimirReporte;
-    private javax.swing.JLabel jLabel_Direccion;
-    private javax.swing.JLabel jLabel_Mail;
     private javax.swing.JLabel jLabel_ModificadoPor;
     private javax.swing.JLabel jLabel_Nombre;
     private javax.swing.JLabel jLabel_Telefono;
@@ -473,19 +366,56 @@ public class InformacionCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Wallpaper;
     private javax.swing.JScrollPane jScrollPane_Equipos;
     private javax.swing.JTable jTable_Equipos;
-    private javax.swing.JTextField txt_Direccion;
-    private javax.swing.JTextField txt_Mail;
     private javax.swing.JTextField txt_ModificadoPor;
     private javax.swing.JTextField txt_Nombre;
     private javax.swing.JTextField txt_Telefono;
     // End of variables declaration//GEN-END:variables
 
-    public void Limpiar() {
-        txt_Nombre.setText("");
-        txt_Mail.setText("");
-        txt_Telefono.setText("");
-        txt_Direccion.setText("");
+    private void CrearTablaInfoCliente(){
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement("select id_equipo, tipo_equipo, marca, estatus from equipos where id_cliente = '" + IDcliente_Update + "'");
 
+            ResultSet rs = pst.executeQuery();
+
+            jTable_Equipos = new JTable(tablaInfoCliente);
+            jScrollPane_Equipos.setViewportView(jTable_Equipos);
+
+            tablaInfoCliente.addColumn("ID equipo");
+            tablaInfoCliente.addColumn("Tipo de equipo");
+            tablaInfoCliente.addColumn("Marca");
+            tablaInfoCliente.addColumn("Estatus");
+
+            while (rs.next()) {
+                Object[] fila = new Object[4];
+                for (int i = 0; i < 4; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+                tablaInfoCliente.addRow(fila);
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.err.println("Error en el llenado equipos " + e);
+        }
+        ObtenerDatosTablaInfoCliente();
     }
+    
+    private void ObtenerDatosTablaInfoCliente(){
+        jTable_Equipos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila_point = jTable_Equipos.rowAtPoint(e.getPoint());
+                int columna_point = 0;
 
+                if (fila_point > -1) {
+                    IDequipo = (int) tablaInfoCliente.getValueAt(fila_point, columna_point);
+                    InformacionEquipo informacionEquipo = new InformacionEquipo();
+                    informacionEquipo.setVisible(true);
+
+                }
+
+            }
+
+        });
+    }
 }

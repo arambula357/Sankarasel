@@ -2,12 +2,10 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
-import clases.ObtenerDatosTabla;
+import clases.Crear;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -19,7 +17,7 @@ public class RestaurarPassword extends javax.swing.JFrame {
     public RestaurarPassword() {
         initComponents();
         user = Login.user;
-        user_Update = ObtenerDatosTabla.userUpdate;
+        user_Update = Crear.userUpdate;
 
         setTitle("Restaurar password de " + user_Update + " - Sesion de " + user);
         setSize(360, 260);
@@ -28,11 +26,7 @@ public class RestaurarPassword extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // Insertamos imagen de fondo.        
-        ImageIcon wallpaper = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(), jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_Wallpaper.setIcon(icono);
-        this.repaint();
+        Crear wallpaper = new Crear(jLabel_Wallpaper);
 
     }
 

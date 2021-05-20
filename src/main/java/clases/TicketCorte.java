@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -17,17 +18,23 @@ import javax.swing.JOptionPane;
 public class TicketCorte {
 
     //Atributos que almacenan los datos de la empresa y de la compra
-    private String empresa = "SANKARASEL REFACIONES";
-    private String propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-    private String rfc = "CAMS9711039P7";
-    private String direccion = "    AV TECNOLOGICO No 11308-B\n"
+    private final String empresa = "SANKARASEL REFACIONES";
+    private final String propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
+    private final String rfc = "CAMS9711039P7";
+    private final String direccion = "    AV TECNOLOGICO No 11308-B\n"
                     + "      COL. REVOLUCION CP 31135\n"
                     + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-    private String telefono = "6146191507";
+    private final String telefono = "6146191507";
     private String articulos;
     private String total;
     private String fecha;
-
+    private String cantidadI;
+    private String salidas;
+    private String totalSalidas;
+    private String totalEfectivo;
+    private String totalTarjeta;
+    private String totalTranfer;
+    
     /**
      * Atributo que almacena la estructura del contenido del ticket Los campos
      * que tengan la siguiente estructura {{nombreAtributo}}, ejemplo:
@@ -46,20 +53,24 @@ public class TicketCorte {
             + "================================\n"
             + "{{articulos}}\n"
             + "================================\n"
-            + "TOTAL:   $ {{total}}\n"
+            + "SALIDAS:  \n"
+            + "\n"
+            + "{{salidas}}\n"
+            + "================================\n"
+            + "INICIO TURNO:    ${{cantidadI}}\n"
+            + "TOTAL VENTAS:   $ {{total}}\n"
+            + "TOTAL SALIDAS:   $ {{totalSalidas}}\n"
+            + "================================\n"
+            + "TOTAL EFECTIVO:   $ {{efectivo}}\n"
+            + "TOTAL TARJETA:    $ {{tarjeta}}\n"
+            + "TOTAL TRANFER:    $ {{tranfer}}\n"
             + "\n"
             + "\n\n";
 
-    /**
-     * @param articulos datos del producto vendido
-     */
     public void setArticulos(String articulos) {
         this.articulos = articulos;
     }
 
-    /**
-     * @param total total de la compra
-     */
     public void setTotal(String total) {
         this.total = total;
     }
@@ -67,16 +78,41 @@ public class TicketCorte {
     public void setFecha() {
         String dia, mes, annio;
 
-        Calendar calendario = Calendar.getInstance();
-        dia = Integer.toString(calendario.get(Calendar.DATE));
-        mes = Integer.toString(calendario.get(Calendar.MONTH));
-        annio = Integer.toString(calendario.get(Calendar.YEAR));
-
+        LocalDateTime fechaActual = LocalDateTime.now();
+        dia = String.valueOf(fechaActual.getDayOfMonth());
+        mes = String.valueOf(fechaActual.getMonthValue());
+        annio = String.valueOf(fechaActual.getYear());
+        
         fecha = dia + "/" + mes + "/" + annio;
-        
-        
     }
-
+    public void setCantidadI(double cantidadI){
+        if (cantidadI == 0.0) {
+            this.cantidadI = "N/A";
+        } else {
+            this.cantidadI = String.valueOf(cantidadI);
+        }
+    }
+    
+    public void setSalidas(String salidas){
+        this.salidas = salidas;
+    }
+    
+    public void setTotalSalidas(String totalSalidas){
+        this.totalSalidas = totalSalidas;
+    }
+    
+    public void setEfectivo(double totalEfectivo){
+        this.totalEfectivo = String.valueOf(totalEfectivo);
+    }
+    
+    public void setTarjeta(double totaltarjeta){
+        this.totalTarjeta = String.valueOf(totaltarjeta);
+    }
+    
+    public void setTransfer(double totalTranfer){
+        this.totalTranfer = String.valueOf(totalTranfer);
+    }
+    
     /**
      * PARA ESTE EJEMPLO USAMOS UNA IMPRESORA TERMICA CON EL NOMBRE DE SUBARASI
      * EL CUAL LE ASIGNAMOS DESDE LA VENTANA DE IMPRESORA Y DISPOSITIVOS
@@ -96,8 +132,14 @@ public class TicketCorte {
         this.formatoTicket = formatoTicket.replace("{{telefono}}", telefono);
         this.formatoTicket = formatoTicket.replace("{{fecha}}", fecha);
         this.formatoTicket = formatoTicket.replace("{{articulos}}", articulos);
+        this.formatoTicket = formatoTicket.replace("{{salidas}}", salidas);
+        this.formatoTicket = formatoTicket.replace("{{cantidadI}}", cantidadI);
         this.formatoTicket = formatoTicket.replace("{{total}}", total);
-
+        this.formatoTicket = formatoTicket.replace("{{totalSalidas}}", totalSalidas);
+        this.formatoTicket = formatoTicket.replace("{{efectivo}}", totalEfectivo);
+        this.formatoTicket = formatoTicket.replace("{{tarjeta}}", totalTarjeta);
+        this.formatoTicket = formatoTicket.replace("{{tranfer}}", totalTranfer);
+        
         //Especificamos el tipo de dato a imprimir
         //Tipo: bytes -- Subtipo: autodetectado
         DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;

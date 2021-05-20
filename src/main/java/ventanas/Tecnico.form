@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
-      </Properties>
-    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu_Opciones">
@@ -22,12 +17,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_CerrarSesionActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_AcercaDe">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_Acercade">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_AcercaDeActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem_AcercadeActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -200,7 +195,7 @@
                               </Table>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value=""/>
-                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaEquipos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaEquipos.setRowCount(0);&#xa;tablaEquipos.setColumnCount(0);&#xa;jTable_Equipos = new JTable(tablaEquipos);&#xa;jScrollPane_Equipos.setViewportView(jTable_Equipos);&#xa;crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);">
                               <TableColumnModel selectionModel="0">
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
