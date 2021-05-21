@@ -30,6 +30,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JRException;
 
 public class Administrador extends javax.swing.JFrame {
@@ -281,6 +283,7 @@ public class Administrador extends javax.swing.JFrame {
         jDialog_Comun.setLocationRelativeTo(null);
         jDialog_Comun.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialog_Comun.setTitle("Producto Comun");
+        jDialog_Comun.setBackground(new java.awt.Color(37, 150, 190));
         jDialog_Comun.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelC_Cantidad.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -321,7 +324,6 @@ public class Administrador extends javax.swing.JFrame {
 
         jButtonC_Agregar.setBackground(new java.awt.Color(1, 89, 255));
         jButtonC_Agregar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonC_Agregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
         jButtonC_Agregar.setText("Agregar");
         jButtonC_Agregar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonC_Agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -330,9 +332,14 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         jDialog_Comun.getContentPane().add(jButtonC_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, 100, 40));
-
-        jLabelC_FondoComun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
-        jDialog_Comun.getContentPane().add(jLabelC_FondoComun, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
+        ImageIcon ImageAgregar = new ImageIcon("images/accept.png");
+        Icon iconoAgregar = new ImageIcon(ImageAgregar.getImage());
+        jButtonC_Agregar.setIcon(iconoAgregar);
+        jDialog_Comun.getContentPane().add(jLabelC_FondoComun, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 310));
+        ImageIcon fondoComun = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoComun = new ImageIcon(fondoComun.getImage());
+        jLabelC_FondoComun.setIcon(icoComun);
+        jLabelC_FondoComun.repaint();
 
         jDialog_Descuento.setSize(330, 230);
         jDialog_Descuento.setResizable(false);
@@ -377,14 +384,19 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         jDialog_Descuento.getContentPane().add(jButtonD_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 100, 40));
+        ImageIcon ImageAceptar = new ImageIcon("images/accept.png");
+        Icon iconoAceptar = new ImageIcon(ImageAceptar.getImage());
+        jButtonD_Aceptar.setIcon(iconoAceptar);
 
         jLabelD_Porcentaje1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabelD_Porcentaje1.setForeground(new java.awt.Color(255, 255, 255));
         jLabelD_Porcentaje1.setText("%");
         jDialog_Descuento.getContentPane().add(jLabelD_Porcentaje1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 100, -1, 30));
-
-        jLabel_FondoDescuento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
-        jDialog_Descuento.getContentPane().add(jLabel_FondoDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 240));
+        jDialog_Descuento.getContentPane().add(jLabel_FondoDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+        ImageIcon fondoDescuento = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoDescuento = new ImageIcon(fondoDescuento.getImage());
+        jLabel_FondoDescuento.setIcon(icoDescuento);
+        jLabel_FondoDescuento.repaint();
 
         jDialog_Salida.setSize(410, 240);
         jDialog_Salida.setResizable(false);
@@ -419,7 +431,6 @@ public class Administrador extends javax.swing.JFrame {
 
         jButtonS_Generar.setBackground(new java.awt.Color(1, 89, 255));
         jButtonS_Generar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonS_Generar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
         jButtonS_Generar.setText("Generar");
         jButtonS_Generar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonS_Generar.addActionListener(new java.awt.event.ActionListener() {
@@ -428,9 +439,14 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         jDialog_Salida.getContentPane().add(jButtonS_Generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 100, 40));
-
-        jLabel_FondoSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/wallpaperPrincipal.jpg"))); // NOI18N
-        jDialog_Salida.getContentPane().add(jLabel_FondoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
+        ImageIcon ImageGenerar = new ImageIcon("images/accept.png");
+        Icon iconoGenerar = new ImageIcon(ImageGenerar.getImage());
+        jButtonS_Generar.setIcon(iconoGenerar);
+        jDialog_Salida.getContentPane().add(jLabel_FondoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 300));
+        ImageIcon fondoSalida= new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoSalida = new ImageIcon(fondoSalida.getImage());
+        jLabel_FondoSalida.setIcon(icoSalida);
+        jLabel_FondoSalida.repaint();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -2285,7 +2301,12 @@ public class Administrador extends javax.swing.JFrame {
 
     private void jButton_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EliminarActionPerformed
         int filaSeleccionada = jTable_Articulos.getSelectedRow();
-
+        int columnaPrecioT = tablaArticulos.findColumn("Precio total");
+        String precioTotalActual = (String) jTable_Articulos.getValueAt(filaSeleccionada, columnaPrecioT);
+        String totalActual = txtV_Total.getText().trim();
+        String totalNuevo = String.valueOf(Double.parseDouble(totalActual) - Double.parseDouble(precioTotalActual));
+        
+        txtV_Total.setText(totalNuevo);
         tablaArticulos.removeRow(filaSeleccionada);
     }//GEN-LAST:event_jButton_EliminarActionPerformed
 

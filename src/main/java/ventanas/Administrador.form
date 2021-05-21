@@ -6,6 +6,9 @@
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="2"/>
         <Property name="title" type="java.lang.String" value="Producto Comun"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="be" green="96" red="25" type="rgb"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jDialog_Comun.setSize(430, 300);&#xa;jDialog_Comun.setResizable(false);&#xa;jDialog_Comun.setLocationRelativeTo(null);"/>
@@ -143,9 +146,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cloud\Documents\NetBeansProjects\Sankarasel\images\accept.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
@@ -156,6 +156,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonC_AgregarActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon ImageAgregar = new ImageIcon(&quot;images/accept.png&quot;);&#xa;Icon iconoAgregar = new ImageIcon(ImageAgregar.getImage());&#xa;jButtonC_Agregar.setIcon(iconoAgregar);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="290" y="190" width="100" height="40"/>
@@ -163,14 +166,12 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelC_FondoComun">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
-            </Property>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon fondoComun = new ImageIcon(&quot;images/wallpaperPrincipal.jpg&quot;);&#xa;Icon icoComun = new ImageIcon(fondoComun.getImage());&#xa;jLabelC_FondoComun.setIcon(icoComun);&#xa;jLabelC_FondoComun.repaint();"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="440" height="300"/>
+              <AbsoluteConstraints x="0" y="0" width="420" height="310"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -293,6 +294,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonD_AceptarActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon ImageAceptar = new ImageIcon(&quot;images/accept.png&quot;);&#xa;Icon iconoAceptar = new ImageIcon(ImageAceptar.getImage());&#xa;jButtonD_Aceptar.setIcon(iconoAceptar);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="200" y="140" width="100" height="40"/>
@@ -316,14 +320,12 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_FondoDescuento">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
-            </Property>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon fondoDescuento = new ImageIcon(&quot;images/wallpaperPrincipal.jpg&quot;);&#xa;Icon icoDescuento = new ImageIcon(fondoDescuento.getImage());&#xa;jLabel_FondoDescuento.setIcon(icoDescuento);&#xa;jLabel_FondoDescuento.repaint();"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="350" height="240"/>
+              <AbsoluteConstraints x="0" y="0" width="400" height="300"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -430,9 +432,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cloud\Documents\NetBeansProjects\Sankarasel\images\accept.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Generar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
@@ -443,6 +442,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonS_GenerarActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon ImageGenerar = new ImageIcon(&quot;images/accept.png&quot;);&#xa;Icon iconoGenerar = new ImageIcon(ImageGenerar.getImage());&#xa;jButtonS_Generar.setIcon(iconoGenerar);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="290" y="150" width="100" height="40"/>
@@ -450,14 +452,12 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_FondoSalida">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/wallpaperPrincipal.jpg"/>
-            </Property>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon fondoSalida= new ImageIcon(&quot;images/wallpaperPrincipal.jpg&quot;);&#xa;Icon icoSalida = new ImageIcon(fondoSalida.getImage());&#xa;jLabel_FondoSalida.setIcon(icoSalida);&#xa;jLabel_FondoSalida.repaint();"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="410" height="230"/>
+              <AbsoluteConstraints x="0" y="0" width="410" height="300"/>
             </Constraint>
           </Constraints>
         </Component>

@@ -36,9 +36,10 @@ public class Crear {
      * Constructores especializado en colocar fondos en JLabel y JButton al iniciar programa.
      */
     public Crear(JLabel Wallpaper) {
-        ImageIcon fondoUsuarios = new ImageIcon("images/wallpaperPrincipal.jpg");
-        Icon ico = new ImageIcon(fondoUsuarios.getImage().getScaledInstance(Wallpaper.getWidth(), Wallpaper.getHeight(), Image.SCALE_DEFAULT));
+        ImageIcon fondo = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon ico = new ImageIcon(fondo.getImage().getScaledInstance(Wallpaper.getWidth(), Wallpaper.getHeight(), Image.SCALE_DEFAULT));
         Wallpaper.setIcon(ico);
+        Wallpaper.repaint();
     }
 
     public Crear(JButton boton, String ruta, String margen) {
