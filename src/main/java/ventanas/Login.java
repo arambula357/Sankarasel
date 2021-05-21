@@ -53,7 +53,7 @@ public class Login extends javax.swing.JFrame {
         jDialog_InicioTurno = new javax.swing.JDialog();
         txt_Cantidad = new javax.swing.JTextField();
         jLabel_Cantidad = new javax.swing.JLabel();
-        jButtonS_Generar = new javax.swing.JButton();
+        jButtonI_Aceptar = new javax.swing.JButton();
         jLabel_FondoInicio = new javax.swing.JLabel();
         jLabel_Logo = new javax.swing.JLabel();
         jLabel_User = new javax.swing.JLabel();
@@ -81,20 +81,25 @@ public class Login extends javax.swing.JFrame {
         jLabel_Cantidad.setText("Cantidad inicio:");
         jDialog_InicioTurno.getContentPane().add(jLabel_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        jButtonS_Generar.setBackground(new java.awt.Color(1, 89, 255));
-        jButtonS_Generar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonS_Generar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
-        jButtonS_Generar.setText("Aceptar");
-        jButtonS_Generar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButtonS_Generar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonI_Aceptar.setBackground(new java.awt.Color(1, 89, 255));
+        jButtonI_Aceptar.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonI_Aceptar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
+        jButtonI_Aceptar.setText("Aceptar");
+        jButtonI_Aceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonI_Aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonS_GenerarActionPerformed(evt);
+                jButtonI_AceptarActionPerformed(evt);
             }
         });
-        jDialog_InicioTurno.getContentPane().add(jButtonS_Generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 100, 40));
-
-        jLabel_FondoInicio.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        jDialog_InicioTurno.getContentPane().add(jButtonI_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 100, 40));
+        ImageIcon ImageAceptar = new ImageIcon("images/accept.png");
+        Icon iconoAceptar = new ImageIcon(ImageAceptar.getImage());
+        jButtonI_Aceptar.setIcon(iconoAceptar);
         jDialog_InicioTurno.getContentPane().add(jLabel_FondoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 220));
+        ImageIcon fondoInicio = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoInicio = new ImageIcon(fondoInicio.getImage());
+        jLabel_FondoInicio.setIcon(icoInicio);
+        jLabel_FondoInicio.repaint();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
@@ -190,7 +195,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_AccederActionPerformed
 
-    private void jButtonS_GenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonS_GenerarActionPerformed
+    private void jButtonI_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonI_AceptarActionPerformed
         String cantidadS = txt_Cantidad.getText().trim();
         double cantidad = Double.parseDouble(cantidadS);
 
@@ -209,7 +214,7 @@ public class Login extends javax.swing.JFrame {
         jDialog_InicioTurno.dispose();
         this.dispose();
         new Capturista().setVisible(true);
-    }//GEN-LAST:event_jButtonS_GenerarActionPerformed
+    }//GEN-LAST:event_jButtonI_AceptarActionPerformed
 
     public static void main(String args[]) {
 
@@ -221,7 +226,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonS_Generar;
+    private javax.swing.JButton jButtonI_Aceptar;
     private javax.swing.JButton jButton_Acceder;
     private javax.swing.JDialog jDialog_InicioTurno;
     private javax.swing.JLabel jLabel_Cantidad;

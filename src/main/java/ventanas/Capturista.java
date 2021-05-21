@@ -30,6 +30,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import net.sf.jasperreports.engine.JRException;
 
 public class Capturista extends javax.swing.JFrame {
@@ -135,7 +137,7 @@ public class Capturista extends javax.swing.JFrame {
         jLabel_Concepto = new javax.swing.JLabel();
         txt_Concepto = new javax.swing.JTextField();
         jButtonS_Generar = new javax.swing.JButton();
-        jLabel_Wallpaper1 = new javax.swing.JLabel();
+        jLabelS_FondoSalida = new javax.swing.JLabel();
         jTabbedPane_General = new javax.swing.JTabbedPane();
         jPanel_VistaCapturista = new javax.swing.JPanel();
         jTabbedPane_VistaCapturista = new javax.swing.JTabbedPane();
@@ -280,7 +282,6 @@ public class Capturista extends javax.swing.JFrame {
 
         jButtonC_Agregar.setBackground(new java.awt.Color(1, 89, 255));
         jButtonC_Agregar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonC_Agregar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
         jButtonC_Agregar.setText("Agregar");
         jButtonC_Agregar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonC_Agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,9 +290,14 @@ public class Capturista extends javax.swing.JFrame {
             }
         });
         jDialog_Comun.getContentPane().add(jButtonC_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, 100, 40));
-
-        jLabelC_FondoComun.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
+        ImageIcon ImageAgregar = new ImageIcon("images/accept.png");
+        Icon iconoAgregar = new ImageIcon(ImageAgregar.getImage());
+        jButtonC_Agregar.setIcon(iconoAgregar);
         jDialog_Comun.getContentPane().add(jLabelC_FondoComun, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
+        ImageIcon fondoComun = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoComun = new ImageIcon(fondoComun.getImage());
+        jLabelC_FondoComun.setIcon(icoComun);
+        jLabelC_FondoComun.repaint();
 
         jDialog_Descuento.setSize(330, 230);
         jDialog_Descuento.setResizable(false);
@@ -327,7 +333,6 @@ public class Capturista extends javax.swing.JFrame {
 
         jButtonD_Aceptar.setBackground(new java.awt.Color(1, 89, 255));
         jButtonD_Aceptar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonD_Aceptar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
         jButtonD_Aceptar.setText("Aceptar");
         jButtonD_Aceptar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonD_Aceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -336,14 +341,19 @@ public class Capturista extends javax.swing.JFrame {
             }
         });
         jDialog_Descuento.getContentPane().add(jButtonD_Aceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 100, 40));
+        ImageIcon ImageAceptar = new ImageIcon("images/accept.png");
+        Icon iconoAceptar = new ImageIcon(ImageAceptar.getImage());
+        jButtonD_Aceptar.setIcon(iconoAceptar);
 
         jLabelD_Porcentaje1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabelD_Porcentaje1.setForeground(new java.awt.Color(255, 255, 255));
         jLabelD_Porcentaje1.setText("%");
         jDialog_Descuento.getContentPane().add(jLabelD_Porcentaje1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 100, -1, 30));
-
-        jLabel_FondoDescuento.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
         jDialog_Descuento.getContentPane().add(jLabel_FondoDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 240));
+        ImageIcon fondoDescuento = new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoDescuento = new ImageIcon(fondoDescuento.getImage());
+        jLabel_FondoDescuento.setIcon(icoDescuento);
+        jLabel_FondoDescuento.repaint();
 
         jDialog_Salida.setSize(410, 240);
         jDialog_Salida.setResizable(false);
@@ -378,7 +388,6 @@ public class Capturista extends javax.swing.JFrame {
 
         jButtonS_Generar.setBackground(new java.awt.Color(1, 89, 255));
         jButtonS_Generar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonS_Generar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\accept.png")); // NOI18N
         jButtonS_Generar.setText("Generar");
         jButtonS_Generar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButtonS_Generar.addActionListener(new java.awt.event.ActionListener() {
@@ -387,9 +396,14 @@ public class Capturista extends javax.swing.JFrame {
             }
         });
         jDialog_Salida.getContentPane().add(jButtonS_Generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 100, 40));
-
-        jLabel_Wallpaper1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cloud\\Documents\\NetBeansProjects\\Sankarasel\\images\\wallpaperPrincipal.jpg")); // NOI18N
-        jDialog_Salida.getContentPane().add(jLabel_Wallpaper1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
+        ImageIcon ImageGenerar = new ImageIcon("images/accept.png");
+        Icon iconoGenerar = new ImageIcon(ImageGenerar.getImage());
+        jButtonS_Generar.setIcon(iconoGenerar);
+        jDialog_Salida.getContentPane().add(jLabelS_FondoSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 230));
+        ImageIcon fondoSalida= new ImageIcon("images/wallpaperPrincipal.jpg");
+        Icon icoSalida = new ImageIcon(fondoSalida.getImage());
+        jLabelS_FondoSalida.setIcon(icoSalida);
+        jLabelS_FondoSalida.repaint();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -1988,6 +2002,7 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelD_Monto;
     private javax.swing.JLabel jLabelD_Porcentaje;
     private javax.swing.JLabel jLabelD_Porcentaje1;
+    private javax.swing.JLabel jLabelS_FondoSalida;
     private javax.swing.JLabel jLabelV_Folio;
     private javax.swing.JLabel jLabelV_Marca;
     private javax.swing.JLabel jLabelV_Modelo;
@@ -2020,7 +2035,6 @@ public class Capturista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Total;
     private javax.swing.JLabel jLabel_VentaRegistrada;
     private javax.swing.JLabel jLabel_Wallpaper;
-    private javax.swing.JLabel jLabel_Wallpaper1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem_Acercade;
     private javax.swing.JMenuItem jMenuItem_CerrarSesion;
