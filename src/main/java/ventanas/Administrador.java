@@ -775,7 +775,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Titulo4.setText("Equipos registrados");
         jPanel_GestionarEquipos.add(jLabel_Titulo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
-        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
+        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Nuevo ingreso", "En revision", "Reparado", "No reparado", "Entregado" }));
         cmb_Estatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_EstatusActionPerformed(evt);
@@ -2817,6 +2817,7 @@ public class Administrador extends javax.swing.JFrame {
 
     public void addProducto() {
         txtV_addProducto.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent evt) {
                 if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                     String cantidad = "", codigo = "", nombre = "", precio = "", precioT = "", parte1 = "", parte2 = "";

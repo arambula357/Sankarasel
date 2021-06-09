@@ -104,6 +104,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
             cmb_Estatus.setEnabled(false);
             jTextPane_Observaciones.setEditable(false);
             jButton_Actualizar.setEnabled(false);
+            jLabel_Titulo.setText("Información de equipo (Entregado)");
         }
     }
 
@@ -262,7 +263,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
         txt_Fecha.setEnabled(false);
         getContentPane().add(txt_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 180, -1));
 
-        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "No reparado", "En revision", "Reparado", "Entregado" }));
+        cmb_Estatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo ingreso", "En revision", "Reparado", "No reparado" }));
         getContentPane().add(cmb_Estatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, -1, -1));
 
         jScrollPane1.setViewportView(jTextPane_Observaciones);

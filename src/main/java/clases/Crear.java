@@ -5,6 +5,8 @@ package clases;
  */
 
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
@@ -94,6 +96,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla usuarios! Contacte al administrador");
         }
         ObtenerDatosTablaUsuarios(tablaUsuarios, jTable_Usuarios);
+        EventRefreshTable(tablaUsuarios, jTable_Usuarios, jScrollPane_GestionarUsuarios, "Usuarios");
     }
 
     public void ObtenerDatosTablaUsuarios(DefaultTableModel tablaUsuarios, JTable jTable_Usuarios) {
@@ -103,7 +106,7 @@ public class Crear {
                 int fila_point = jTable_Usuarios.rowAtPoint(e.getPoint());
                 int columna_point = 2;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     userUpdate = (String) tablaUsuarios.getValueAt(fila_point, columna_point);
                     InformacionUsuario informacionUsuario = new InformacionUsuario();
                     informacionUsuario.setVisible(true);
@@ -149,6 +152,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla clientes! Contacte al administrador");
         }
         ObtenerDatosTablaClientes(tablaClientes, jTable_Clientes);
+        EventRefreshTable(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes, "Clientes");
     }
 
     public void ObtenerDatosTablaClientes(DefaultTableModel tablaClientes, JTable jTable_Clientes) {
@@ -158,7 +162,7 @@ public class Crear {
                 int fila_point = jTable_Clientes.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     IDclienteUpdate = (int) tablaClientes.getValueAt(fila_point, columna_point);
                     InformacionCliente informacionCliente = new InformacionCliente();
                     informacionCliente.setVisible(true);
@@ -202,6 +206,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla equipos! Contacte al administrador");
         }
         ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
+        EventRefreshTable(tablaEquipos, jTable_Equipos, jScrollPane_Equipos, "Equipos");
     }
     
     public void ObtenerDatosTablaEquipos(DefaultTableModel tablaEquipos, JTable jTable_Equipos) {
@@ -211,7 +216,7 @@ public class Crear {
                 int fila_point = jTable_Equipos.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     IDequipoUpdate = (int) tablaEquipos.getValueAt(fila_point, columna_point);
                     InformacionEquipoTecnico informacionEquipoTecnico = new InformacionEquipoTecnico();
                     informacionEquipoTecnico.setVisible(true);
@@ -254,6 +259,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla productos! Contacte al administrador");
         }
         ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
+        EventRefreshTable(tablaProductos, jTable_Productos, jScrollPane_Productos, "Productos");
     }
     
     public void ObtenerDatosTablaProductos(DefaultTableModel tablaProductos, JTable jTable_Productos) {
@@ -263,7 +269,7 @@ public class Crear {
                 int fila_point = jTable_Productos.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     IDproducto = (int) tablaProductos.getValueAt(fila_point, columna_point);
                     Producto producto = new Producto();
                     producto.setVisible(true);
@@ -303,6 +309,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla servicios! Contacte al administrador");
         }
         ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
+        EventRefreshTable(tablaServicios, jTable_Servicios, jScrollPane_Servicios, "Servicios");
     }
     
     public void ObtenerDatosTablaServicios(DefaultTableModel tablaServicios, JTable jTable_Servicios) {
@@ -312,7 +319,7 @@ public class Crear {
                 int fila_point = jTable_Servicios.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     IDservicio = (int) tablaServicios.getValueAt(fila_point, columna_point);
                     Servicio servicio = new Servicio();
                     servicio.setVisible(true);
@@ -355,7 +362,7 @@ public class Crear {
             JOptionPane.showMessageDialog(null, "¡Error al cargar tabla ventas! Contacte al administrador");
         }
         ObtenerDatosTablaVentas(tablaVentas, jTable_Ventas);
-
+        EventRefreshTable(tablaVentas, jTable_Ventas, jScrollPane_Ventas, "Ventas");
     }
     
     public void ObtenerDatosTablaVentas(DefaultTableModel tablaVentas, JTable jTable_Ventas) {
@@ -365,7 +372,7 @@ public class Crear {
                 int fila_point = jTable_Ventas.rowAtPoint(e.getPoint());
                 int columna_point = 0;
 
-                if (fila_point > -1) {
+                if (e.getClickCount() == 2) {
                     IDventa = (int) tablaVentas.getValueAt(fila_point, columna_point);
                     InformacionVenta informacionVenta = new InformacionVenta();
                     informacionVenta.setVisible(true);
@@ -376,4 +383,36 @@ public class Crear {
         });
     }
 
+    public void EventRefreshTable(DefaultTableModel modelTabla, JTable tabla, JScrollPane scroll, String nombreTabla) {
+        tabla.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                if (evt.getKeyCode() == KeyEvent.VK_F5) {
+                    
+                    switch (nombreTabla){
+                        case "Usuarios":
+                            CrearTablaUsuarios(modelTabla, tabla, scroll);
+                            break;
+                        case "Clientes":
+                            CrearTablaClientes(modelTabla, tabla, scroll);
+                            break;
+                        case "Equipos":
+                            CrearTablaEquipos(modelTabla, tabla, scroll);
+                            break;
+                        case "Productos":
+                            CrearTablaProductos(modelTabla, tabla, scroll);
+                            break;
+                        case "Servicios":
+                            CrearTablaServicios(modelTabla, tabla, scroll);
+                            break;
+                        case "Ventas":
+                            CrearTablaVentas(modelTabla, tabla, scroll);
+                            break;
+                    }
+                    
+                }
+            }
+        });
+    }
+    
 }

@@ -1558,9 +1558,9 @@
                           <StringArray count="6">
                             <StringItem index="0" value="Todos"/>
                             <StringItem index="1" value="Nuevo ingreso"/>
-                            <StringItem index="2" value="No reparado"/>
-                            <StringItem index="3" value="En revision"/>
-                            <StringItem index="4" value="Reparado"/>
+                            <StringItem index="2" value="En revision"/>
+                            <StringItem index="3" value="Reparado"/>
+                            <StringItem index="4" value="No reparado"/>
                             <StringItem index="5" value="Entregado"/>
                           </StringArray>
                         </Property>

@@ -382,12 +382,11 @@
     <Component class="javax.swing.JComboBox" name="cmb_Estatus">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="4">
             <StringItem index="0" value="Nuevo ingreso"/>
-            <StringItem index="1" value="No reparado"/>
-            <StringItem index="2" value="En revision"/>
-            <StringItem index="3" value="Reparado"/>
-            <StringItem index="4" value="Entregado"/>
+            <StringItem index="1" value="En revision"/>
+            <StringItem index="2" value="Reparado"/>
+            <StringItem index="3" value="No reparado"/>
           </StringArray>
         </Property>
       </Properties>
