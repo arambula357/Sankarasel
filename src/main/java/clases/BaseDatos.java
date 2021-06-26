@@ -8,35 +8,11 @@ import javax.swing.JOptionPane;
 
 public class BaseDatos {
 
-    private final TicketCorte ticketCorte = new TicketCorte();
-
     private int idEquipo, idCliente;
     public static String nombreUsuario;
 
-    /*
-     * Este método llama a la base de datos y realiza un nuevo registro en la tabla "inicioturno".
-     * Este método es invocado en el boton "jButtonS_Generar" de la clase "Login" dentro del "jDialog_InicioTurno".
-     * El uso de este método es indispensable para recuperar la informacion capturada en el ticket de corte.
-     */
-    public void RegistroInicioTurno(double cantidad, String fecha, String usuario){
-        try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("insert into inicioturno values (?,?,?,?)");
-            
-            pst.setInt(1, 0);
-            pst.setDouble(2, cantidad);
-            pst.setString(3, fecha);
-            pst.setString(4, usuario);
-            
-            pst.executeUpdate();
-            cn.close();
-            
-            JOptionPane.showMessageDialog(null, "Registro exitoso");
-        } catch (SQLException e) {
-            System.err.println("Error al registrar la cantidad de inicio de turno " + e.getMessage());
-        }
-    }
-    
+    private final TicketCorte ticketCorte = new TicketCorte();
+
     /*
      * Este método llama a la base de datos y realiza una consulta del id del cliente que se esta actualizando en la venta.
      * El resultado de la consulta es usado por los métodos "RegistroVenta()".
@@ -46,19 +22,18 @@ public class BaseDatos {
         this.idEquipo = idEquipo;
         if (idEquipo != 0) {
             try {
-                Connection cn = Conexion.conectar();
-                PreparedStatement pst = cn.prepareStatement("select id_cliente from equipos where id_equipo = '" + idEquipo + "'");
-                ResultSet rs = pst.executeQuery();
+                try ( Connection cn = Conexion.conectar()) {
+                    PreparedStatement pst = cn.prepareStatement("select id_cliente from equipos where id_equipo = '" + idEquipo + "'");
+                    ResultSet rs = pst.executeQuery();
 
-                if (rs.next()) {
-                    idCliente = rs.getInt("id_cliente");
+                    if (rs.next()) {
+                        idCliente = rs.getInt("id_cliente");
+                    }
                 }
-                cn.close();
             } catch (SQLException e) {
                 System.err.println("Error al consultar id_cliente " + e);
             }
         }
-
     }
 
     /*
@@ -68,16 +43,40 @@ public class BaseDatos {
      */
     public void ConsultarUsuario(String usuario) {
         try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("select nombre_usuario from usuarios where username = '" + usuario + "'");
-            ResultSet rs = pst.executeQuery();
+            try ( Connection cn = Conexion.conectar()) {
+                PreparedStatement pst = cn.prepareStatement("select nombre_usuario from usuarios where username = '" + usuario + "'");
+                ResultSet rs = pst.executeQuery();
 
-            if (rs.next()) {
-                nombreUsuario = rs.getString("nombre_usuario");
+                if (rs.next()) {
+                    nombreUsuario = rs.getString("nombre_usuario");
+                }
             }
-            cn.close();
         } catch (SQLException e) {
             System.err.println("Error al consultar nombre completo del usuario " + e);
+        }
+    }
+
+    /*
+     * Este método llama a la base de datos y realiza un nuevo registro en la tabla "inicioturno".
+     * Este método es invocado en el boton "jButtonS_Generar" de la clase "Login" dentro del "jDialog_InicioTurno".
+     * El uso de este método es indispensable para recuperar la informacion capturada en el ticket de corte.
+     */
+    public void RegistroInicioTurno(double cantidad, String fecha, String usuario) {
+        try {
+            try ( Connection cn = Conexion.conectar()) {
+                PreparedStatement pst = cn.prepareStatement("insert into inicioturno values (?,?,?,?)");
+
+                pst.setInt(1, 0);
+                pst.setDouble(2, cantidad);
+                pst.setString(3, fecha);
+                pst.setString(4, usuario);
+
+                pst.executeUpdate();
+            }
+
+            JOptionPane.showMessageDialog(null, "Registro exitoso");
+        } catch (SQLException e) {
+            System.err.println("Error al registrar la cantidad de inicio de turno " + e.getMessage());
         }
     }
 
@@ -252,7 +251,7 @@ public class BaseDatos {
 
         ticketCorte.setFecha();
 
-        ConsultaSumatoriaCorteDiario(dateSQL);
+        ConsultarSumatoria(dateSQL);
     }
 
     /*
@@ -260,7 +259,7 @@ public class BaseDatos {
      * Este método es invocado en el método "GenerarCorteDiario()" para disminuir la lineas de código.
      * La continuación de este método es "ConsultaSalidasCorteDiario()".
      */
-    private void ConsultaSumatoriaCorteDiario(java.sql.Date date) {
+    private void ConsultarSumatoria(java.sql.Date date) {
         int[] cantidad = new int[99];
         int[] cantidadT = new int[99];
         String[] nombre = new String[99];
@@ -343,7 +342,7 @@ public class BaseDatos {
 
         ticketCorte.setSalidas(acumulacionSalidas);
         ticketCorte.setTotalSalidas(sumatoriaSalidasS);
-        
+
         ConsultarTiposVentaCorteDiario(date);
     }
 
@@ -394,26 +393,26 @@ public class BaseDatos {
         ticketCorte.setTarjeta(sumTarjeta);
         ticketCorte.setTransfer(sumTranfer);
         ticketCorte.setCantidadI(ConsultarInicioTurno());
-        
+
         try {
             ticketCorte.print(false);
         } catch (IOException ex) {
             System.err.println("Error al enviar información para ticket de corte " + ex.getMessage());
         }
     }
-    
+
     /*
      * Consultamos la cantidad de efectivo al inicio de turno en la tabla "inicioturno".
      * Este método es invocado en el método "ConsultarTiposVentaCorteDiario()" justo al enviar el dato al ticket.
      */
-    private double ConsultarInicioTurno(){
+    private double ConsultarInicioTurno() {
         LocalDateTime fechaActual = LocalDateTime.now();
         String dia = String.valueOf(fechaActual.getDayOfMonth());
         String mes = String.valueOf(fechaActual.getMonthValue());
         String annio = String.valueOf(fechaActual.getYear());
         String fecha = dia + "/" + mes + "/" + annio;
         double cantidad = 0.0;
-        
+
         try {
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select cantidad from inicioturno where fecha = '" + fecha + "'");
@@ -581,5 +580,5 @@ public class BaseDatos {
             System.err.println("Error al enviar información para ticket de corte " + ex.getMessage());
         }
     }
-    
+
 }

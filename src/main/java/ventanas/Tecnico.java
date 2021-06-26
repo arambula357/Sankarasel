@@ -32,10 +32,7 @@ public class Tecnico extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear fondoVistaTecnico = new Crear(jLabel_FondoVistaTecnico);
-        Crear fondoGestionarEquipos = new Crear(jLabel_FondoGestionarEquipos);
+        initFondos();
 
         try { // Obtener nombre completo del usuario que inicio sesión.
             Connection cn = Conexion.conectar();
@@ -296,4 +293,10 @@ public class Tecnico extends javax.swing.JFrame {
     private javax.swing.JTable jTable_Equipos;
     // End of variables declaration//GEN-END:variables
 
+    private void initFondos(){
+        crear.CrearFondo(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_FondoVistaTecnico);
+        crear.CrearFondo(jLabel_FondoGestionarEquipos);
+
+    }
 }

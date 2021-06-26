@@ -1,5 +1,6 @@
 package ventanas;
 
+import clases.Crear;
 import clases.Updater;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,6 +18,8 @@ import javax.swing.WindowConstants;
 public class InfoVersion extends javax.swing.JFrame {
 
     private String versionActual, user;
+    
+    Crear crear = new Crear();
 
     public InfoVersion() {
         initComponents();
@@ -25,7 +28,7 @@ public class InfoVersion extends javax.swing.JFrame {
 
         jButton_DescargarActualizacion.setVisible(false);
         setSize(375, 275);
-        setTitle("Administrador - Sesion de " + user);
+        setTitle("Versión");
         setResizable(false);
         setLocationRelativeTo(null);
 

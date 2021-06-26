@@ -12,6 +12,8 @@ import javax.swing.WindowConstants;
 public class NuevoArticulo extends javax.swing.JFrame {
 
     String user = "";
+    
+    Crear crear = new Crear();
 
     public NuevoArticulo() {
         initComponents();
@@ -24,8 +26,8 @@ public class NuevoArticulo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear botonAltas = new Crear(jButton_Alta, "images/iconoNUbeFlecha.png", "No");
+        crear.CrearFondo(jLabel_Wallpaper);
+        crear.CrearFondo(jButton_Alta, "images/iconoNUbeFlecha.png", false);
     }
 
     // Colocando icono a ventana

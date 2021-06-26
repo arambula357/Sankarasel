@@ -12,6 +12,8 @@ public class Producto extends javax.swing.JFrame {
 
     int cantidadActual, masCantidad, IDproducto = 0;
     String nombre, codigo, precio, user = "";
+    
+    Crear crear = new Crear();
 
     public Producto() {
         initComponents();
@@ -25,8 +27,8 @@ public class Producto extends javax.swing.JFrame {
         
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear actualizar = new Crear(jButton_ActualizarProducto, "images/iconoActualizar.png", "No");
+        crear.CrearFondo(jLabel_Wallpaper);
+        crear.CrearFondo(jButton_ActualizarProducto, "images/iconoActualizar.png", false);
         
         
         try { // Obtener nombre completo del usuario que inicio sesión.

@@ -11,7 +11,6 @@ import clases.BaseDatos;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -19,6 +18,8 @@ public class Login extends javax.swing.JFrame {
     public static String user = "";
     String pass = "";
     BaseDatos bd = new BaseDatos();
+    
+    Crear crear = new Crear();
 
     public Login() {
         initComponents();
@@ -27,7 +28,7 @@ public class Login extends javax.swing.JFrame {
         setTitle("Acceso al sistema");
         setLocationRelativeTo(null);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
 
         ImageIcon logo = new ImageIcon("images/logo-sankarasel-mediano.png");
         Icon icono_logo = new ImageIcon(logo.getImage().getScaledInstance(jLabel_Logo.getWidth(), jLabel_Logo.getHeight(), Image.SCALE_DEFAULT));

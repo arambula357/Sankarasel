@@ -3,7 +3,6 @@ package clases;
 /*
  * @author Diego Arambula.
  */
-
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -31,21 +30,17 @@ public class Crear {
     public static int IDclienteUpdate, IDequipoUpdate, IDproducto, IDservicio, IDventa, IDequipo;
 
     public Crear() {
-
     }
 
-    /*
-     * Constructores especializado en colocar fondos en JLabel y JButton al iniciar programa.
-     */
-    public Crear(JLabel Wallpaper) {
+    public void CrearFondo(JLabel Wallpaper) {
         ImageIcon fondo = new ImageIcon("images/wallpaperPrincipal.jpg");
         Icon ico = new ImageIcon(fondo.getImage().getScaledInstance(Wallpaper.getWidth(), Wallpaper.getHeight(), Image.SCALE_DEFAULT));
         Wallpaper.setIcon(ico);
         Wallpaper.repaint();
     }
 
-    public Crear(JButton boton, String ruta, String margen) {
-        if (margen.equals("Si")) {
+    public void CrearFondo(JButton boton, String ruta, boolean margen) {
+        if (margen) {
             ImageIcon ImageBoton = new ImageIcon(ruta);
             Icon iconoBoton = new ImageIcon(ImageBoton.getImage().getScaledInstance(boton.getWidth(), boton.getHeight(), Image.SCALE_DEFAULT));
             boton.setIcon(iconoBoton);
@@ -64,7 +59,7 @@ public class Crear {
      */
     public void CrearTablaUsuarios(DefaultTableModel tablaUsuarios, JTable jTable_Usuarios, JScrollPane jScrollPane_GestionarUsuarios) {
         tablaUsuarios.setRowCount(0);
-        tablaUsuarios.setColumnCount(0);        
+        tablaUsuarios.setColumnCount(0);
         try {
             Connection cn2 = Conexion.conectar();
             PreparedStatement pst2 = cn2.prepareStatement("select id_usuario, nombre_usuario, username, tipo_nivel, estatus from usuarios");
@@ -118,10 +113,10 @@ public class Crear {
         });
 
     }
-    
+
     public void CrearTablaClientes(DefaultTableModel tablaClientes, JTable jTable_Clientes, JScrollPane jScrollPane_GestionarClientes) {
         tablaClientes.setRowCount(0);
-        tablaClientes.setColumnCount(0);        
+        tablaClientes.setColumnCount(0);
         try { //Obtener datos de la tabla "Clientes"
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement("select id_cliente, nombre_cliente, tel_cliente, ultima_modificacion from clientes");
@@ -208,7 +203,7 @@ public class Crear {
         ObtenerDatosTablaEquipos(tablaEquipos, jTable_Equipos);
         EventRefreshTable(tablaEquipos, jTable_Equipos, jScrollPane_Equipos, "Equipos");
     }
-    
+
     public void ObtenerDatosTablaEquipos(DefaultTableModel tablaEquipos, JTable jTable_Equipos) {
         jTable_Equipos.addMouseListener(new MouseAdapter() {
             @Override
@@ -261,7 +256,7 @@ public class Crear {
         ObtenerDatosTablaProductos(tablaProductos, jTable_Productos);
         EventRefreshTable(tablaProductos, jTable_Productos, jScrollPane_Productos, "Productos");
     }
-    
+
     public void ObtenerDatosTablaProductos(DefaultTableModel tablaProductos, JTable jTable_Productos) {
         jTable_Productos.addMouseListener(new MouseAdapter() {
             @Override
@@ -311,7 +306,7 @@ public class Crear {
         ObtenerDatosTablaServicios(tablaServicios, jTable_Servicios);
         EventRefreshTable(tablaServicios, jTable_Servicios, jScrollPane_Servicios, "Servicios");
     }
-    
+
     public void ObtenerDatosTablaServicios(DefaultTableModel tablaServicios, JTable jTable_Servicios) {
         jTable_Servicios.addMouseListener(new MouseAdapter() {
             @Override
@@ -337,22 +332,22 @@ public class Crear {
             Connection cn6 = Conexion.conectar();
             PreparedStatement pst6 = cn6.prepareStatement("select id_venta, id_equipo, tipo_venta, total, fecha_venta from ventas");
             ResultSet rs6 = pst6.executeQuery();
-            
+
             jTable_Ventas = new JTable(tablaVentas);
             jScrollPane_Ventas.setViewportView(jTable_Ventas);
-            
+
             tablaVentas.addColumn(" ");
             tablaVentas.addColumn("Folio");
             tablaVentas.addColumn("Tipo venta");
             tablaVentas.addColumn("total");
             tablaVentas.addColumn("Fecha");
-            
+
             while (rs6.next()) {
                 Object[] fila = new Object[5];
-                
+
                 for (int i = 0; i < 5; i++) {
                     fila[i] = rs6.getObject(i + 1);
-                    
+
                 }
                 tablaVentas.addRow(fila);
             }
@@ -364,7 +359,7 @@ public class Crear {
         ObtenerDatosTablaVentas(tablaVentas, jTable_Ventas);
         EventRefreshTable(tablaVentas, jTable_Ventas, jScrollPane_Ventas, "Ventas");
     }
-    
+
     public void ObtenerDatosTablaVentas(DefaultTableModel tablaVentas, JTable jTable_Ventas) {
         jTable_Ventas.addMouseListener(new MouseAdapter() {
             @Override
@@ -388,8 +383,8 @@ public class Crear {
             @Override
             public void keyReleased(KeyEvent evt) {
                 if (evt.getKeyCode() == KeyEvent.VK_F5) {
-                    
-                    switch (nombreTabla){
+
+                    switch (nombreTabla) {
                         case "Usuarios":
                             CrearTablaUsuarios(modelTabla, tabla, scroll);
                             break;
@@ -409,10 +404,10 @@ public class Crear {
                             CrearTablaVentas(modelTabla, tabla, scroll);
                             break;
                     }
-                    
+
                 }
             }
         });
     }
-    
+
 }

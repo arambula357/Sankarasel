@@ -13,6 +13,8 @@ public class RestaurarPassword extends javax.swing.JFrame {
 
     String user = "", user_Update = "";
 
+    Crear crear = new Crear();
+    
     // Constructor
     public RestaurarPassword() {
         initComponents();
@@ -26,7 +28,7 @@ public class RestaurarPassword extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
 
     }
 

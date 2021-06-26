@@ -14,6 +14,8 @@ public class InformacionVenta extends javax.swing.JFrame {
     String user;
     
     private int IDcliente;
+    
+    Crear crear = new Crear();
 
     public InformacionVenta() {
         initComponents();
@@ -27,7 +29,7 @@ public class InformacionVenta extends javax.swing.JFrame {
         
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
         
         /*
          * Creamos la conexión a la base de datos para recuperar la informacion de la venta.

@@ -64,27 +64,10 @@ public class Administrador extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        initFondos();
+        initBotones();
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear fondoUsuarios = new Crear(jLabel_FondoUsuarios);
-        Crear fondoRegistrarUsuario = new Crear(jLabel_FondoRegistrarUsuario);
-        Crear fondoGestionarUsuarios = new Crear(jLabel_FondoGestionarUsuarios);
-        Crear fondoVistaCapturista = new Crear(jLabel_FondoVistaCapturista);
-        Crear fondoRegistraEquipo = new Crear(jLabel_FondoRegistrarEquipo);
-        Crear fondoGestionarClientes = new Crear(jLabel_FondoGestionarClientes);
-        Crear fondoVistaTecnico = new Crear(jLabel_FondoVistaTecnico);
-        Crear fondoGestionarEquipos = new Crear(jLabel_FondoGestionarEquipos);
-        Crear fondoVistaVentas = new Crear(jLabel_FondoVistaVentas);
-        Crear fondoGenerarVentas = new Crear(jLabel_FondoGenerarVenta);
-        Crear fondoInventario = new Crear(jLabel_FondoInventario);
-        Crear fondoCortes = new Crear(jLabel_FondoCortes);
-
-        Crear botonRegistrarUsuario = new Crear(jButton_RegistrarUsuario, "images/add.png", "No");
-        Crear botonRegistrarEquipo = new Crear(jButton_RegistrarEquipo, "images/addSmartphone.png", "No");
-        Crear botonBuscarCliente = new Crear(jButton_BuscarCliente, "images/iconoLupa.png", "Si");
-        Crear botonImprimir = new Crear(jButton_Imprimir, "images/impresora.png", "No");
-        Crear botonBuscarEquipo = new Crear(jButton_BuscarEquipo, "images/iconoLupa.png", "Si");
-        Crear botonAltas = new Crear(jButton_Altas, "images/iconoSignoMas.png", "No");
+        
 
         try { // Obtener nombre completo del usuario que inicio sesión.
             Connection cn = Conexion.conectar();
@@ -1245,7 +1228,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_NombreUsurario.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_NombreUsurario.setText("jLabel1");
         getContentPane().add(jLabel_NombreUsurario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-        getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 790, 700));
+        getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 810, 730));
 
         jMenu_Opciones.setText("Opciones");
 
@@ -1835,8 +1818,6 @@ public class Administrador extends javax.swing.JFrame {
                         } else {
                             articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
                         }
-                        
-                        
 
                         bd.RegistroVenta(articulosV, total, tipoVenta);
                         bd.CrearSumatoria(cantidad[i], codigo[i], nombre[i], precio[i], tipoVenta);
@@ -2175,19 +2156,14 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ComunActionPerformed
 
     private void jButtonD_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonD_AceptarActionPerformed
-        int filaEditar, columnaCantidad, columnaCodigo, columnaPrecioU, columnaPrecioT;
-        int cantidadI;
-        double precioD = 0.0, montoD = 0.0, porcentajeD, precioTotalD = 0.0, totalActualD = 0.0, nuevoTotalD = 0.0, operacionPrecio = 0.0, operacionPorcien = 0.0;
-        String monto = "", porcentaje = "", cantidad, codigo, precio = "", precioTotal, totalActual, nuevoTotal;
+        int fila;
+        double operacionPorcien = 0.0;
+        String monto = "", porcentaje = "", cantidad, codigo = "", precioT = "", precioTotal, totalActual, nuevoTotal;
 
-        filaEditar = jTable_Articulos.getSelectedRow();
-        columnaCantidad = tablaArticulos.findColumn("Cantidad");
-        columnaCodigo = tablaArticulos.findColumn("Codigo");
-        columnaPrecioU = tablaArticulos.findColumn("Precio unitario");
-        columnaPrecioT = tablaArticulos.findColumn("Precio total");
-
-        cantidad = (String) jTable_Articulos.getValueAt(filaEditar, columnaCantidad);
-        codigo = (String) jTable_Articulos.getValueAt(filaEditar, columnaCodigo);
+        fila = jTable_Articulos.getSelectedRow();
+        cantidad = (String) jTable_Articulos.getValueAt(fila, 0);
+        codigo = (String) jTable_Articulos.getValueAt(fila, 1);
+        precioT = (String) jTable_Articulos.getValueAt(fila, 4);
 
         totalActual = txtV_Total.getText().trim();
         monto = txtD_Monto.getText().trim();
@@ -2197,88 +2173,37 @@ public class Administrador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Solo es posible realizar un calculo a la vez");
         } else if (!monto.equals("") || !porcentaje.equals("")) {
             if (!monto.equals("")) {
+                if (codigo.equals("P. Comun")) {
+                    JOptionPane.showMessageDialog(null, "No puedes realizar un descuento a este tipo de productos,\nRecomendamos eliminar de la tabla y crear nuevo registro");
+                } else {
+                    precioTotal = String.valueOf(Integer.parseInt(cantidad) * Integer.parseInt(monto));
+                    nuevoTotal = String.valueOf((Double.parseDouble(totalActual) - Double.parseDouble(precioT)) + Double.parseDouble(precioTotal));
 
-                try {
-                    Connection cn = Conexion.conectar();
-                    PreparedStatement pst = cn.prepareStatement("select precio from articulos where codigo = '" + codigo + "'");
-                    ResultSet rs = pst.executeQuery();
+                    jTable_Articulos.setValueAt(monto, fila, 3);
+                    jTable_Articulos.setValueAt(precioTotal, fila, 4);
 
-                    if (rs.next()) {
-                        precio = rs.getString("precio");
-
-                    }
-                    cn.close();
-                } catch (SQLException e) {
-                    System.err.println("Error al consultar precio");
-                    JOptionPane.showMessageDialog(null, "El producto no cuenta con un registro previo");
+                    txtV_Total.setText(nuevoTotal);
+                    txtD_Monto.setText("");
+                    txtD_Porcentaje.setText("");
+                    jDialog_Descuento.dispose();
                 }
-
-                /*Conversion de datos de String a numéricos*/
-                cantidadI = Integer.parseInt(cantidad);
-                precioD = Double.parseDouble(precio);
-                montoD = Double.parseDouble(monto);
-                totalActualD = Double.parseDouble(totalActual);
-
-                operacionPrecio = cantidadI * precioD;
-                precioTotalD = cantidadI * montoD;
-
-                nuevoTotalD = (totalActualD - operacionPrecio) + precioTotalD;
-
-                /*Conversión de datos de numéricos a String*/
-                precioTotal = String.valueOf(precioTotalD);
-                nuevoTotal = String.valueOf(nuevoTotalD);
-
-                jTable_Articulos.setValueAt(monto, filaEditar, columnaPrecioU);
-                jTable_Articulos.setValueAt(precioTotal, filaEditar, columnaPrecioT);
-
-                txtV_Total.setText(nuevoTotal);
-
-                txtD_Monto.setText("");
-                txtD_Porcentaje.setText("");
-                jDialog_Descuento.dispose();
             } else if (!porcentaje.equals("")) {
+                if (codigo.equals("P. Comun")) {
+                    JOptionPane.showMessageDialog(null, "No puedes realizar un descuento a este tipo de productos,\nRecomendamos eliminar de la tabla y crear nuevo registro");
+                } else {
+                    operacionPorcien = (Double.parseDouble(porcentaje) * ConsultaPrecio(codigo)) / 100; // Equivalente del porcentaje
+                    monto = String.valueOf(ConsultaPrecio(codigo) - operacionPorcien);
+                    precioTotal = String.valueOf(Integer.parseInt(cantidad) * Double.parseDouble(monto));
+                    nuevoTotal = String.valueOf((Double.parseDouble(totalActual) - Double.parseDouble(precioT)) + Double.parseDouble(precioTotal));
 
-                try {
-                    Connection cn = Conexion.conectar();
-                    PreparedStatement pst = cn.prepareStatement("select precio from articulos where codigo = '" + codigo + "'");
-                    ResultSet rs = pst.executeQuery();
+                    jTable_Articulos.setValueAt(monto, fila, 3);
+                    jTable_Articulos.setValueAt(precioTotal, fila, 4);
 
-                    if (rs.next()) {
-                        precio = rs.getString("precio");
-
-                    }
-                    cn.close();
-                } catch (SQLException e) {
-                    System.err.println("Error al consultar precio");
-                    JOptionPane.showMessageDialog(null, "El producto no cuenta con un registro previo");
+                    txtV_Total.setText(nuevoTotal);
+                    txtD_Monto.setText("");
+                    txtD_Porcentaje.setText("");
+                    jDialog_Descuento.dispose();
                 }
-
-                /*Conversion de datos de String a numéricos*/
-                cantidadI = Integer.parseInt(cantidad);
-                precioD = Double.parseDouble(precio);
-                porcentajeD = Integer.parseInt(porcentaje);
-                totalActualD = Double.parseDouble(totalActual);
-
-                operacionPorcien = (porcentajeD * precioD) / 100;
-                operacionPrecio = cantidadI * precioD;
-                montoD = precioD - operacionPorcien;
-                precioTotalD = cantidadI * montoD;
-
-                nuevoTotalD = (totalActualD - operacionPrecio) + precioTotalD;
-
-                /*Conversión de datos de numéricos a String*/
-                precioTotal = String.valueOf(precioTotalD);
-                nuevoTotal = String.valueOf(nuevoTotalD);
-                monto = String.valueOf(montoD);
-
-                jTable_Articulos.setValueAt(monto, filaEditar, columnaPrecioU);
-                jTable_Articulos.setValueAt(precioTotal, filaEditar, columnaPrecioT);
-
-                txtV_Total.setText(nuevoTotal);
-
-                txtD_Monto.setText("");
-                txtD_Porcentaje.setText("");
-                jDialog_Descuento.dispose();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Debes llenar al menos uno de los campos");
@@ -2305,7 +2230,7 @@ public class Administrador extends javax.swing.JFrame {
         String precioTotalActual = (String) jTable_Articulos.getValueAt(filaSeleccionada, columnaPrecioT);
         String totalActual = txtV_Total.getText().trim();
         String totalNuevo = String.valueOf(Double.parseDouble(totalActual) - Double.parseDouble(precioTotalActual));
-        
+
         txtV_Total.setText(totalNuevo);
         tablaArticulos.removeRow(filaSeleccionada);
     }//GEN-LAST:event_jButton_EliminarActionPerformed
@@ -2709,6 +2634,7 @@ public class Administrador extends javax.swing.JFrame {
 
     public void BuscarServicio() {
         txt_BuscarServicio.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyReleased(KeyEvent evt) {
                 if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                     String nombre;
@@ -2909,4 +2835,46 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
     }
+
+    private double ConsultaPrecio(String codigo) {
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement("select precio from articulos where codigo = '" + codigo + "'");
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return Double.parseDouble(rs.getString("precio"));
+            }
+
+        } catch (SQLException e) {
+        }
+        return 0.0;
+    }
+    
+    private void initFondos(){
+        crear.CrearFondo(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_FondoUsuarios);
+        crear.CrearFondo(jLabel_FondoRegistrarUsuario);
+        crear.CrearFondo(jLabel_FondoGestionarUsuarios);
+        crear.CrearFondo(jLabel_FondoVistaCapturista);
+        crear.CrearFondo(jLabel_FondoRegistrarEquipo);
+        crear.CrearFondo(jLabel_FondoGestionarClientes);
+        crear.CrearFondo(jLabel_FondoVistaTecnico);
+        crear.CrearFondo(jLabel_FondoGestionarEquipos);
+        crear.CrearFondo(jLabel_FondoVistaVentas);
+        crear.CrearFondo(jLabel_FondoGenerarVenta);
+        crear.CrearFondo(jLabel_FondoInventario);
+        crear.CrearFondo(jLabel_FondoCortes);
+
+    }
+    
+    private void initBotones(){
+        crear.CrearFondo(jButton_RegistrarUsuario, "images/add.png", false);
+        crear.CrearFondo(jButton_RegistrarEquipo, "images/addSmartphone.png", false);
+        crear.CrearFondo(jButton_BuscarCliente, "images/iconoLupa.png", true);
+        crear.CrearFondo(jButton_Imprimir, "images/impresora.png", false);
+        crear.CrearFondo(jButton_BuscarEquipo, "images/iconoLupa.png", true);
+        crear.CrearFondo(jButton_Altas, "images/iconoSignoMas.png", false);
+    }
+    
 }

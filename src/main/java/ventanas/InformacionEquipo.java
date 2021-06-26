@@ -4,7 +4,6 @@ import java.sql.*;
 import clases.Conexion;
 import clases.Crear;
 import clases.TicketRecepcion;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
@@ -18,6 +17,8 @@ public class InformacionEquipo extends javax.swing.JFrame {
     int IDclienteUpdate = 0, IDequipo = 0;
     String user = "", nom_cliente = "", nombre_usuario;
     private String stat = "";
+    
+    Crear crear = new Crear();
 
     public InformacionEquipo() {
         initComponents();
@@ -91,8 +92,8 @@ public class InformacionEquipo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
-        Crear botonImprimir = new Crear(jButton_GenrarTicket, "images/impresora.png", "No");
+        crear.CrearFondo(jLabel_Wallpaper);
+        crear.CrearFondo(jButton_GenrarTicket, "images/impresora.png", false);
 
         txt_NombreCliente.setText(nom_cliente);
 

@@ -13,7 +13,9 @@ public class InformacionUsuario extends javax.swing.JFrame {
 
     String user = "", user_Update = "";
     int ID;
-
+    
+    Crear crear = new Crear();
+    
     // Constructor
     public InformacionUsuario() {
         initComponents();
@@ -28,7 +30,7 @@ public class InformacionUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
 
         jLabel_Titulo.setText("Información del usuario " + user_Update);
 

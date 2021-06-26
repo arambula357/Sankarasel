@@ -13,6 +13,8 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
     int IDequipo = 0, sesion_usuario;
     String user = "";
     private String stat = "";
+    
+    Crear crear = new Crear();
 
     public InformacionEquipoTecnico() {
         initComponents();
@@ -58,7 +60,7 @@ public class InformacionEquipoTecnico extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
 
         if (!stat.equals("Entregado")) {
             cmb_Estatus.setEnabled(true);

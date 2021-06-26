@@ -34,6 +34,8 @@ public class InformacionCliente extends javax.swing.JFrame {
     String user, nombre_cliente;
 
     DefaultTableModel tablaInfoCliente;
+    
+    Crear crear = new Crear();
 
     public InformacionCliente() {
         initComponents();
@@ -47,10 +49,10 @@ public class InformacionCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         // Insertamos imagen de fondo.
-        Crear wallpaper = new Crear(jLabel_Wallpaper);
+        crear.CrearFondo(jLabel_Wallpaper);
 
         // Insertamos icono al botón.
-        Crear botonImprimir = new Crear(jButton_ImprimirReporte, "images/impresora.png", "No");
+        crear.CrearFondo(jButton_ImprimirReporte, "images/impresora.png", false);
 
         try {
             Connection cn = Conexion.conectar();
