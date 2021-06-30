@@ -920,7 +920,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaUsuarios = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaUsuarios.setRowCount(0);&#xa;tablaUsuarios.setColumnCount(0);&#xa;jTable_Usuarios = new JTable(tablaUsuarios);&#xa;jScrollPane_GestionarUsuarios.setViewportView(jTable_Usuarios);&#xa;crear.CrearTablaUsuarios(tablaUsuarios, jTable_Usuarios, jScrollPane_GestionarUsuarios);"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaUsuarios = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaUsuarios.setRowCount(0);&#xa;tablaUsuarios.setColumnCount(0);&#xa;jTable_Usuarios = new JTable(tablaUsuarios);&#xa;jScrollPane_GestionarUsuarios.setViewportView(jTable_Usuarios);&#xa;jTable_Usuarios.getTableHeader().setResizingAllowed(false);&#xa;jTable_Usuarios.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaUsuarios(tablaUsuarios, jTable_Usuarios, jScrollPane_GestionarUsuarios);"/>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                           </AuxValues>
                         </Component>
@@ -1399,7 +1399,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaClientes = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaClientes.setRowCount(0);&#xa;tablaClientes.setColumnCount(0);&#xa;jTable_Clientes = new JTable(tablaClientes);&#xa;jScrollPane_GestionarClientes.setViewportView(jTable_Clientes);&#xa;crear.CrearTablaClientes(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes);"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaClientes = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaClientes.setRowCount(0);&#xa;tablaClientes.setColumnCount(0);&#xa;jTable_Clientes = new JTable(tablaClientes);&#xa;jScrollPane_GestionarClientes.setViewportView(jTable_Clientes);&#xa;jTable_Clientes.getTableHeader().setResizingAllowed(false);&#xa;jTable_Clientes.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaClientes(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes);"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1600,7 +1600,7 @@
                               </Table>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" value=""/>
-                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaEquipos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaEquipos.setRowCount(0);&#xa;tablaEquipos.setColumnCount(0);&#xa;jTable_Equipos = new JTable(tablaEquipos);&#xa;jScrollPane_Equipos.setViewportView(jTable_Equipos);&#xa;crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);">
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaEquipos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaEquipos.setRowCount(0);&#xa;tablaEquipos.setColumnCount(0);&#xa;jTable_Equipos = new JTable(tablaEquipos);&#xa;jScrollPane_Equipos.setViewportView(jTable_Equipos);&#xa;jTable_Equipos.getTableHeader().setResizingAllowed(false);&#xa;jTable_Equipos.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);">
                               <TableColumnModel selectionModel="0">
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
@@ -1913,7 +1913,7 @@
                                 <Column editable="false" title="Title 5" type="java.lang.Object"/>
                               </Table>
                             </Property>
-                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaArticulos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaArticulos.setRowCount(0);&#xa;tablaArticulos.setColumnCount(0);&#xa;jTable_Articulos = new JTable(tablaArticulos);&#xa;jScrollPane_Articulos.setViewportView(jTable_Articulos);">
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaArticulos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaArticulos.setRowCount(0);&#xa;tablaArticulos.setColumnCount(0);&#xa;jTable_Articulos = new JTable(tablaArticulos);&#xa;jScrollPane_Articulos.setViewportView(jTable_Articulos);&#xa;jTable_Articulos.getTableHeader().setResizingAllowed(false);&#xa;jTable_Articulos.getTableHeader().setReorderingAllowed(false);">
                               <TableColumnModel selectionModel="0">
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="5" resizable="true">
                                   <Title/>
@@ -2345,7 +2345,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaProductos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaProductos.setRowCount(0);&#xa;tablaProductos.setColumnCount(0);&#xa;jTable_Productos = new JTable(tablaProductos);&#xa;jScrollPane_Productos.setViewportView(jTable_Productos);&#xa;crear.CrearTablaProductos(tablaProductos, jTable_Productos, jScrollPane_Productos);"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaProductos = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaProductos.setRowCount(0);&#xa;tablaProductos.setColumnCount(0);&#xa;jTable_Productos = new JTable(tablaProductos);&#xa;jScrollPane_Productos.setViewportView(jTable_Productos);&#xa;jTable_Productos.getTableHeader().setResizingAllowed(false);&#xa;jTable_Productos.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaProductos(tablaProductos, jTable_Productos, jScrollPane_Productos);"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -2374,7 +2374,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaServicios = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaServicios.setRowCount(0);&#xa;tablaServicios.setColumnCount(0);&#xa;jTable_Servicios = new JTable(tablaServicios);&#xa;jScrollPane_Servicios.setViewportView(jTable_Servicios);&#xa;crear.CrearTablaServicios(tablaServicios, jTable_Servicios, jScrollPane_Servicios);"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaServicios = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaServicios.setRowCount(0);&#xa;tablaServicios.setColumnCount(0);&#xa;jTable_Servicios = new JTable(tablaServicios);&#xa;jScrollPane_Servicios.setViewportView(jTable_Servicios);&#xa;jTable_Servicios.getTableHeader().setResizingAllowed(false);&#xa;jTable_Servicios.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaServicios(tablaServicios, jTable_Servicios, jScrollPane_Servicios);"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -2493,7 +2493,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaVentas = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaVentas.setRowCount(0);&#xa;tablaVentas.setColumnCount(0);&#xa;jTable_Ventas = new JTable(tablaVentas);&#xa;jScrollPane_Ventas.setViewportView(jTable_Ventas);&#xa;crear.CrearTablaVentas(tablaVentas, jTable_Ventas, jScrollPane_Ventas);"/>
+                            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaVentas = new DefaultTableModel() {&#xa;            @Override&#xa;            public boolean isCellEditable(int row, int column) {&#xa;                return false;&#xa;            }&#xa;        };        &#xa;tablaVentas.setRowCount(0);&#xa;tablaVentas.setColumnCount(0);&#xa;jTable_Ventas = new JTable(tablaVentas);&#xa;jScrollPane_Ventas.setViewportView(jTable_Ventas);&#xa;jTable_Ventas.getTableHeader().setResizingAllowed(false);&#xa;jTable_Ventas.getTableHeader().setReorderingAllowed(false);&#xa;crear.CrearTablaVentas(tablaVentas, jTable_Ventas, jScrollPane_Ventas);"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>

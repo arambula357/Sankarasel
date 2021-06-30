@@ -127,6 +127,8 @@ public class Tecnico extends javax.swing.JFrame {
         tablaEquipos.setColumnCount(0);
         jTable_Equipos = new JTable(tablaEquipos);
         jScrollPane_Equipos.setViewportView(jTable_Equipos);
+        jTable_Equipos.getTableHeader().setResizingAllowed(false);
+        jTable_Equipos.getTableHeader().setReorderingAllowed(false);
         crear.CrearTablaEquipos(tablaEquipos, jTable_Equipos, jScrollPane_Equipos);
 
         jPanel_GestionarEquipos.add(jScrollPane_Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 370));

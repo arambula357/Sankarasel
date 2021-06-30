@@ -125,6 +125,8 @@ public class InformacionCliente extends javax.swing.JFrame {
                 return false;
             }
         };
+        jTable_Equipos.getTableHeader().setResizingAllowed(false);
+        jTable_Equipos.getTableHeader().setReorderingAllowed(false);
 
         getContentPane().add(jScrollPane_Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 380, 180));
 

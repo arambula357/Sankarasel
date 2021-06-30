@@ -537,6 +537,8 @@ public class Capturista extends javax.swing.JFrame {
         tablaClientes.setColumnCount(0);
         jTable_Clientes = new JTable(tablaClientes);
         jScrollPane_GestionarClientes.setViewportView(jTable_Clientes);
+        jTable_Clientes.getTableHeader().setResizingAllowed(false);
+        jTable_Clientes.getTableHeader().setReorderingAllowed(false);
         crear.CrearTablaClientes(tablaClientes, jTable_Clientes, jScrollPane_GestionarClientes);
 
         jPanel_GestionarClientes.add(jScrollPane_GestionarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 715, 280));
@@ -666,6 +668,8 @@ public class Capturista extends javax.swing.JFrame {
         tablaArticulos.setColumnCount(0);
         jTable_Articulos = new JTable(tablaArticulos);
         jScrollPane_Articulos.setViewportView(jTable_Articulos);
+        jTable_Articulos.getTableHeader().setResizingAllowed(false);
+        jTable_Articulos.getTableHeader().setReorderingAllowed(false);
 
         jPanel_GenerarVenta.add(jScrollPane_Articulos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 500, 230));
 
@@ -823,6 +827,8 @@ public class Capturista extends javax.swing.JFrame {
         tablaProductos.setColumnCount(0);
         jTable_Productos = new JTable(tablaProductos);
         jScrollPane_Productos.setViewportView(jTable_Productos);
+        jTable_Productos.getTableHeader().setResizingAllowed(false);
+        jTable_Productos.getTableHeader().setReorderingAllowed(false);
         crear.CrearTablaProductos(tablaProductos, jTable_Productos, jScrollPane_Productos);
 
         jPanel_Inventario.add(jScrollPane_Productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 720, 170));
@@ -849,6 +855,8 @@ public class Capturista extends javax.swing.JFrame {
         tablaServicios.setColumnCount(0);
         jTable_Servicios = new JTable(tablaServicios);
         jScrollPane_Servicios.setViewportView(jTable_Servicios);
+        jTable_Servicios.getTableHeader().setResizingAllowed(false);
+        jTable_Servicios.getTableHeader().setReorderingAllowed(false);
         crear.CrearTablaServicios(tablaServicios, jTable_Servicios, jScrollPane_Servicios);
 
         jPanel_Inventario.add(jScrollPane_Servicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 720, 170));
@@ -903,6 +911,8 @@ public class Capturista extends javax.swing.JFrame {
         tablaVentas.setColumnCount(0);
         jTable_Ventas = new JTable(tablaVentas);
         jScrollPane_Ventas.setViewportView(jTable_Ventas);
+        jTable_Ventas.getTableHeader().setResizingAllowed(false);
+        jTable_Ventas.getTableHeader().setReorderingAllowed(false);
         crear.CrearTablaVentas(tablaVentas, jTable_Ventas, jScrollPane_Ventas);
 
         jPanel_Cortes.add(jScrollPane_Ventas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 720, 330));
