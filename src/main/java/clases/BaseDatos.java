@@ -11,7 +11,7 @@ public class BaseDatos {
     private int idEquipo, idCliente;
     public static String nombreUsuario;
 
-    private final TicketCorte ticketCorte = new TicketCorte();
+    private TicketCorte ticketCorte;
 
     public String[] ConsultarInfoEmpresa() {
         String empresa, propietario, rfc, direccion, telefono, condiciones;
@@ -290,6 +290,7 @@ public class BaseDatos {
      * La continuación de este método es "ConsultaSumatoriaCorteDiario()".
      */
     public void GenerarCorteDiario() {
+        ticketCorte = new TicketCorte(ConsultarInfoEmpresa());
         java.util.Date date = new java.util.Date();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         formato.format(date);
@@ -479,6 +480,7 @@ public class BaseDatos {
      * La continuación de este método es "ConsultaSumatoriaCorteDiario()".
      */
     public void GenerarCorteCustom(java.sql.Date dateI, java.sql.Date dateF) {
+        ticketCorte = new TicketCorte(ConsultarInfoEmpresa());
         ticketCorte.setFecha();
         ConsultaSumatoriaCorteCustom(dateI, dateF);
     }

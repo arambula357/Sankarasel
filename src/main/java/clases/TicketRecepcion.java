@@ -32,8 +32,8 @@ public class TicketRecepcion {
     private String vendedor;
     private String fechaHora;
 
-    public TicketRecepcion() {
-        infoEmpresa = bd.ConsultarInfoEmpresa();
+    public TicketRecepcion(String[] infoEmpresa) {
+        this.infoEmpresa = infoEmpresa;
         
         empresa = infoEmpresa[0];
         propietario = infoEmpresa[1];

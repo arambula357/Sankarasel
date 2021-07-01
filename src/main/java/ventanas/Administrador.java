@@ -48,9 +48,9 @@ public class Administrador extends javax.swing.JFrame {
     public static DefaultTableModel tablaServicios;
     public static DefaultTableModel tablaVentas;
 
-    codTicket ticket = new codTicket();
+    codTicket ticket;
     NumeroLetras numeroLetras = new NumeroLetras();
-    TicketRecepcion ordenServicio = new TicketRecepcion();
+    TicketRecepcion ordenServicio;
     BaseDatos bd = new BaseDatos();
     Crear crear = new Crear();
 
@@ -1493,7 +1493,7 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_RegistrarUsuarioActionPerformed
 
     private void jButton_RegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarEquipoActionPerformed
-
+        ordenServicio = new TicketRecepcion(bd.ConsultarInfoEmpresa());
         int validacion = 0, IDcliente = 0, IDclienteUpdate = 0, idR;
         String nombreCliente, telefono, tipo_equipo, marca, modelo, numeroSerie, dia_ingreso, mes_ingreso, annio_ingreso, estatus, observaciones, hora, minuto, segundo, fechaHora,
                 hora_ingreso;
@@ -1872,9 +1872,9 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_BuscarEquipoActionPerformed
 
     private void jButton_CerrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CerrarVentaActionPerformed
-
+        ticket = new codTicket(bd.ConsultarInfoEmpresa());
         String nombreCliente, folioV, modelo, marca, numeroSerie, subTotalS, total, recibo, cambio, articulosT = "", articulosV = "", fecha, dia, mes, annio, tipoVenta;
-        String empresa, propietario, rfc, direccion, telefono, totalLetra, vendedor, seleccion;
+        String totalLetra, vendedor, seleccion;
 
         int IDequipo, validacion = 0;
         int columnaCantidad = tablaArticulos.findColumn("Cantidad");
@@ -1927,13 +1927,6 @@ public class Administrador extends javax.swing.JFrame {
                 bd.ConsultarUsuario(user);
                 totalLetra = numeroLetras.Convertir(total, true);
                 vendedor = nombre_usuario;
-                empresa = "SANKARASEL REFACIONES";
-                propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-                rfc = "CAMS9711039P7";
-                direccion = "    AV TECNOLOGICO No 11308-B\n"
-                        + "      COL. REVOLUCION CP 31135\n"
-                        + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-                telefono = "6146191507";
 
                 for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
                     if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
@@ -1994,13 +1987,6 @@ public class Administrador extends javax.swing.JFrame {
                     bd.ConsultarUsuario(user);
                     totalLetra = numeroLetras.Convertir(total, true);
                     vendedor = nombre_usuario;
-                    empresa = "SANKARASEL REFACIONES";
-                    propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-                    rfc = "CAMS9711039P7";
-                    direccion = "    AV TECNOLOGICO No 11308-B\n"
-                            + "      COL. REVOLUCION CP 31135\n"
-                            + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-                    telefono = "6146191507";
 
                     for (int i = 0; i < tablaArticulos.getRowCount(); i++) {
                         if ((jTable_Articulos.getValueAt(i, columnaCantidad)) != null && (jTable_Articulos.getValueAt(i, columnaCodigo)) != null) {
@@ -2169,6 +2155,7 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_MostrarActionPerformed
 
     private void jButton_CorteCustomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CorteCustomActionPerformed
+        
         String deDia, deMes, deAnnio, aDia, aMes, aAnnio, fechaI, fechaF;
 
         deDia = cmb_DeDia.getSelectedItem().toString();

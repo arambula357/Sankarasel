@@ -68,8 +68,8 @@ public class TicketCorte {
             + "\n"
             + "\n\n";
     
-    public TicketCorte(){
-        infoEmpresa = bd.ConsultarInfoEmpresa();
+    public TicketCorte(String[] infoEmpresa){
+        this.infoEmpresa = infoEmpresa;
         
         empresa = infoEmpresa[0];
         propietario = infoEmpresa[1];

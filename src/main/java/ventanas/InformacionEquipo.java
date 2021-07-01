@@ -1,9 +1,11 @@
 package ventanas;
 
+
 import java.sql.*;
 import clases.Conexion;
 import clases.Crear;
 import clases.TicketRecepcion;
+import clases.BaseDatos;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
@@ -12,7 +14,8 @@ import net.sf.jasperreports.engine.JRException;
 
 public class InformacionEquipo extends javax.swing.JFrame {
 
-    TicketRecepcion ordenServicio = new TicketRecepcion();
+    TicketRecepcion ordenServicio;
+    BaseDatos bd = new BaseDatos();
 
     int IDclienteUpdate = 0, IDequipo = 0;
     String user = "", nom_cliente = "", nombre_usuario;
@@ -331,6 +334,7 @@ public class InformacionEquipo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
 
     private void jButton_GenrarTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GenrarTicketActionPerformed
+        ordenServicio = new TicketRecepcion(bd.ConsultarInfoEmpresa());
         String folio = "", nombreCliente = "", vendedor = "", observaciones = "", numeroSerie = "", tipoEquipo = "", marca = "", modelo = "", fechaHora = "", contactoCliente = "";
 
         try {

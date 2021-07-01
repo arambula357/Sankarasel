@@ -67,8 +67,8 @@ public class codTicket {
     "\n"+
     "\n\n";
     
-    public codTicket(){
-        infoEmpresa = bd.ConsultarInfoEmpresa();
+    public codTicket(String[] infoEmpresa){
+        this.infoEmpresa = infoEmpresa;
         
         empresa = infoEmpresa[0];
         propietario = infoEmpresa[1];
