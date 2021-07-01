@@ -66,6 +66,7 @@ public class Administrador extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initFondos();
         initBotones();
+        initUtilidades();
 
         
 
@@ -194,7 +195,7 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_FondoGestionarEquipos = new javax.swing.JLabel();
         jLabel_FondoVistaTecnico = new javax.swing.JLabel();
         jPanel_VistaVentas = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane_VistaVentas = new javax.swing.JTabbedPane();
         jPanel_GenerarVenta = new javax.swing.JPanel();
         jLabelV_NombreCliente = new javax.swing.JLabel();
         txtV_NombreCliente = new javax.swing.JTextField();
@@ -252,6 +253,26 @@ public class Administrador extends javax.swing.JFrame {
         jLabel_Corte = new javax.swing.JLabel();
         jLabel_FondoCortes = new javax.swing.JLabel();
         jLabel_FondoVistaVentas = new javax.swing.JLabel();
+        jPanel_Utilidades = new javax.swing.JPanel();
+        jTabbedPane_Utilidades = new javax.swing.JTabbedPane();
+        jPanel_InfoTicket = new javax.swing.JPanel();
+        Label_Empresa = new javax.swing.JLabel();
+        txt_Empresa = new javax.swing.JTextField();
+        Label_Propietario = new javax.swing.JLabel();
+        txt_PropietarioEmpresa = new javax.swing.JTextField();
+        Label_Rfc = new javax.swing.JLabel();
+        txt_RfcEmpresa = new javax.swing.JTextField();
+        Label_Direccion = new javax.swing.JLabel();
+        Label_Telefono = new javax.swing.JLabel();
+        txt_TelefonoEmpresa = new javax.swing.JTextField();
+        Label_Condiciones = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txt_DireccionEmpresa = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txt_CondicionesEmpresa = new javax.swing.JTextPane();
+        jButton_ActualizarInfo = new javax.swing.JButton();
+        jLabel_FondoTicket = new javax.swing.JLabel();
+        jLabel_FondoUtilidades = new javax.swing.JLabel();
         jLabel_NombreUsurario = new javax.swing.JLabel();
         jLabel_Wallpaper = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
@@ -810,7 +831,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_VistaVentas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel_VistaVentas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTabbedPane_VistaVentas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel_GenerarVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel_GenerarVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1034,7 +1055,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_GenerarVenta.add(txtV_addProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 220, 25));
         jPanel_GenerarVenta.add(jLabel_FondoGenerarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
-        jTabbedPane1.addTab("Generar venta", jPanel_GenerarVenta);
+        jTabbedPane_VistaVentas.addTab("Generar venta", jPanel_GenerarVenta);
 
         jPanel_Inventario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel_Inventario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1119,7 +1140,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_Inventario.add(jButton_Altas, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 100, 70));
         jPanel_Inventario.add(jLabel_FondoInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
-        jTabbedPane1.addTab("Inventario", jPanel_Inventario);
+        jTabbedPane_VistaVentas.addTab("Inventario", jPanel_Inventario);
 
         jPanel_Cortes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1229,12 +1250,111 @@ public class Administrador extends javax.swing.JFrame {
         jPanel_Cortes.add(jLabel_Corte, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 430, 100, 30));
         jPanel_Cortes.add(jLabel_FondoCortes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
 
-        jTabbedPane1.addTab("Cortes", jPanel_Cortes);
+        jTabbedPane_VistaVentas.addTab("Cortes", jPanel_Cortes);
 
-        jPanel_VistaVentas.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 740, 550));
+        jPanel_VistaVentas.add(jTabbedPane_VistaVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 740, 550));
         jPanel_VistaVentas.add(jLabel_FondoVistaVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 580));
 
         jTabbedPane_General.addTab("Vista Ventas", jPanel_VistaVentas);
+
+        jPanel_Utilidades.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel_Utilidades.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTabbedPane_Utilidades.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jPanel_InfoTicket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel_InfoTicket.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Label_Empresa.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Empresa.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Empresa.setText("Empresa:");
+        jPanel_InfoTicket.add(Label_Empresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        txt_Empresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_Empresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_Empresa.setForeground(new java.awt.Color(255, 255, 255));
+        txt_Empresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_Empresa.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_InfoTicket.add(txt_Empresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 320, 30));
+
+        Label_Propietario.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Propietario.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Propietario.setText("Propietario:");
+        jPanel_InfoTicket.add(Label_Propietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+
+        txt_PropietarioEmpresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_PropietarioEmpresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_PropietarioEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        txt_PropietarioEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_PropietarioEmpresa.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_InfoTicket.add(txt_PropietarioEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 320, 30));
+
+        Label_Rfc.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Rfc.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Rfc.setText("RFC:");
+        jPanel_InfoTicket.add(Label_Rfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+
+        txt_RfcEmpresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_RfcEmpresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_RfcEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        txt_RfcEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_RfcEmpresa.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_InfoTicket.add(txt_RfcEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 320, 30));
+
+        Label_Direccion.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Direccion.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Direccion.setText("Direccion:");
+        jPanel_InfoTicket.add(Label_Direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
+
+        Label_Telefono.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Telefono.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Telefono.setText("Telefono:");
+        jPanel_InfoTicket.add(Label_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+
+        txt_TelefonoEmpresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_TelefonoEmpresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_TelefonoEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        txt_TelefonoEmpresa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_TelefonoEmpresa.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_InfoTicket.add(txt_TelefonoEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 320, 30));
+
+        Label_Condiciones.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        Label_Condiciones.setForeground(new java.awt.Color(255, 255, 255));
+        Label_Condiciones.setText("Condiciones:");
+        jPanel_InfoTicket.add(Label_Condiciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, -1, -1));
+
+        txt_DireccionEmpresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_DireccionEmpresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_DireccionEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setViewportView(txt_DireccionEmpresa);
+
+        jPanel_InfoTicket.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 320, 70));
+
+        txt_CondicionesEmpresa.setBackground(new java.awt.Color(3, 37, 251));
+        txt_CondicionesEmpresa.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_CondicionesEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(txt_CondicionesEmpresa);
+
+        jPanel_InfoTicket.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 370, 330));
+
+        jButton_ActualizarInfo.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_ActualizarInfo.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_ActualizarInfo.setText("Actualizar");
+        jButton_ActualizarInfo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_ActualizarInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ActualizarInfoActionPerformed(evt);
+            }
+        });
+        jPanel_InfoTicket.add(jButton_ActualizarInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 460, 110, 40));
+        jPanel_InfoTicket.add(jLabel_FondoTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 530));
+
+        jTabbedPane_Utilidades.addTab("Info Ticket", jPanel_InfoTicket);
+
+        jPanel_Utilidades.add(jTabbedPane_Utilidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 740, 550));
+        jPanel_Utilidades.add(jLabel_FondoUtilidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 580));
+
+        jTabbedPane_General.addTab("Utilidades", jPanel_Utilidades);
 
         getContentPane().add(jTabbedPane_General, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 760, 600));
 
@@ -1839,11 +1959,6 @@ public class Administrador extends javax.swing.JFrame {
                     }
                 }
                 /*Comenzamos la impresion del ticket*/
-                ticket.setEmpresa(empresa);
-                ticket.setPropietario(propietario);
-                ticket.setRfc(rfc);
-                ticket.setDireccion(direccion);
-                ticket.setTelefono(telefono);
                 ticket.setFolio("S/Folio");
                 ticket.setCliente("S/Registro");
                 ticket.setArticulos(articulosT);
@@ -1912,11 +2027,6 @@ public class Administrador extends javax.swing.JFrame {
                         }
                     }
                     /*Comenzamos la impresion del ticket*/
-                    ticket.setEmpresa(empresa);
-                    ticket.setPropietario(propietario);
-                    ticket.setRfc(rfc);
-                    ticket.setDireccion(direccion);
-                    ticket.setTelefono(telefono);
                     ticket.setFolio(folioV);
                     ticket.setCliente(nombreCliente);
                     ticket.setArticulos(articulosT);
@@ -2249,6 +2359,20 @@ public class Administrador extends javax.swing.JFrame {
         tablaArticulos.removeRow(filaSeleccionada);
     }//GEN-LAST:event_jButton_EliminarActionPerformed
 
+    private void jButton_ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarInfoActionPerformed
+        String empresa, propietario, rfc, direccion, telefono, condiciones;
+        
+        empresa = txt_Empresa.getText().trim();
+        propietario = txt_PropietarioEmpresa.getText().trim();
+        rfc = txt_RfcEmpresa.getText().trim();
+        direccion = txt_DireccionEmpresa.getText().trim();
+        telefono = txt_TelefonoEmpresa.getText().trim();
+        condiciones = txt_CondicionesEmpresa.getText().trim();
+        
+        bd.ActualizarInfoEmpresa(new String[]{empresa, propietario, rfc, direccion, telefono, condiciones});
+        
+    }//GEN-LAST:event_jButton_ActualizarInfoActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -2257,20 +2381,12 @@ public class Administrador extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Administrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Administrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Administrador.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Administrador.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Administrador().setVisible(true);
             }
@@ -2278,6 +2394,12 @@ public class Administrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Label_Condiciones;
+    private javax.swing.JLabel Label_Direccion;
+    private javax.swing.JLabel Label_Empresa;
+    private javax.swing.JLabel Label_Propietario;
+    private javax.swing.JLabel Label_Rfc;
+    private javax.swing.JLabel Label_Telefono;
     private javax.swing.JComboBox<String> cmbV_TipoVenta;
     private javax.swing.JComboBox<String> cmbV_VentaRegistrada;
     private javax.swing.JComboBox<String> cmb_AAnnio;
@@ -2291,6 +2413,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JButton jButtonC_Agregar;
     private javax.swing.JButton jButtonD_Aceptar;
     private javax.swing.JButton jButtonS_Generar;
+    private javax.swing.JButton jButton_ActualizarInfo;
     private javax.swing.JButton jButton_Altas;
     private javax.swing.JButton jButton_BuscarCliente;
     private javax.swing.JButton jButton_BuscarEquipo;
@@ -2344,7 +2467,9 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_FondoRegistrarEquipo;
     private javax.swing.JLabel jLabel_FondoRegistrarUsuario;
     private javax.swing.JLabel jLabel_FondoSalida;
+    private javax.swing.JLabel jLabel_FondoTicket;
     private javax.swing.JLabel jLabel_FondoUsuarios;
+    private javax.swing.JLabel jLabel_FondoUtilidades;
     private javax.swing.JLabel jLabel_FondoVistaCapturista;
     private javax.swing.JLabel jLabel_FondoVistaTecnico;
     private javax.swing.JLabel jLabel_FondoVistaVentas;
@@ -2375,13 +2500,17 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_GestionarClientes;
     private javax.swing.JPanel jPanel_GestionarEquipos;
     private javax.swing.JPanel jPanel_GestionarUsuarios;
+    private javax.swing.JPanel jPanel_InfoTicket;
     private javax.swing.JPanel jPanel_Inventario;
     private javax.swing.JPanel jPanel_RegistrarEquipo;
     private javax.swing.JPanel jPanel_RegistrarUsuarios;
     private javax.swing.JPanel jPanel_Usuarios;
+    private javax.swing.JPanel jPanel_Utilidades;
     private javax.swing.JPanel jPanel_VistaCapturista;
     private javax.swing.JPanel jPanel_VistaTecnico;
     private javax.swing.JPanel jPanel_VistaVentas;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane_Articulos;
     private javax.swing.JScrollPane jScrollPane_Equipos;
     private javax.swing.JScrollPane jScrollPane_GestionarClientes;
@@ -2390,11 +2519,12 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane_Productos;
     private javax.swing.JScrollPane jScrollPane_Servicios;
     private javax.swing.JScrollPane jScrollPane_Ventas;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane_General;
     private javax.swing.JTabbedPane jTabbedPane_Usuarios;
+    private javax.swing.JTabbedPane jTabbedPane_Utilidades;
     private javax.swing.JTabbedPane jTabbedPane_VistaCapturista;
     private javax.swing.JTabbedPane jTabbedPane_VistaTecnico;
+    private javax.swing.JTabbedPane jTabbedPane_VistaVentas;
     private javax.swing.JTable jTable_Articulos;
     private javax.swing.JTable jTable_Clientes;
     private javax.swing.JTable jTable_Equipos;
@@ -2421,6 +2551,9 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField txt_BuscarServicio;
     private javax.swing.JTextField txt_Cantidad;
     private javax.swing.JTextField txt_Concepto;
+    private javax.swing.JTextPane txt_CondicionesEmpresa;
+    private javax.swing.JTextPane txt_DireccionEmpresa;
+    private javax.swing.JTextField txt_Empresa;
     private javax.swing.JTextField txt_Mail;
     private javax.swing.JTextField txt_Marca;
     private javax.swing.JTextField txt_Modelo;
@@ -2429,8 +2562,11 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField txt_NumeroSerie;
     private javax.swing.JTextPane txt_Observaciones;
     private javax.swing.JPasswordField txt_Password;
+    private javax.swing.JTextField txt_PropietarioEmpresa;
+    private javax.swing.JTextField txt_RfcEmpresa;
     private javax.swing.JTextField txt_Telefono;
     private javax.swing.JTextField txt_TelefonoCliente;
+    private javax.swing.JTextField txt_TelefonoEmpresa;
     private javax.swing.JTextField txt_TipoEquipo;
     private javax.swing.JTextField txt_Username;
     // End of variables declaration//GEN-END:variables
@@ -2879,7 +3015,8 @@ public class Administrador extends javax.swing.JFrame {
         crear.CrearFondo(jLabel_FondoGenerarVenta);
         crear.CrearFondo(jLabel_FondoInventario);
         crear.CrearFondo(jLabel_FondoCortes);
-
+        crear.CrearFondo(jLabel_FondoUtilidades);
+        crear.CrearFondo(jLabel_FondoTicket);
     }
     
     private void initBotones(){
@@ -2889,6 +3026,17 @@ public class Administrador extends javax.swing.JFrame {
         crear.CrearFondo(jButton_Imprimir, "images/impresora.png", false);
         crear.CrearFondo(jButton_BuscarEquipo, "images/iconoLupa.png", true);
         crear.CrearFondo(jButton_Altas, "images/iconoSignoMas.png", false);
+    }
+    
+    private void initUtilidades(){
+        String[] infoEmpresa = bd.ConsultarInfoEmpresa();
+        
+        txt_Empresa.setText(infoEmpresa[0]);
+        txt_PropietarioEmpresa.setText(infoEmpresa[1]);
+        txt_RfcEmpresa.setText(infoEmpresa[2]);
+        txt_DireccionEmpresa.setText(infoEmpresa[3]);
+        txt_TelefonoEmpresa.setText(infoEmpresa[4]);
+        txt_CondicionesEmpresa.setText(infoEmpresa[5]);
     }
     
 }

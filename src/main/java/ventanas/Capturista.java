@@ -1516,11 +1516,6 @@ public class Capturista extends javax.swing.JFrame {
                     }
                 }
                 /*Comenzamos la impresion del ticket*/
-                ticket.setEmpresa(empresa);
-                ticket.setPropietario(propietario);
-                ticket.setRfc(rfc);
-                ticket.setDireccion(direccion);
-                ticket.setTelefono(telefono);
                 ticket.setFolio("S/Folio");
                 ticket.setCliente("S/Registro");
                 ticket.setArticulos(articulosT);
@@ -1589,11 +1584,6 @@ public class Capturista extends javax.swing.JFrame {
                         }
                     }
                     /*Comenzamos la impresion del ticket*/
-                    ticket.setEmpresa(empresa);
-                    ticket.setPropietario(propietario);
-                    ticket.setRfc(rfc);
-                    ticket.setDireccion(direccion);
-                    ticket.setTelefono(telefono);
                     ticket.setFolio(folioV);
                     ticket.setCliente(nombreCliente);
                     ticket.setArticulos(articulosT);

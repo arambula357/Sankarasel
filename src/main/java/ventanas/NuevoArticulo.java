@@ -183,8 +183,8 @@ public class NuevoArticulo extends javax.swing.JFrame {
                             PreparedStatement pst = cn.prepareStatement("insert into articulos values (?,?,?,?,?,?,?)");
 
                             pst.setInt(1, 0);
-                            pst.setString(2, codigoArticulo);
-                            pst.setString(3, nombreArticulo);
+                            pst.setString(2, nombreArticulo);
+                            pst.setString(3, codigoArticulo);
                             pst.setString(4, cantidadArticulo);
                             pst.setString(5, precioArticulo);
                             pst.setString(6, tipoArticulo);
@@ -206,8 +206,8 @@ public class NuevoArticulo extends javax.swing.JFrame {
                             PreparedStatement pst = cn.prepareStatement("insert into articulos values (?,?,?,?,?,?,?)");
 
                             pst.setInt(1, 0);
-                            pst.setString(2, codigoArticulo);
-                            pst.setString(3, nombreArticulo);
+                            pst.setString(2, nombreArticulo);
+                            pst.setString(3, codigoArticulo);
                             pst.setString(4, "");
                             pst.setString(5, precioArticulo);
                             pst.setString(6, tipoArticulo);

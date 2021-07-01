@@ -15,6 +15,10 @@ import javax.swing.JOptionPane;
 
 public class codTicket {
     
+    private BaseDatos bd = new BaseDatos();
+
+    private String[] infoEmpresa;
+    
     //Atributos que almacenan los datos de la empresa y de la compra
     private String empresa;
     private String propietario;
@@ -62,43 +66,18 @@ public class codTicket {
     "{{fecha}}\n"+
     "\n"+
     "\n\n";
-
+    
+    public codTicket(){
+        infoEmpresa = bd.ConsultarInfoEmpresa();
+        
+        empresa = infoEmpresa[0];
+        propietario = infoEmpresa[1];
+        rfc = infoEmpresa[2];
+        direccion = infoEmpresa[3];
+        telefono = infoEmpresa[4];
+    }
+    
     //Definimos los metodos SET de cada atributo para asignar los datos al TICKET.
-
-    /**
-     * @param empresa nombre del negocio
-     */
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
-
-    /**
-     * @param propietario dueño del negocio
-     */
-    public void setPropietario(String propietario) {
-        this.propietario = propietario;
-    }
-
-    /**
-     * @param rfc registro del negocio
-     */
-    public void setRfc(String rfc) {
-        this.rfc = rfc;
-    }
-
-    /**
-     * @param direccion del negocio
-     */
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    /**
-     * @param telefono del negocio
-     */
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 
     /**
      * @param folio el folio de la venta

@@ -2,7 +2,6 @@ package clases;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
 import javax.print.PrintService;
@@ -16,15 +15,17 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 
 public class TicketCorte {
+    
+    private BaseDatos bd = new BaseDatos();
 
+    private String[] infoEmpresa;
+    
     //Atributos que almacenan los datos de la empresa y de la compra
-    private final String empresa = "SANKARASEL REFACIONES";
-    private final String propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-    private final String rfc = "CAMS9711039P7";
-    private final String direccion = "    AV TECNOLOGICO No 11308-B\n"
-                    + "      COL. REVOLUCION CP 31135\n"
-                    + "     CHIHUAHUA,CHIHUAHUA, MEXICO";
-    private final String telefono = "6146191507";
+    private String empresa;
+    private String propietario;
+    private String rfc;
+    private String direccion;
+    private String telefono;
     private String articulos;
     private String total;
     private String fecha;
@@ -66,6 +67,16 @@ public class TicketCorte {
             + "TOTAL TRANFER:    $ {{tranfer}}\n"
             + "\n"
             + "\n\n";
+    
+    public TicketCorte(){
+        infoEmpresa = bd.ConsultarInfoEmpresa();
+        
+        empresa = infoEmpresa[0];
+        propietario = infoEmpresa[1];
+        rfc = infoEmpresa[2];
+        direccion = infoEmpresa[3];
+        telefono = infoEmpresa[4];
+    }
 
     public void setArticulos(String articulos) {
         this.articulos = articulos;

@@ -11,6 +11,10 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class TicketRecepcion {
 
+    private BaseDatos bd = new BaseDatos();
+
+    private String[] infoEmpresa;
+    
     private String empresa;
     private String propietario;
     private String rfc;
@@ -29,28 +33,14 @@ public class TicketRecepcion {
     private String fechaHora;
 
     public TicketRecepcion() {
-    }
-
-    public void setEmpresa() {
-        this.empresa = "SANKARASEL REFACIONES";
-    }
-
-    public void setPropietario() {
-        this.propietario = "SERGIO ALEJANDRO CHAVIRA MORENO";
-    }
-
-    public void setRfc() {
-        this.rfc = "CAMS9711039P7";
-    }
-
-    public void setDireccion() {
-        this.direccion = "AV. TECNOLOGICO No. 11308-B\n"
-                       + "COL. REVOLUCION C.P. 31135\n"
-                       + "CHIHUAHUA, CHIHUAHUA, MEXICO";
-    }
-
-    public void setTelefono() {
-        this.telefono = "6146191507";
+        infoEmpresa = bd.ConsultarInfoEmpresa();
+        
+        empresa = infoEmpresa[0];
+        propietario = infoEmpresa[1];
+        rfc = infoEmpresa[2];
+        direccion = infoEmpresa[3];
+        telefono = infoEmpresa[4];
+        condiciones = infoEmpresa[5];
     }
 
     public void setFolio(String folio) {
@@ -106,34 +96,11 @@ public class TicketRecepcion {
         }
     }
 
-    public void setCondiciones() {
-        this.condiciones = "* TODA REVISIÓN CAUSA HONORARIOS.\n"
-                         + "* NO NOS HACEMOS RESPONSABLES EN CASO\n"
-                         + "  DE ROBO O INCENDIO NI DE EQUIPOS\n"
-                         + "  MOJADOS.\n"
-                         + "* DESPUES DE 10 DIAS NO NOS HACEMOS\n"
-                         + "  RESPONSABLES DE SU EQUIPO.\n"
-                         + "* TODA REPARACIÓN CON COSTO MENOR A\n"
-                         + "  $500.00 PESOS SE REALIZARA SIN PREVIO\n"
-                         + "  AVISO Y/O AUTORIZACIÓN.\n"
-                         + "* NO NOS HACEMOS RESPONSABLES POR\n"
-                         + "  CHIPS, MEMORIAS Y/O ACCESORIOS PROPIOS\n"
-                         + "  DEL EQUIPO.\n"
-                         + "* EN EQUIPOS MOJADOS NO HAY NINGUN TIPO\n"
-                         + "  DE GARANTIA.\n";
-    }
-
     public void setVendedor(String vendedor) {
         this.vendedor = vendedor;
     }
     
     public void LlenarOrden() throws JRException{
-        setEmpresa();
-        setPropietario();
-        setRfc();
-        setDireccion();
-        setTelefono();
-        setCondiciones();
         
         String master = System.getProperty("user.dir") + "/reports/OrdenServicio.jasper";
         HashMap parametros = new HashMap();

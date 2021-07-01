@@ -13,6 +13,53 @@ public class BaseDatos {
 
     private final TicketCorte ticketCorte = new TicketCorte();
 
+    public String[] ConsultarInfoEmpresa() {
+        String empresa, propietario, rfc, direccion, telefono, condiciones;
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement("select empresa, propietario, rfc, direccion, telefono, condiciones from preferencias where nombre = 'InfoEmpresa'");
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                empresa = rs.getString("empresa");
+                propietario = rs.getString("propietario");
+                rfc = rs.getString("rfc");
+                direccion = rs.getString("direccion");
+                telefono = rs.getString("telefono");
+                condiciones = rs.getString("condiciones");
+
+                return new String[]{empresa, propietario, rfc, direccion, telefono, condiciones};
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al consultar info de la empresa " + e);
+        }
+        return null;
+    }
+
+    public void ActualizarInfoEmpresa(String[] infoEmpresa) {
+        try {
+            try ( Connection cn = Conexion.conectar()) {
+                PreparedStatement pst = cn.prepareStatement("update preferencias set empresa=?, propietario=?, rfc=?, direccion=?, telefono=?, condiciones=? "
+                        + "where nombre = 'InfoEmpresa'");
+
+                pst.setString(1, infoEmpresa[0]);
+                pst.setString(2, infoEmpresa[1]);
+                pst.setString(3, infoEmpresa[2]);
+                pst.setString(4, infoEmpresa[3]);
+                pst.setString(5, infoEmpresa[4]);
+                pst.setString(6, infoEmpresa[5]);
+
+                pst.executeUpdate();
+                
+                JOptionPane.showMessageDialog(null, "Actualización de información correcta");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar los datos de la empresa " + e);
+        }
+    }
+
     /*
      * Este método llama a la base de datos y realiza una consulta del id del cliente que se esta actualizando en la venta.
      * El resultado de la consulta es usado por los métodos "RegistroVenta()".
@@ -88,26 +135,26 @@ public class BaseDatos {
         int cantidadB, nCantidad = 0;
 
         try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("select cantidad from articulos where codigo = '" + codigo + "' and tipo_articulo = 'Producto'");
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                cantidadB = rs.getInt("cantidad");
+            try ( Connection cn = Conexion.conectar()) {
+                PreparedStatement pst = cn.prepareStatement("select cantidad from articulos where codigo = '" + codigo + "' and tipo_articulo = 'Producto'");
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    cantidadB = rs.getInt("cantidad");
 
-                nCantidad = (cantidadB - Integer.parseInt(cantidadT));
+                    nCantidad = (cantidadB - Integer.parseInt(cantidadT));
 
+                }
             }
-            cn.close();
         } catch (SQLException e) {
             System.err.println("Error al consultar la cantidad de articulo " + e);
         }
         try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement pst = cn.prepareStatement("update articulos set cantidad=? where codigo = '" + codigo + "'");
+            try ( Connection cn = Conexion.conectar()) {
+                PreparedStatement pst = cn.prepareStatement("update articulos set cantidad=? where codigo = '" + codigo + "'");
 
-            pst.setInt(1, nCantidad);
-            pst.executeUpdate();
-            cn.close();
+                pst.setInt(1, nCantidad);
+                pst.executeUpdate();
+            }
 
         } catch (SQLException e) {
             System.err.println("Error al actualizar la cantidad del producto " + e);
