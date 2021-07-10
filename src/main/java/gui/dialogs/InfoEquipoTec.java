@@ -25,6 +25,7 @@ public class InfoEquipoTec extends javax.swing.JDialog {
     
     public InfoEquipoTec(int idEquipo){
         initComponents();
+        this.idEquipo = idEquipo;
         this.infoEquipo = Consultar.ConsultarInfoEquipo(idEquipo);
         setTitle("Información de equipo");
         setSize(680, 510);
@@ -240,8 +241,6 @@ public class InfoEquipoTec extends javax.swing.JDialog {
         }
 
         Actualizar.ActualizarInfoEquipoT(idEquipo, new String[]{observaciones, estatus, Utilidades.getUsuarioActivo()});
-        LimpiarCampos();
-        JOptionPane.showMessageDialog(null, "Actualización del equipo exitosa");
         this.dispose();
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
     
@@ -256,14 +255,6 @@ public class InfoEquipoTec extends javax.swing.JDialog {
         txt_ComentariosTecnico.setText(infoEquipo[8]);
         jLabel_RevisionTecnicaDe.setText("Comentarios y actualizaciones técnicas de " + infoEquipo[9]);
         txt_RegistradoPor.setText(infoEquipo[10]);
-    }
-    
-    private void LimpiarCampos(){
-        txt_NombreCliente.setText("");
-        txt_Fecha.setText("");
-        txt_Modelo.setText("");
-        txt_RegistradoPor.setText("");
-        txt_NumeroSerie.setText("");
     }
     
     public static void main(String args[]) {
@@ -321,10 +312,6 @@ public class InfoEquipoTec extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     
     /*Declaración de objetos y variables de clase*/
-    private TicketRecepcion ordenServicio;
-
     private int idEquipo;
-    private String usuario;
     private String[] infoEquipo;
-    private String[] infoCliente;
 }

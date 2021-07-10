@@ -179,16 +179,15 @@ public class Registrar {
 
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("insert into sumatoria "
-                        + "(`cantidad`, `codigo`, `nombre`, `precio`, `fecha_venta`, `tipo_venta`) "
-                        + "values (?,?,?,?,?,?)");
+                PreparedStatement pst = cn.prepareStatement("insert into sumatoria values (?,?,?,?,?,?,?)");
 
-                pst.setInt(1, Integer.parseInt(infoVenta[0]));
-                pst.setString(2, infoVenta[1]);
-                pst.setString(3, infoVenta[2]);
-                pst.setDouble(4, Double.parseDouble(infoVenta[3]));
-                pst.setDate(5, dateSQL);
-                pst.setString(6, infoVenta[4]);
+                pst.setInt(1, 0);
+                pst.setInt(2, Integer.parseInt(infoVenta[0]));
+                pst.setString(3, infoVenta[1]);
+                pst.setString(4, infoVenta[2]);
+                pst.setDouble(5, Double.parseDouble(infoVenta[3]));
+                pst.setDate(6, dateSQL);
+                pst.setString(7, infoVenta[4]);
 
                 pst.executeUpdate();
             }
@@ -206,9 +205,7 @@ public class Registrar {
         Date dateSQL = Utilidades.fechaSQL();
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("insert into ventas "
-                        + "(`id_venta`, `id_cliente`, `id_equipo`, `articulos`, `tipo_venta`, `total`, `fecha_venta`, `vendedor`) "
-                        + "values (?,?,?,?,?,?,?,?)");
+                PreparedStatement pst = cn.prepareStatement("insert into ventas values (?,?,?,?,?,?,?,?)");
 
                 pst.setInt(1, 0);
                 pst.setInt(2, idCliente);

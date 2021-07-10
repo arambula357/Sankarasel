@@ -975,7 +975,7 @@ public class Capturista extends javax.swing.JFrame {
                 if (tipoVenta.equals("Efectivo")) {
                     if (Double.parseDouble(infoVenta[7]) >= Double.parseDouble(infoVenta[6])) {
 
-                        Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(infoVenta[1]), Integer.parseInt(infoVenta[1]),
+                        Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
                                 new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
 
                         setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
@@ -983,7 +983,7 @@ public class Capturista extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
                     }
                 } else {
-                    Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(infoVenta[1]), Integer.parseInt(infoVenta[1]),
+                    Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
                             new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
 
                     setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], "N/A", "N/A"});
@@ -993,16 +993,14 @@ public class Capturista extends javax.swing.JFrame {
             if (tipoVenta.equals("Efectivo")) {
                 if (Double.parseDouble(infoVenta[7]) >= Double.parseDouble(infoVenta[6])) {
 
-                    Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(infoVenta[1]), Integer.parseInt(infoVenta[1]),
-                            new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
+                    Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
 
                     setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
                 } else {
                     JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
                 }
             } else {
-                Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(infoVenta[1]), Integer.parseInt(infoVenta[1]),
-                        new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
+                Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
 
                 setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], "N/A", "N/A"});
             }

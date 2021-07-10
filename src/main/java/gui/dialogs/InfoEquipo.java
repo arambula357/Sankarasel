@@ -255,8 +255,6 @@ public class InfoEquipo extends javax.swing.JDialog {
         }
         
         Actualizar.ActualizarInfoEquipo(idEquipo, new String[]{observaciones, estatus, Utilidades.getUsuarioActivo()});
-        LimpiarCampos();
-        JOptionPane.showMessageDialog(null, "Actualización del equipo exitosa");
         this.dispose();
     }//GEN-LAST:event_jButton_ActualizarActionPerformed
 
@@ -296,14 +294,6 @@ public class InfoEquipo extends javax.swing.JDialog {
         txt_ComentariosTecnico.setText(infoEquipo[8]);
         jLabel_RevisionTecnicaDe.setText("Comentarios y actualizaciones técnicas de " + infoEquipo[9]);
         txt_RegistradoPor.setText(infoEquipo[10]);
-    }
-    
-    private void LimpiarCampos(){
-        txt_NombreCliente.setText("");
-        txt_Fecha.setText("");
-        txt_Modelo.setText("");
-        txt_RegistradoPor.setText("");
-        txt_NumeroSerie.setText("");
     }
     
     public static void main(String args[]) {
