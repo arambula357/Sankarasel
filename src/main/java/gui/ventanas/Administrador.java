@@ -1728,7 +1728,7 @@ public class Administrador extends javax.swing.JFrame {
         ticketVenta.setVendedor(Utilidades.getUsuarioActivo());
         ticketVenta.setFecha(Utilidades.FechaActual());
         try {
-            ticketVenta.print(true);
+            ticketVenta.print(false);
         } catch (IOException e) {
             System.out.println("Error al generar venta: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error al generar venta,\n"
