@@ -1,11 +1,9 @@
 package gui.ventanas;
 
-import com.bd.Conexion;
 import com.bd.Consultar;
 import com.construir.Imagenes;
 import com.utilidades.Utilidades;
 
-import java.sql.*;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

@@ -230,7 +230,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel_FondoGestionarEquipos">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="1" y="1" width="740" height="400"/>
+                          <AbsoluteConstraints x="1" y="1" width="740" height="520"/>
                         </Constraint>
                       </Constraints>
                     </Component>

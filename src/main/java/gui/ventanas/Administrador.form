@@ -1177,7 +1177,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel_FondoGestionarEquipos">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="1" y="1" width="740" height="400"/>
+                          <AbsoluteConstraints x="1" y="1" width="740" height="520"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -2420,7 +2420,7 @@
             <Component class="javax.swing.JLabel" name="jLabel_FondoVistaVentas">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="760" height="580"/>
+                  <AbsoluteConstraints x="0" y="0" width="760" height="570"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -2755,7 +2755,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel_FondoTicket">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="0" y="0" width="740" height="530"/>
+                          <AbsoluteConstraints x="0" y="0" width="740" height="520"/>
                         </Constraint>
                       </Constraints>
                     </Component>

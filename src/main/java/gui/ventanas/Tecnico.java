@@ -112,7 +112,7 @@ public class Tecnico extends javax.swing.JFrame {
         buildTabla.buildTablaEquiposT(modelEquipos, tablaEquipos, scrollEquipos, Q_Equipos, 4, T_Equipos);
 
         jPanel_GestionarEquipos.add(scrollEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 715, 410));
-        jPanel_GestionarEquipos.add(jLabel_FondoGestionarEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 740, 400));
+        jPanel_GestionarEquipos.add(jLabel_FondoGestionarEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 740, 520));
 
         jTabbedPane_VistaTecnico.addTab("Gestionar equipos", jPanel_GestionarEquipos);
 
