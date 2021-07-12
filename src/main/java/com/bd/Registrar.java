@@ -174,30 +174,34 @@ public class Registrar {
         }
     }
 
-    public static void RegistrarSumatoria(String[] infoVenta) {
+    public static void RegistrarSumatoria(int idVenta, String[] cantidad, String[] codigo, String[] nombre, String[] precio, String tipoVenta, int filas) {
         Date dateSQL = Utilidades.fechaSQL();
 
-        try {
-            try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("insert into sumatoria values (?,?,?,?,?,?,?)");
+        for (int i = 0; i < filas; i++) {
+            try {
+                try ( Connection cn = Conexion.getConexion()) {
+                    PreparedStatement pst = cn.prepareStatement("insert into sumatoria values (?,?,?,?,?,?,?,?,?)");
 
-                pst.setInt(1, 0);
-                pst.setInt(2, Integer.parseInt(infoVenta[0]));
-                pst.setString(3, infoVenta[1]);
-                pst.setString(4, infoVenta[2]);
-                pst.setDouble(5, Double.parseDouble(infoVenta[3]));
-                pst.setDate(6, dateSQL);
-                pst.setString(7, infoVenta[4]);
+                    pst.setInt(1, 0);
+                    pst.setInt(2, idVenta);
+                    pst.setInt(3, Integer.parseInt(cantidad[i]));
+                    pst.setString(4, codigo[i]);
+                    pst.setString(5, nombre[i]);
+                    pst.setDouble(6, Double.parseDouble(precio[i]));
+                    pst.setDate(7, dateSQL);
+                    pst.setString(8, tipoVenta);
+                    pst.setString(9, "Correcta");
 
-                pst.executeUpdate();
+                    pst.executeUpdate();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al registrar la sumatoria de articulos: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al registrar la sumatoria de articulos,\n"
+                        + "Revisa tu conexión a internet o llama al administrador,\n"
+                        + "Error: " + e.getMessage(),
+                        "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException e) {
-            System.out.println("Error al registrar la sumatoria de articulos: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al registrar la sumatoria de articulos,\n"
-                    + "Revisa tu conexión a internet o llama al administrador,\n"
-                    + "Error: " + e.getMessage(),
-                    "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -205,7 +209,7 @@ public class Registrar {
         Date dateSQL = Utilidades.fechaSQL();
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("insert into ventas values (?,?,?,?,?,?,?,?)");
+                PreparedStatement pst = cn.prepareStatement("insert into ventas values (?,?,?,?,?,?,?,?,?,?)");
 
                 pst.setInt(1, 0);
                 pst.setInt(2, idCliente);
@@ -215,6 +219,8 @@ public class Registrar {
                 pst.setString(6, infoVenta[2]);
                 pst.setDate(7, dateSQL);
                 pst.setString(8, Utilidades.getUsuarioActivo());
+                pst.setString(9, "Correcta");
+                pst.setString(10, "");
 
                 pst.executeUpdate();
             }

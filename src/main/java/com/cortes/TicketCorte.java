@@ -172,7 +172,7 @@ public class TicketCorte {
             + "\n"
             + "{{salidas}}\n"
             + "================================\n"
-            + "INICIO TURNO:    ${{cantidadI}}\n"
+            + "INICIO TURNO:    $ {{cantidadI}}\n"
             + "TOTAL VENTAS:   $ {{total}}\n"
             + "TOTAL SALIDAS:   $ {{totalSalidas}}\n"
             + "================================\n"

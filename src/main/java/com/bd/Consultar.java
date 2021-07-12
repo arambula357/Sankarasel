@@ -503,7 +503,7 @@ public class Consultar {
     }
 
     public static String[] ConsultarInfoVenta(int idVenta) {
-        String folio, tipoVenta, total, fecha, vendedor, articulos;
+        String folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado;
         try {
             try ( Connection cn = Conexion.getConexion()) {
                 PreparedStatement pst = cn.prepareStatement("select * from ventas where id_venta = '" + idVenta + "'");
@@ -516,8 +516,10 @@ public class Consultar {
                     fecha = String.valueOf(rs.getDate("fecha_venta"));
                     vendedor = rs.getString("vendedor");
                     articulos = rs.getString("articulos");
+                    estatus = rs.getString("estatus");
+                    cancelado = rs.getString("cancelada_por");
 
-                    return new String[]{folio, tipoVenta, total, fecha, vendedor, articulos};
+                    return new String[]{folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado};
                 }
             }
         } catch (SQLException e) {
@@ -525,7 +527,28 @@ public class Consultar {
         }
         return null;
     }
+    
+    public static int ConsultarUltimaVenta(){
+        try {
+            try ( Connection cn = Conexion.getConexion()) {
+                PreparedStatement pst = cn.prepareStatement("select max(id_venta) as id from ventas");
+                ResultSet rs = pst.executeQuery();
 
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al consultar el id del nuevo equipo registrado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al consultar el id del nuevo equipo registrado,\n"
+                    + "Revisa tu conexión a internet o llama al administrador,\n"
+                    + "Error: " + e.getMessage(),
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
+    }
+    
     public static int ConsultarCantidad(String codigo) {
         try {
             try ( Connection cn = Conexion.getConexion()) {

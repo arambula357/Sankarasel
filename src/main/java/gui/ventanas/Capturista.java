@@ -976,33 +976,49 @@ public class Capturista extends javax.swing.JFrame {
                     if (Double.parseDouble(infoVenta[7]) >= Double.parseDouble(infoVenta[6])) {
 
                         Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
-                                new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
-
+                                new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
+                        
+                        Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
+                        
                         setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
+                        
+                        JOptionPane.showMessageDialog(null, "Venta exitosa");
                     } else {
                         JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
                     }
                 } else {
                     Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
-                            new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
-
+                            new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
+                    
+                    Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
+                    
                     setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], "N/A", "N/A"});
+                    
+                    JOptionPane.showMessageDialog(null, "Venta exitosa");
                 }
             }
         } else if (seleccion.equals("No")) {
             if (tipoVenta.equals("Efectivo")) {
                 if (Double.parseDouble(infoVenta[7]) >= Double.parseDouble(infoVenta[6])) {
 
-                    Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
-
+                    Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
+                    
+                    Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
+                    
                     setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
+                    
+                    JOptionPane.showMessageDialog(null, "Venta exitosa");
                 } else {
                     JOptionPane.showMessageDialog(null, "La cantidad recibida no puede ser menor al total");
                 }
             } else {
-                Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(tipoVenta), tipoVenta, infoVenta[6]});
-
+                Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
+                
+                Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
+                
                 setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], "N/A", "N/A"});
+                
+                JOptionPane.showMessageDialog(null, "Venta exitosa");
             }
         }
     }//GEN-LAST:event_jButton_CerrarVentaActionPerformed
@@ -1240,9 +1256,9 @@ public class Capturista extends javax.swing.JFrame {
         String[] cantidad = new String[modelArticulos.getRowCount()];
         String[] nombre = new String[modelArticulos.getRowCount()];
         String[] precio = new String[modelArticulos.getRowCount()];
+        
         for (int i = 0; i < modelArticulos.getRowCount(); i++) {
-            if ((modelArticulos.getValueAt(i, 0)) != null && (modelArticulos.getValueAt(i, 1)) != null) {
-                cantidad[i] = (String) modelArticulos.getValueAt(i, 0);
+            cantidad[i] = (String) modelArticulos.getValueAt(i, 0);
                 nombre[i] = (String) modelArticulos.getValueAt(i, 2);
                 precio[i] = (modelArticulos.getValueAt(i, 4)).toString();
                 if (articulosT.equals("")) {
@@ -1253,34 +1269,72 @@ public class Capturista extends javax.swing.JFrame {
                     articulosT = articulosT + cantidad[i] + " " + nombre[i] + " " + precio[i] + "\n";
                 }
             }
-        }
         return articulosT;
     }
 
-    private String setAcumulacionV(String tipoVenta) {
+    private String setAcumulacionV() {
         String articulosV = "";
         String[] cantidad = new String[modelArticulos.getRowCount()];
         String[] codigo = new String[modelArticulos.getRowCount()];
         String[] nombre = new String[modelArticulos.getRowCount()];
-        String[] precio = new String[modelArticulos.getRowCount()];
+        
         for (int i = 0; i < modelArticulos.getRowCount(); i++) {
-            if ((modelArticulos.getValueAt(i, 0)) != null && (modelArticulos.getValueAt(i, 1)) != null) {
-                cantidad[i] = (String) modelArticulos.getValueAt(i, 0);
-                codigo[i] = (String) modelArticulos.getValueAt(i, 1);
-                nombre[i] = (String) modelArticulos.getValueAt(i, 2);
-                precio[i] = (modelArticulos.getValueAt(i, 4)).toString();
-                if (articulosV.equals("")) {
+            cantidad[i] = (String) modelArticulos.getValueAt(i, 0);
+            codigo[i] = (String) modelArticulos.getValueAt(i, 1);
+            nombre[i] = (String) modelArticulos.getValueAt(i, 2);
+            if (articulosV.equals("")) {
 
-                    articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                } else {
+                articulosV = cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
+            } else {
 
-                    articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
-                }
-                Registrar.RegistrarSumatoria(new String[]{cantidad[i], codigo[i], nombre[i], precio[i], tipoVenta});
-                Actualizar.ActualizarCantidad(codigo[i], cantidad[i]);
+                articulosV = articulosV + cantidad[i] + " " + codigo[i] + " " + nombre[i] + "\n";
             }
         }
         return articulosV;
+    }
+
+    private String[] getCantidad() {
+        String[] cantidad = new String[modelArticulos.getRowCount()];
+
+        for (int i = 0; i < modelArticulos.getRowCount(); i++) {
+
+            cantidad[i] = (String) modelArticulos.getValueAt(i, 0);
+        }
+        return cantidad;
+
+    }
+
+    private String[] getCodigo() {
+        String[] codigo = new String[modelArticulos.getRowCount()];
+
+        for (int i = 0; i < modelArticulos.getRowCount(); i++) {
+
+            codigo[i] = (String) modelArticulos.getValueAt(i, 1);
+        }
+        return codigo;
+
+    }
+
+    private String[] getNombre() {
+        String[] nombre = new String[modelArticulos.getRowCount()];
+
+        for (int i = 0; i < modelArticulos.getRowCount(); i++) {
+
+            nombre[i] = (String) modelArticulos.getValueAt(i, 2);
+        }
+        return nombre;
+
+    }
+
+    private String[] getPrecioT() {
+        String[] precio = new String[modelArticulos.getRowCount()];
+
+        for (int i = 0; i < modelArticulos.getRowCount(); i++) {
+
+            precio[i] = modelArticulos.getValueAt(i, 4).toString();
+        }
+        return precio;
+
     }
 
     private void setInfoTicket(String[] infoVenta) {
@@ -1309,7 +1363,6 @@ public class Capturista extends javax.swing.JFrame {
         txtV_PagaCon.setText("0.0");
         txtV_Cambio.setText("");
         modelArticulos.setRowCount(0);
-        JOptionPane.showMessageDialog(null, "Venta exitosa");
     }
 
     public static void main(String args[]) {

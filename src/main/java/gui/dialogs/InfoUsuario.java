@@ -152,7 +152,7 @@ public class InfoUsuario extends javax.swing.JDialog {
         txt_RegistradoPor.setEnabled(false);
         getContentPane().add(txt_RegistradoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, 210, -1));
 
-        jButton_Actualizar.setBackground(new java.awt.Color(3, 37, 251));
+        jButton_Actualizar.setBackground(new java.awt.Color(1, 89, 255));
         jButton_Actualizar.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         jButton_Actualizar.setForeground(new java.awt.Color(255, 255, 255));
         jButton_Actualizar.setText("Actualizar usuario");
@@ -164,7 +164,7 @@ public class InfoUsuario extends javax.swing.JDialog {
         });
         getContentPane().add(jButton_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 250, 210, 35));
 
-        jButton_RestaurarPassword.setBackground(new java.awt.Color(3, 37, 251));
+        jButton_RestaurarPassword.setBackground(new java.awt.Color(1, 89, 255));
         jButton_RestaurarPassword.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         jButton_RestaurarPassword.setForeground(new java.awt.Color(255, 255, 255));
         jButton_RestaurarPassword.setText("Restaurar password");

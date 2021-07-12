@@ -37,7 +37,7 @@ public class CorteDiario {
         try {
             try ( Connection cn = Conexion.getConexion()) {
                 PreparedStatement pst = cn.prepareStatement("select nombre, sum(cantidad) as cantidad, sum(precio) as precio from sumatoria where fecha_venta = '"
-                    + date + "' group by nombre");
+                    + date + "' and estatus = 'Correcta' group by nombre");
 
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
@@ -136,11 +136,11 @@ public class CorteDiario {
     private double getVentasEfectivo(java.sql.Date date) {
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("select sum(distinct precio) as precio from sumatoria where fecha_venta = '"
-                        + date + "' and tipo_venta = 'Efectivo'");
+                PreparedStatement pst = cn.prepareStatement("select sum(total) as total from ventas where fecha_venta = '"
+                        + date + "' and estatus = 'Correcta' and tipo_venta = 'Efectivo'");
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
-                    return rs.getDouble("precio");
+                    return rs.getDouble("total");
                 }
             }
         } catch (SQLException e) {
@@ -157,11 +157,11 @@ public class CorteDiario {
     private double getVentasTarjeta(java.sql.Date date) {
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("select sum(distinct precio) as precio from sumatoria where fecha_venta = '"
-                        + date + "' and tipo_venta = 'Tarjeta'");
+                PreparedStatement pst = cn.prepareStatement("select sum(total) as total from ventas where fecha_venta = '"
+                        + date + "' and estatus = 'Correcta' and tipo_venta = 'Tarjeta'");
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
-                    return rs.getDouble("precio");
+                    return rs.getDouble("total");
                 }
             }
         } catch (SQLException e) {
@@ -178,11 +178,11 @@ public class CorteDiario {
     private double getVentasTransfer(java.sql.Date date) {
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("select sum(distinct precio) as precio from sumatoria where fecha_venta = '"
-                        + date + "' and tipo_venta = 'Transferencia'");
+                PreparedStatement pst = cn.prepareStatement("select sum(total) as total from ventas where fecha_venta = '"
+                        + date + "' and estatus = 'Correcta' and tipo_venta = 'Transferencia'");
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()) {
-                    return rs.getDouble("precio");
+                    return rs.getDouble("total");
                 }
             }
         } catch (SQLException e) {

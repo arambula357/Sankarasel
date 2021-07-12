@@ -205,10 +205,10 @@ public class Actualizar {
 
     }
 
-    public static void ActualizarEstatus(int IDequipo) {
+    public static void ActualizarEstatus(int idEquipo) {
         try {
             try ( Connection cn = Conexion.getConexion()) {
-                PreparedStatement pst = cn.prepareStatement("update equipos set estatus=? where id_equipo = '" + IDequipo + "'");
+                PreparedStatement pst = cn.prepareStatement("update equipos set estatus=? where id_equipo = '" + idEquipo + "'");
                 pst.setString(1, "Entregado");
                 pst.executeUpdate();
             }
@@ -221,6 +221,43 @@ public class Actualizar {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    public static void ActualizarVenta(int idVenta) {
+        try {
+            try ( Connection cn = Conexion.getConexion()) {
+                PreparedStatement pst = cn.prepareStatement("update ventas set estatus=?, cancelada_por=? where id_venta = '" + idVenta + "'");
+                
+                pst.setString(1, "Cancelada");
+                pst.setString(2, Utilidades.getUsuarioActivo());
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar estatus de la venta " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar estatus de la venta,\n"
+                    + "Revisa tu conexión a internet o llama al administrador,\n"
+                    + "error: " + e.getMessage(),
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public static void ActualizarSumatoria(int idVenta) {
+        try {
+            try ( Connection cn = Conexion.getConexion()) {
+                PreparedStatement pst = cn.prepareStatement("update sumatoria set estatus=? where id_venta = '" + idVenta + "'");
+                
+                pst.setString(1, "Cancelada");
+                pst.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar estatus de la sumatoria " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar estatus de la sumatoria,\n"
+                    + "Revisa tu conexión a internet o llama al administrador,\n"
+                    + "error: " + e.getMessage(),
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /*Declaración de objetos y variables de clase*/
 }

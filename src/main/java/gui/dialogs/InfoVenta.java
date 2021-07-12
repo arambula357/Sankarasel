@@ -1,10 +1,13 @@
 package gui.dialogs;
 
 import com.bd.Consultar;
+import com.bd.Actualizar;
 import com.construir.Imagenes;
+import java.awt.Color;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 import javax.swing.WindowConstants;
 
@@ -21,9 +24,10 @@ public class InfoVenta extends javax.swing.JDialog {
 
     public InfoVenta(int idVenta) {
         initComponents();
+        this.idVenta = idVenta;
         info = Consultar.ConsultarInfoVenta(idVenta);
         nombreCliente = Consultar.ConsultarNombreCliente(Integer.parseInt(info[0]));
-        setSize(650, 450);
+        setSize(650, 500);
         setTitle("Información de venta");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -32,6 +36,20 @@ public class InfoVenta extends javax.swing.JDialog {
         Imagenes.setImagenFondo(jLabel_Wallpaper);
         
         initTextFields();
+        
+        if (info[6].equals("Correcta")) {
+            jButton_Cancelar.setVisible(true);
+            jLabel_Titulo.setText("Información de venta");
+            txt_Cancelado.setVisible(false);
+            jLabel_Cancelado.setVisible(false);
+        } else {
+            jButton_Cancelar.setVisible(false);
+            jLabel_Titulo.setText("Información de venta (Cancelada)");
+            jLabel_Titulo.setForeground(Color.GRAY);
+            txt_Cancelado.setVisible(true);
+            jLabel_Cancelado.setVisible(true);
+            txt_Cancelado.setText(info[7]);
+        }
     }
     
     public Image getIconImage() {
@@ -60,8 +78,11 @@ public class InfoVenta extends javax.swing.JDialog {
         txt_Vendedor = new javax.swing.JTextField();
         jLabel_Articulos = new javax.swing.JLabel();
         jLabel_Descrip = new javax.swing.JLabel();
+        jLabel_Cancelado = new javax.swing.JLabel();
+        txt_Cancelado = new javax.swing.JTextField();
         jScrollPane_Articulos = new javax.swing.JScrollPane();
         txt_Articulos = new javax.swing.JTextPane();
+        jButton_Cancelar = new javax.swing.JButton();
         jLabel_Wallpaper = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -161,16 +182,61 @@ public class InfoVenta extends javax.swing.JDialog {
         jLabel_Descrip.setText("Cant            Codigo               Nombre");
         getContentPane().add(jLabel_Descrip, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 350, -1));
 
+        jLabel_Cancelado.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jLabel_Cancelado.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_Cancelado.setText("Vendedor:");
+        getContentPane().add(jLabel_Cancelado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
+
+        txt_Cancelado.setBackground(new java.awt.Color(3, 37, 251));
+        txt_Cancelado.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_Cancelado.setForeground(new java.awt.Color(255, 255, 255));
+        txt_Cancelado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_Cancelado.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txt_Cancelado.setEnabled(false);
+        getContentPane().add(txt_Cancelado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 210, -1));
+
         jScrollPane_Articulos.setEnabled(false);
 
         txt_Articulos.setEditable(false);
         jScrollPane_Articulos.setViewportView(txt_Articulos);
 
-        getContentPane().add(jScrollPane_Articulos, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 350, 250));
-        getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 450));
+        getContentPane().add(jScrollPane_Articulos, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 350, 250));
+
+        jButton_Cancelar.setBackground(new java.awt.Color(1, 89, 255));
+        jButton_Cancelar.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+        jButton_Cancelar.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Cancelar.setText("Cancelar venta");
+        jButton_Cancelar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_CancelarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 410, 130, 35));
+        getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelarActionPerformed
+        
+        int seleccion = JOptionPane.showOptionDialog(null, "Al cancelar la venta no elimina el registro,\neste proceso no se podrá revertir\n¿Desea continuar?",
+                "Cancelar venta",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"SI", "NO"},
+                "SI");
+        
+        if (seleccion == JOptionPane.YES_OPTION) {
+            
+            Actualizar.ActualizarVenta(idVenta);
+            Actualizar.ActualizarSumatoria(idVenta);
+            JOptionPane.showMessageDialog(null, "La venta ha sido cancelada");
+            this.dispose();
+        }
+        
+    }//GEN-LAST:event_jButton_CancelarActionPerformed
 
     private void initTextFields() {
         txt_Nombre.setText(nombreCliente);
@@ -209,7 +275,9 @@ public class InfoVenta extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Cancelar;
     private javax.swing.JLabel jLabel_Articulos;
+    private javax.swing.JLabel jLabel_Cancelado;
     private javax.swing.JLabel jLabel_Descrip;
     private javax.swing.JLabel jLabel_Fecha;
     private javax.swing.JLabel jLabel_Folio;
@@ -221,6 +289,7 @@ public class InfoVenta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel_Wallpaper;
     private javax.swing.JScrollPane jScrollPane_Articulos;
     private javax.swing.JTextPane txt_Articulos;
+    private javax.swing.JTextField txt_Cancelado;
     private javax.swing.JTextField txt_Fecha;
     private javax.swing.JTextField txt_Folio;
     private javax.swing.JTextField txt_Nombre;
