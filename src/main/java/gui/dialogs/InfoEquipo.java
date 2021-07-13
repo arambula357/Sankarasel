@@ -180,7 +180,7 @@ public class InfoEquipo extends javax.swing.JDialog {
 
         jLabel_Nombre6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Nombre6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Nombre6.setText("Registrado por:");
+        jLabel_Nombre6.setText("Ultima modificación:");
         getContentPane().add(jLabel_Nombre6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, -1, -1));
 
         txt_RegistradoPor.setBackground(new java.awt.Color(3, 37, 251));

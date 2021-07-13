@@ -218,7 +218,7 @@ public class Registrar {
                 pst.setString(5, infoVenta[1]);
                 pst.setString(6, infoVenta[2]);
                 pst.setDate(7, dateSQL);
-                pst.setString(8, Utilidades.getUsuarioActivo());
+                pst.setString(8, Consultar.ConsultarNombreUsuario(Utilidades.getUsuarioActivo()));
                 pst.setString(9, "Correcta");
                 pst.setString(10, "");
 

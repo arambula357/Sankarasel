@@ -228,7 +228,7 @@ public class Actualizar {
                 PreparedStatement pst = cn.prepareStatement("update ventas set estatus=?, cancelada_por=? where id_venta = '" + idVenta + "'");
                 
                 pst.setString(1, "Cancelada");
-                pst.setString(2, Utilidades.getUsuarioActivo());
+                pst.setString(2, Consultar.ConsultarNombreUsuario(Utilidades.getUsuarioActivo()));
                 pst.executeUpdate();
             }
         } catch (SQLException e) {
