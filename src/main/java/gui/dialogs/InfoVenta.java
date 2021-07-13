@@ -26,7 +26,6 @@ public class InfoVenta extends javax.swing.JDialog {
         initComponents();
         this.idVenta = idVenta;
         info = Consultar.ConsultarInfoVenta(idVenta);
-        nombreCliente = Consultar.ConsultarNombreCliente(Integer.parseInt(info[0]));
         setSize(650, 500);
         setTitle("Información de venta");
         setResizable(false);
@@ -35,9 +34,15 @@ public class InfoVenta extends javax.swing.JDialog {
 
         Imagenes.setImagenFondo(jLabel_Wallpaper);
         
+        if (info[0].equals("0")) {
+            nombreCliente = "S/ Registro";
+        } else {
+            nombreCliente = Consultar.ConsultarNombreCliente(Integer.parseInt(info[0]));
+        }
+        
         initTextFields();
         
-        if (info[6].equals("Correcta")) {
+        if (info[7].equals("Correcta")) {
             
             jButton_Cancelar.setVisible(true);
             jLabel_Titulo.setText("Información de venta");
@@ -50,7 +55,7 @@ public class InfoVenta extends javax.swing.JDialog {
             jLabel_Titulo.setForeground(Color.GRAY);
             txt_Cancelado.setVisible(true);
             jLabel_Cancelado.setVisible(true);
-            txt_Cancelado.setText(info[7]);
+            txt_Cancelado.setText(info[8]);
         }
     }
     
@@ -186,7 +191,7 @@ public class InfoVenta extends javax.swing.JDialog {
 
         jLabel_Cancelado.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel_Cancelado.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_Cancelado.setText("Vendedor:");
+        jLabel_Cancelado.setText("Cancelada por:");
         getContentPane().add(jLabel_Cancelado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
 
         txt_Cancelado.setBackground(new java.awt.Color(3, 37, 251));
@@ -242,12 +247,12 @@ public class InfoVenta extends javax.swing.JDialog {
 
     private void initTextFields() {
         txt_Nombre.setText(nombreCliente);
-        txt_Folio.setText(String.valueOf(info[0]));
-        txt_TipoVenta.setText(info[1]);
-        txt_Total.setText(String.valueOf(info[2]));
-        txt_Fecha.setText(String.valueOf(info[3]));
-        txt_Vendedor.setText(info[4]);
-        txt_Articulos.setText(info[5]);
+        txt_Folio.setText(String.valueOf(info[1]));
+        txt_TipoVenta.setText(info[2]);
+        txt_Total.setText(String.valueOf(info[3]));
+        txt_Fecha.setText(String.valueOf(info[4]));
+        txt_Vendedor.setText(info[5]);
+        txt_Articulos.setText(info[6]);
     }
 
     public static void main(String args[]) {

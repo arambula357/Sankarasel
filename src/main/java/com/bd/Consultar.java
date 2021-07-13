@@ -503,13 +503,14 @@ public class Consultar {
     }
 
     public static String[] ConsultarInfoVenta(int idVenta) {
-        String folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado;
+        String idCliente, folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado;
         try {
             try ( Connection cn = Conexion.getConexion()) {
                 PreparedStatement pst = cn.prepareStatement("select * from ventas where id_venta = '" + idVenta + "'");
                 ResultSet rs = pst.executeQuery();
 
                 if (rs.next()) {
+                    idCliente = String.valueOf(rs.getInt("id_cliente"));
                     folio = String.valueOf(rs.getInt("id_equipo"));
                     tipoVenta = rs.getString("tipo_venta");
                     total = String.valueOf(rs.getDouble("total"));
@@ -519,7 +520,7 @@ public class Consultar {
                     estatus = rs.getString("estatus");
                     cancelado = rs.getString("cancelada_por");
 
-                    return new String[]{folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado};
+                    return new String[]{idCliente, folio, tipoVenta, total, fecha, vendedor, articulos, estatus, cancelado};
                 }
             }
         } catch (SQLException e) {
