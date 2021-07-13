@@ -218,7 +218,7 @@ public class InfoEquipo extends javax.swing.JDialog {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 330, 120));
 
-        jButton_Actualizar.setBackground(new java.awt.Color(3, 37, 251));
+        jButton_Actualizar.setBackground(new java.awt.Color(1, 89, 255));
         jButton_Actualizar.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
         jButton_Actualizar.setForeground(new java.awt.Color(255, 255, 255));
         jButton_Actualizar.setText("Actualizar equipo");

@@ -15,54 +15,6 @@ import javax.swing.JOptionPane;
 
 public class TicketVenta {
     
-    //Atributos que almacenan los datos de la empresa y de la compra
-    private String empresa;
-    private String propietario;
-    private String rfc;
-    private String direccion;
-    private String telefono;
-    private String folio;
-    private String cliente;
-    private String articulos;
-    private String subTotal;
-    private String total;
-    private String recibo;
-    private String cambio;
-    private String totalLetra;
-    private String vendedor;
-    private String fecha;
-
-    /**
-    *Atributo que almacena la estructura del contenido del ticket
-    *Los campos que tengan la siguiente estructura {{nombreAtributo}}, ejemplo: {{telefono}}
-    *serán reemplazados por los datos correspondientes.
-    */
-    private String formatoTicket = 
-    "\n"+(char)27+(char)112+(char)0+(char)10+(char)100+"      {{empresa}}\n"+
-    " {{propietario}}\n"+
-    "     R.F.C. {{rfc}}\n"+
-    "{{direccion}}\n"+
-    "        TElS: {{telefono}}\n"+
-    "\n"+
-    "FOLIO: {{folio}} \n"+
-    "VENDIDO A: {{cliente}}\n"+
-    "\n"+
-    "CANT.   DESC.      PRECIO\n"+
-    "================================\n"+
-    "{{articulos}}\n"+
-    "================================\n"+
-    "SUBTOTAL:$ {{subTotal}}\n"+
-    "TOTAL:   $ {{total}}\n"+
-    "RECIBIDO:$ {{recibo}}\n"+
-    "CAMBIO:  $ {{cambio}}\n"+
-    "\n"+
-    "({{totalLetra}})M.N\n\n"+
-    "       GRACIAS POR SU COMPRA\n\n"+
-    "Atendido por:{{vendedor}}\n"+
-    "{{fecha}}\n"+
-    "\n"+
-    "\n\n";
-    
     public TicketVenta(String[] infoEmpresa){        
         empresa = infoEmpresa[0];
         propietario = infoEmpresa[1];
@@ -237,4 +189,52 @@ public class TicketVenta {
             JOptionPane.showMessageDialog(null, "IMPRIMIR TICKET (Compruebe impresion) "+ex.getMessage());
         }
     }
+    
+    /*Declaración de objatos y variables de clase*/
+    private String empresa;
+    private String propietario;
+    private String rfc;
+    private String direccion;
+    private String telefono;
+    private String folio;
+    private String cliente;
+    private String articulos;
+    private String subTotal;
+    private String total;
+    private String recibo;
+    private String cambio;
+    private String totalLetra;
+    private String vendedor;
+    private String fecha;
+
+    /**
+    *Atributo que almacena la estructura del contenido del ticket
+    *Los campos que tengan la siguiente estructura {{nombreAtributo}}, ejemplo: {{telefono}}
+    *serán reemplazados por los datos correspondientes.
+    */
+    private String formatoTicket = 
+    "\n"+(char)27+(char)112+(char)0+(char)10+(char)100+"      {{empresa}}\n"+
+    " {{propietario}}\n"+
+    "     R.F.C. {{rfc}}\n"+
+    "{{direccion}}\n"+
+    "        TElS: {{telefono}}\n"+
+    "\n"+
+    "FOLIO: {{folio}} \n"+
+    "VENDIDO A: {{cliente}}\n"+
+    "\n"+
+    "CANT.   DESC.      PRECIO\n"+
+    "================================\n"+
+    "{{articulos}}\n"+
+    "================================\n"+
+    "SUBTOTAL:$ {{subTotal}}\n"+
+    "TOTAL:   $ {{total}}\n"+
+    "RECIBIDO:$ {{recibo}}\n"+
+    "CAMBIO:  $ {{cambio}}\n"+
+    "\n"+
+    "({{totalLetra}})M.N\n\n"+
+    "       GRACIAS POR SU COMPRA\n\n"+
+    "Atendido por:{{vendedor}}\n"+
+    "{{fecha}}\n"+
+    "\n"+
+    "\n\n";
 }

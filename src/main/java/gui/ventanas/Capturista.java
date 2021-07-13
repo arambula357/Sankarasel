@@ -977,10 +977,12 @@ public class Capturista extends javax.swing.JFrame {
 
                         Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
                                 new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
-                        
+
                         Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
-                        
+
                         setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
+                        
+                        CopiaTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
                         
                         JOptionPane.showMessageDialog(null, "Venta exitosa");
                     } else {
@@ -989,10 +991,12 @@ public class Capturista extends javax.swing.JFrame {
                 } else {
                     Registrar.RegistrarVenta(Consultar.ConsultarIdCliente(Integer.parseInt(infoVenta[1])), Integer.parseInt(infoVenta[1]),
                             new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
-                    
+
                     Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
-                    
+
                     setInfoTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], "N/A", "N/A"});
+                    
+                    CopiaTicket(new String[]{infoVenta[1], infoVenta[0], infoVenta[5], infoVenta[6], "N/A", "N/A"});
                     
                     JOptionPane.showMessageDialog(null, "Venta exitosa");
                 }
@@ -1002,10 +1006,12 @@ public class Capturista extends javax.swing.JFrame {
                 if (Double.parseDouble(infoVenta[7]) >= Double.parseDouble(infoVenta[6])) {
 
                     Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
-                    
+
                     Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
-                    
+
                     setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
+                    
+                    CopiaTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], infoVenta[7], infoVenta[8]});
                     
                     JOptionPane.showMessageDialog(null, "Venta exitosa");
                 } else {
@@ -1013,10 +1019,12 @@ public class Capturista extends javax.swing.JFrame {
                 }
             } else {
                 Registrar.RegistrarVenta(0, 0, new String[]{setAcumulacionV(), tipoVenta, infoVenta[6]});
-                
+
                 Registrar.RegistrarSumatoria(Consultar.ConsultarUltimaVenta(), getCantidad(), getCodigo(), getNombre(), getPrecioT(), tipoVenta, modelArticulos.getRowCount());
-                
+
                 setInfoTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], "N/A", "N/A"});
+                
+                CopiaTicket(new String[]{"S/Folio", "S/Registro", infoVenta[5], infoVenta[6], "N/A", "N/A"});
                 
                 JOptionPane.showMessageDialog(null, "Venta exitosa");
             }
@@ -1348,6 +1356,7 @@ public class Capturista extends javax.swing.JFrame {
         ticketVenta.setTotalLetra(numeroLetras.Convertir(infoVenta[3], true));
         ticketVenta.setVendedor(Utilidades.getUsuarioActivo());
         ticketVenta.setFecha(Utilidades.FechaActual());
+        
         try {
             ticketVenta.print(false);
         } catch (IOException e) {
@@ -1358,11 +1367,50 @@ public class Capturista extends javax.swing.JFrame {
                     "ERROR",
                     JOptionPane.ERROR_MESSAGE);
         }
-        /*Terminamos la impresion del ticket*/
-        txtV_Total.setText("0.0");
-        txtV_PagaCon.setText("0.0");
-        txtV_Cambio.setText("");
-        modelArticulos.setRowCount(0);
+    }
+
+    private void CopiaTicket(String[] infoVenta) {
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea duplicado del ticket?",
+                "El articulo no existe",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new Object[]{"SI", "NO"},
+                "SI");
+        if (seleccion == JOptionPane.YES_OPTION) {
+            ticketVenta.setFolio(infoVenta[0]);
+            ticketVenta.setCliente(infoVenta[1]);
+            ticketVenta.setArticulos(setAcumulacionT());
+            ticketVenta.setSubTotal(infoVenta[2]);
+            ticketVenta.setTotal(infoVenta[3]);
+            ticketVenta.setRecibo(infoVenta[4]);
+            ticketVenta.setCambio(infoVenta[5]);
+            ticketVenta.setTotalLetra(numeroLetras.Convertir(infoVenta[3], true));
+            ticketVenta.setVendedor(Utilidades.getUsuarioActivo());
+            ticketVenta.setFecha(Utilidades.FechaActual());
+            
+            try {
+                ticketVenta.print(false);
+            } catch (IOException e) {
+                System.out.println("Error al generar duplicado: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al generar duplicado,\n"
+                        + "Revisa tu conexión a internet o llama al administrador,\n"
+                        + "Error: " + e.getMessage(),
+                        "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            
+            txtV_Total.setText("0.0");
+            txtV_PagaCon.setText("0.0");
+            txtV_Cambio.setText("");
+            modelArticulos.setRowCount(0);
+        } else {
+            
+            txtV_Total.setText("0.0");
+            txtV_PagaCon.setText("0.0");
+            txtV_Cambio.setText("");
+            modelArticulos.setRowCount(0);
+        }
     }
 
     public static void main(String args[]) {

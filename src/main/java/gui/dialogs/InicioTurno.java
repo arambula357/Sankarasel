@@ -1,6 +1,7 @@
 package gui.dialogs;
 
 import com.bd.Registrar;
+import com.construir.Imagenes;
 import com.utilidades.Utilidades;
 
 import javax.swing.JOptionPane;
@@ -24,6 +25,8 @@ public class InicioTurno extends javax.swing.JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        
+        Imagenes.setImagenFondo(jLabel_FondoInicio);
     }
 
     @SuppressWarnings("unchecked")

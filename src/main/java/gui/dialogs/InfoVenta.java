@@ -38,11 +38,13 @@ public class InfoVenta extends javax.swing.JDialog {
         initTextFields();
         
         if (info[6].equals("Correcta")) {
+            
             jButton_Cancelar.setVisible(true);
             jLabel_Titulo.setText("Información de venta");
             txt_Cancelado.setVisible(false);
             jLabel_Cancelado.setVisible(false);
         } else {
+            
             jButton_Cancelar.setVisible(false);
             jLabel_Titulo.setText("Información de venta (Cancelada)");
             jLabel_Titulo.setForeground(Color.GRAY);
@@ -212,7 +214,7 @@ public class InfoVenta extends javax.swing.JDialog {
                 jButton_CancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 410, 130, 35));
+        getContentPane().add(jButton_Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 130, 35));
         getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 500));
 
         pack();
